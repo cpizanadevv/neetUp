@@ -43,6 +43,7 @@ app.use(
 );
 
 app.use(routes);
+
 // * Error Handling
 
 // Catches any request that don't match any routes that are defines
