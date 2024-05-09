@@ -12,13 +12,21 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'User',
+          foreignKey: 'userId'
+        }
       },
       groupId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Group',
+          foreignKey: 'groupId'
+        }
       },
       status: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM('co-host','member','pending'),
         allowNull: false,
       },
       createdAt: {

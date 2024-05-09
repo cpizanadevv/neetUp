@@ -12,6 +12,10 @@ module.exports = {
       organizerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'User',
+          foreignKey: 'organizerId',
+        }
       },
       name: {
         type: Sequelize.STRING,
@@ -22,7 +26,7 @@ module.exports = {
         allowNull: false,
       },
       type: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM('In Person', 'Online'),
         allowNull: false,
       },
       private: {

@@ -11,6 +11,11 @@ module.exports = {
       },
       eventId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Event',
+          foreignKey: 'eventId'
+        }
+        
       },
       url: {
         type: Sequelize.STRING,
