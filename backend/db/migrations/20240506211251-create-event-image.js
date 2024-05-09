@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       eventId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       url: {
         type: Sequelize.STRING,
