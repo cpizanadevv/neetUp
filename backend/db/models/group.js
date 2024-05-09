@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {
         model: 'User',
-        foreignKey: 'organizerId',
+        Key: 'id',
       }
     },
     name: {
@@ -68,20 +68,35 @@ module.exports = (sequelize, DataTypes) => {
         isAlpha: true,
         min: 2,
         max: 20,
+        isInPerson(val){
+          if (this.type !== 'Online' && !value) {
+            throw new Error('City is required for In Person events.');
+          }
+        }
       }
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull:true,
       validate: {
         isAlpha: true,
         min: 2,
         max: 20,
+        isInPerson(val){
+          if (this.type !== 'Online' && !value) {
+            throw new Error('State is required for In Person events.');
+          }
+        }
       }
     },
   }, {
     sequelize,
     modelName: 'Group',
+    defaultScope:{
+      attributes: {
+        exclude:['updatedAt','createdAt','']
+      }
+    }
   });
   return Group;
 };

@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
       },
       type: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM('In Person', 'Online'),
         allowNull: false,
       },
       private: {
@@ -31,11 +31,11 @@ module.exports = {
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       state: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

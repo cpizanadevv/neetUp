@@ -20,14 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: {
         model: 'Event',
-        foreignKey: 'eventId'
+        key: 'id'
       }
     },
     userId: {
       type: DataTypes.INTEGER,
       references: {
         model: 'User',
-        foreignKey: 'userId'
+        key: 'id'
       }
     },
     status: {
