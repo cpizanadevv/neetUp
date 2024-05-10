@@ -12,6 +12,10 @@ module.exports = {
       organizerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'User',
+          foreignKey: 'organizerId',
+        }
       },
       name: {
         type: Sequelize.STRING,
