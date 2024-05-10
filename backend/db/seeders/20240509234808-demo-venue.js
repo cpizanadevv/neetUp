@@ -122,6 +122,6 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     
-    await queryInterface,bulkDelete('Venues')
+    await queryInterface.bulkDelete('Venues')
   }
 };
