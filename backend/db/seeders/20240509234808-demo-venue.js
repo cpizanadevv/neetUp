@@ -16,115 +16,98 @@ module.exports = {
     */
    await Venue.bulkCreate([
     {
-      groupId:,
-      address,
-      city:,
-      state:,
-      lat:,
-      lng:,
-    },
-    {
+      groupId:3,
       address: "123 Konoha Street",
-      city: "Konoha",
-      state: "Fire Country",
+      city: "Los Angeles",
+      state: "CA",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:7,
       address: "456 Soul Society Avenue",
-      city: "Soul Society",
-      state: "Seireitei",
+      city: "Seattle",
+      state: "WA",
       lat: 35.6895,
       lng: 139.6917
     },
     {
-      address: "789 Hidden Leaf Lane",
-      city: "Hidden Leaf Village",
-      state: "Fire Country",
-      lat: 35.6895,
-      lng: 139.6917
-    },
-    {
+      groupId:1,
       address: "321 Hueco Mundo Highway",
-      city: "Hueco Mundo",
-      state: "Desert of the Hollows",
+      city: "San Francisco",
+      state: "CA",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:4,
       address: "987 Marineford Road",
-      city: "Marineford",
-      state: "Grand Line",
+      city: "New York",
+      state: "NY",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:6,
       address: "654 Hargeon Port",
-      city: "Hargeon",
-      state: "Fiore",
+      city: "Chicago",
+      state: "IL",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:4,
       address: "147 Amegakure Alley",
-      city: "Amegakure",
-      state: "Rain Country",
+      city: "Miami",
+      state: "FL",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:1,
       address: "258 Karakura Town Road",
-      city: "Karakura Town",
-      state: "Human World",
+      city: "Dallas",
+      state: "TX",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:8,
       address: "369 Grand Magic Games Arena",
-      city: "Crocus",
-      state: "Fiore",
+      city: "Washington",
+      state: "DC",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:1,
       address: "741 Loguetown Street",
-      city: "Loguetown",
-      state: "East Blue",
+      city:'Los Angeles',
+      state:'CA',
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:4,
       address: "852 Clock Tower Plaza",
-      city: "Clock Tower",
-      state: "Mage Association",
+      city: "San Jose",
+      state: "CA",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:8,
       address: "963 Aincrad Avenue",
-      city: "Aincrad",
-      state: "Floor 100",
+      city: "Boston",
+      state: "MA",
       lat: 35.6895,
       lng: 139.6917
     },
     {
+      groupId:3,
       address: "159 Neo-Tokyo Expressway",
-      city: "Neo-Tokyo",
-      state: "Japan",
-      lat: 35.6895,
-      lng: 139.6917
-    },
-    {
-      address: "753 Death City Boulevard",
-      city: "Death City",
-      state: "Nevada",
-      lat: 35.6895,
-      lng: 139.6917
-    },
-    {
-      address: "852 Central Perk",
-      city: "New York City",
-      state: "New York",
+      city:'New York',
+      state:'NY',
       lat: 35.6895,
       lng: 139.6917
     }
