@@ -13,8 +13,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'User',
-          foreignKey: 'organizerId',
+          model: 'Users',
+          key: 'id',
         }
       },
       name: {

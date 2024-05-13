@@ -2,10 +2,12 @@
 const { User } = require('../models');
 const bcrypt = require("bcryptjs");
 
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
+
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -40,7 +42,7 @@ module.exports = {
       username: "BelieveItNaruto",
       email: "believeitnaruto@example.com",
       hashedPassword: bcrypt.hashSync('Ninja9')
-      
+     
     },
     {
       firstName: "Sakura",
@@ -48,7 +50,7 @@ module.exports = {
       username: "SakuraBlossom",
       email: "sakurablossom@example.com",
       hashedPassword: bcrypt.hashSync('DragonBlade7')
-      
+     
     },
     {
       firstName: "Luffy",
@@ -56,7 +58,7 @@ module.exports = {
       username: "StrawHatLuffy",
       email: "strawhatluffy@example.com",
       hashedPassword: bcrypt.hashSync('OtakuElite3')
-      
+     
     },
     {
       firstName: "Sasuke",
@@ -64,7 +66,7 @@ module.exports = {
       username: "AvengerSasuke",
       email: "avengersasuke@example.com",
       hashedPassword: bcrypt.hashSync('ChibiStar5')
-      
+     
     },
     {
       firstName: "Ichigo",
@@ -72,7 +74,7 @@ module.exports = {
       username: "SoulReaperIchigo",
       email: "soulreaperichigo@example.com",
       hashedPassword: bcrypt.hashSync('MechWarrior12')
-      
+     
     },
     {
       firstName: "Hinata",
@@ -80,7 +82,7 @@ module.exports = {
       username: "ByakuganHinata",
       email: "byakuganhinata@example.com",
       hashedPassword: bcrypt.hashSync('ShinigamiRealm8')
-      
+     
     },
     {
       firstName: "Lelouch",
@@ -88,7 +90,7 @@ module.exports = {
       username: "ZeroRequiem",
       email: "zerorequiem@example.com",
       hashedPassword: bcrypt.hashSync('MagicalGirl99')
-      
+     
     },
     {
       firstName: "Edward",
@@ -96,7 +98,7 @@ module.exports = {
       username: "FullmetalAlchemist",
       email: "fullmetalalchemist@example.com",
       hashedPassword: bcrypt.hashSync('SaiyanLegend23')
-      
+     
     },
     {
       firstName: "Kagome",
@@ -104,7 +106,7 @@ module.exports = {
       username: "FeudalEraKagome",
       email: "feudaleraKagome@example.com",
       hashedPassword: bcrypt.hashSync('PirateCrew77')
-      
+     
     },
     {
       firstName: "Vegeta",
@@ -112,7 +114,7 @@ module.exports = {
       username: "PrinceOfSaiyans",
       email: "princeofsaiyans@example.com",
       hashedPassword: bcrypt.hashSync('SamuraiSword14')
-      
+     
     },
     {
       firstName: "Rukia",
@@ -120,7 +122,7 @@ module.exports = {
       username: "ShinigamiRukia",
       email: "shinigamirukia@example.com",
       hashedPassword: bcrypt.hashSync('AnimeMaster21')
-      
+     
     },
     {
       firstName: "Sailor",
@@ -128,7 +130,7 @@ module.exports = {
       username: "MoonPrincess",
       email: "moonprincess@example.com",
       hashedPassword: bcrypt.hashSync('')
-      
+     
     },
     {
       firstName: "Goku",
@@ -136,7 +138,7 @@ module.exports = {
       username: "KamehamehaGoku",
       email: "kamehamehagoku@example.com",
       hashedPassword: bcrypt.hashSync('MechaPilot88')
-      
+     
     },
     {
       firstName: "Mikasa",
@@ -144,7 +146,7 @@ module.exports = {
       username: "TitanSlayerMikasa",
       email: "titanslayermikasa@example.com",
       hashedPassword: bcrypt.hashSync('KawaiiNeko6')
-      
+     
     },
     {
       firstName: "Natsu",
@@ -152,7 +154,7 @@ module.exports = {
       username: "FireDragonNatsu",
       email: "firedragonnatsu@example.com",
       hashedPassword: bcrypt.hashSync('ElementalHero17')
-      
+     
     },
     {
       firstName: "Asuna",
@@ -160,7 +162,7 @@ module.exports = {
       username: "SwordArtOnlineAsuna",
       email: "swordartonlineasuna@example.com",
       hashedPassword: bcrypt.hashSync('Cyberpunk2099')
-      
+     
     },
     {
       firstName: "Usagi",
@@ -168,7 +170,7 @@ module.exports = {
       username: "SailorMoonUsagi",
       email: "sailormoonusagi@example.com",
       hashedPassword: bcrypt.hashSync('ShonenChampion42')
-      
+     
     },
     {
       firstName: "Gon",
@@ -176,7 +178,7 @@ module.exports = {
       username: "HunterGon",
       email: "huntergon@example.com",
       hashedPassword: bcrypt.hashSync('CosplayWizard27')
-      
+     
     },
     {
       firstName: "Nami",
@@ -184,7 +186,7 @@ module.exports = {
       username: "OrangeHairNami",
       email: "orangehairnami@example.com",
       hashedPassword: bcrypt.hashSync('GundamPilotZero')
-      
+     
     },
     {
       firstName: "Light",
@@ -192,10 +194,11 @@ module.exports = {
       username: "DeathNoteLight",
       email: "deathnotelight@example.com",
       hashedPassword: bcrypt.hashSync('HeroicKnight88')
-      
+     
     }
    ], { validate: true });
   },
+
 
   async down (queryInterface, Sequelize) {
     /**
