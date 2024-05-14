@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
         const safeUser = {
             id: user.id,
             email: user.email,
-            username: user.uername
+            username: user.username
         };
         return res.json({
             user: safeUser
