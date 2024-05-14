@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.GroupImage,{ foreignKey: 'groupId'});
       Group.hasMany(models.Venue,{ foreignKey: 'groupId'});
       Group.hasMany(models.Event, { foreignKey: 'groupId'});
-      Group.belongsTo(models.User, {foreignKey: 'organizerId'});
+      Group.hasMany(models.Membership, { foreignKey: 'groupId'});
+      Group.belongsTo(models.User, { foreignKey: 'organizerId' });
 
     }
   }
@@ -23,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'User',
-        Key: 'id',
+        model: 'Users',
+        key: 'id',
       }
     },
     name: {
@@ -69,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
         min: 2,
         max: 20,
         isInPerson(val){
-          if (this.type !== 'Online' && !value) {
+          if (this.type !== 'Online' && !val) {
             throw new Error('City is required for In Person events.');
           }
         }
@@ -83,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
         min: 2,
         max: 20,
         isInPerson(val){
-          if (this.type !== 'Online' && !value) {
+          if (this.type !== 'Online' && !val) {
             throw new Error('State is required for In Person events.');
           }
         }
@@ -94,7 +95,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Group',
     defaultScope:{
       attributes: {
-        exclude:['updatedAt','createdAt','']
+        include:['id','updatedAt','createdAt', ]
       }
     }
   });

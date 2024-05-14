@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Attendance, { foreignKey: "userId" });
       User.hasMany(models.Membership, { foreignKey: "userId" });
-      User.belongsTo(models.Group, { foreignKey: "organizerId" });
+      User.hasMany(models.Group, { foreignKey: "organizerId" });
     }
   }
   User.init(
