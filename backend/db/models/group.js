@@ -13,29 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.Venue, { foreignKey: "groupId" });
       Group.hasMany(models.Event, { foreignKey: "groupId" });
       Group.hasMany(models.Membership, { foreignKey: "groupId" });
-      Group.belongsTo(models.User, {as: 'Organizer', foreignKey: "organizerId" });
-
-      // }static membersAndImages() {
-      //   return {
-      //     attributes: {
-      //       include: [
-      //         'id','updatedAt','createdAt',
-      //         [sequelize.fn('COUNT', sequelize.col('Memberships.id')), 'numMembers'],
-      //         [sequelize.col('GroupImages.url'), 'previewImage']
-      //       ]
-      //     },
-      //     include: [
-      //       {
-      //         model: sequelize.models.Membership,
-      //         attributes: []
-      //       },
-      //       {
-      //         model: sequelize.models.GroupImage,
-      //         attributes: []
-      //       }
-      //     ],
-      //     group: ['Group.id', 'GroupImages.id']
-      //   };
+      Group.belongsTo(models.User, {
+        as: "Organizer",
+        foreignKey: "organizerId",
+      });
     }
   }
   Group.init(
@@ -116,36 +97,13 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Group",
       defaultScope: {
         attributes: {
-          include: ["id", "updatedAt", "createdAt"],
-        },
-      },
-      // scopes: {
-      //   membersAndImages: {
-      //     attributes: {
-      //       include: [
-      //         "id",
-      //         "updatedAt",
-      //         "createdAt",
-      //         [
-      //           sequelize.fn("COUNT", sequelize.col("Memberships.id")),
-      //           "numMembers",
-      //         ],
-      //         [sequelize.col("GroupImages.url"), "previewImage"],
-      //       ],
-      //     },
-      //     include: [
-      //       {
-      //         model: sequelize.models.Membership,
-      //         attributes: [],
-      //       },
-      //       {
-      //         model: sequelize.models.GroupImage,
-      //         attributes: [],
-      //       },
-      //     ],
-      //     group: ["Group.id", "GroupImages.id"],
-      //   },
-      // },
+          include: [
+            "id",
+            "updatedAt",
+            "createdAt",
+          ],
+        }
+    }
     }
   );
   return Group;

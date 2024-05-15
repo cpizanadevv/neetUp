@@ -1,5 +1,5 @@
 const express = require("express");
-const { Sequelize } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const {
   Group,
   User,
@@ -12,51 +12,17 @@ const { setTokenCookie, restoreUser } = require("../../utils/auth");
 
 const group = express.Router();
 
+
 // FUNCTIONS
+
+const validGroupId = (req,res,next) => {
+  const groupId = req.params.groupById;
+  if(isNaN(groupId) || groupId <= 0)
+}
 
 // ! Make func for numMembers/previewImage
 // * Counts members and include imagePrev
 
-// const numMembers = () => {
-//   return {
-//     attributes: {
-//       include: [
-//         [Sequelize.fn('COUNT', Sequelize.col('Memberships.id')), 'numMembers'],
-//         [Sequelize.col('GroupImages.url'), 'previewImage']
-//       ]
-//     },
-//     include: [
-//       {
-//         model: Membership,
-//         attributes: []
-//       },
-//       {
-//         model: GroupImage,
-//         attributes: []
-//       }
-//     ],
-//     group: ['Group.id', 'GroupImages.id']
-//   };
-// };
-
-// // * include imagePrev
-
-// const prevImage = () => {
-//   return {
-//     attributes: {
-//       include: [
-//         [Sequelize.col('GroupImages.url'), 'previewImage']
-//       ]
-//     },
-//     include: [
-//       {
-//         model: GroupImage,
-//         attributes: []
-//       }
-//     ],
-//     group: ["Group.id", "GroupImages.id"],
-//   };
-// };
 
 //ROUTES
 
@@ -64,10 +30,28 @@ const group = express.Router();
 group.get("/", async (req, res) => {
   // const members = numMembers();
   // const imgs = prevImage();
-  const allGroups = await Group
-    .findAll
-    // members// imgs,
-    ();
+  const allGroups = await Group.findAll({
+    attributes: {
+      include: [
+        "id",
+        "updatedAt",
+        "createdAt",
+        [Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), "numMembers"],
+        [Sequelize.col("GroupImages.url"), "previewImage"],
+      ],
+    },
+    include: [
+      {
+        model: Membership,
+        attributes: [],
+      },
+      {
+        model: GroupImage,
+        attributes: [],
+      },
+    ],
+    group: ["Group.id", "GroupImages.id"],
+  });
   return res.json(allGroups);
 });
 
@@ -85,7 +69,9 @@ group.get("/current", async (req, res) => {
           attributes: [],
           where: {
             userId: user.id,
-            status: "member" || 'co-host',
+            status: {
+              [Op.or]: ["member", "co-host"],
+            },
           },
         },
       ],
@@ -94,51 +80,57 @@ group.get("/current", async (req, res) => {
   }
 });
 
-// * Returns all Group by it's ID
+// * Returns Group by it's ID
 group.get("/:groupId", async (req, res) => {
-  // const members = numMembers();
   const currGroupId = req.params.groupId;
-  
-  if (!currGroupId) {
-    const organizer = currGroupId.organizerId;
-    const groupById = await Group.findOne({
-      where: {
-        id: currGroupId,
-      },
-      include: [
-        {
-          model: GroupImage,
-          attributes: {
-            exclude: ["groupId", "createdAt", "updatedAt"],
-          },
-        },
-        {
-          model: User,
-          as: "Organizer",
-          attributes: {
-            exclude: [
-              "username",
-              "email",
-              "hashedPassword",
-              "createdAt",
-              "updatedAt",
-            ],
-          },
-        },
-        {
-          model: Venue,
-          attributes: {
-            exclude: ["createdAt", "updatedAt"],
-          },
-        },
-      ],
-    });
+  console.log("THIS IS CURRENT GROUP ID:", currGroupId);
 
-    return res.json(groupById);
-  }else {
-    res.status(404);
-    res.send({ message: "Group couldn't be found" })
+  const groupById = await Group.findOne({
+    where: {
+      id: currGroupId,
+    },
+    attributes: {
+      include: [
+        [Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), "numMembers"],
+      ],
+    },
+    include: [
+      {
+        model: Membership,
+        attributes: [],
+      },
+      {
+        model: GroupImage,
+        attributes: {
+          exclude: ["groupId", "createdAt", "updatedAt"],
+        },
+      },
+      {
+        model: User,
+        as: "Organizer",
+        attributes: {
+          exclude: [
+            "username",
+            "email",
+            "hashedPassword",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
+      },
+      {
+        model: Venue,
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+      },
+    ],
+  });
+
+  if (!groupById) {
+    return res.status(404).json({ message: "Group couldn't be found" });
   }
+  return res.json(groupById);
 });
 
 // ! Creates and returns Group
