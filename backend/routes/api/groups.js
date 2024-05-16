@@ -7,22 +7,15 @@ const {
   Venue,
   GroupImage,
 } = require("../../db/models");
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, restoreUser } = require("../../utils/auth");
+const { IGNORE } = require("sequelize/lib/index-hints");
 
 const group = express.Router();
 
-
-// FUNCTIONS
-
-const validGroupId = (req,res,next) => {
-  const groupId = req.params.groupById;
-  if(isNaN(groupId) || groupId <= 0)
-}
-
 // ! Make func for numMembers/previewImage
-// * Counts members and include imagePrev
-
 
 //ROUTES
 
@@ -62,19 +55,33 @@ group.get("/current", async (req, res) => {
   const { user } = req;
 
   if (user) {
-    const groupOfCurrUser = await Group.findAll({
+    const groupOfCurrUser = await Group.findAll({attributes: {
       include: [
-        {
-          model: Membership,
-          attributes: [],
-          where: {
-            userId: user.id,
-            status: {
-              [Op.or]: ["member", "co-host"],
-            },
+        "id",
+        "updatedAt",
+        "createdAt",
+        [Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), "numMembers"],
+        [Sequelize.col("GroupImages.url"), "previewImage"],
+      ],
+    },
+    include: [
+      {
+        model: Membership,
+        attributes: [],
+        where: {
+          userId: user.id,
+          status: {
+            [Op.or]: ["member", "co-host"],
           },
         },
-      ],
+      },
+      {
+        model: GroupImage,
+        attributes: [],
+      },
+    ],
+    group: ["Group.id", "GroupImages.id"],
+      
     });
     return res.json(groupOfCurrUser);
   }
@@ -83,7 +90,13 @@ group.get("/current", async (req, res) => {
 // * Returns Group by it's ID
 group.get("/:groupId", async (req, res) => {
   const currGroupId = req.params.groupId;
-  console.log("THIS IS CURRENT GROUP ID:", currGroupId);
+
+  //Validates 
+  if (isNaN(currGroupId) || currGroupId <= 0) {
+    res.status(404).json({
+      message: "Group couldn't be found",
+    });
+  }
 
   const groupById = await Group.findOne({
     where: {
@@ -125,28 +138,75 @@ group.get("/:groupId", async (req, res) => {
         },
       },
     ],
-  });
-
-  if (!groupById) {
-    return res.status(404).json({ message: "Group couldn't be found" });
+  }); 
+  if (groupById.id === null) {
+    return res.status(404).json({
+      message: "Group couldn't be found",
+    });
   }
   return res.json(groupById);
 });
+// const checkIsUnique = async (name) => {
+//   const group = await await Group.findOne({
+//     where: name
+//   })
+//   if (group){
+//     throw new Error('Group name already exists.')
+//   }
+// }
+
+const validateGroup = [
+  check('name')
+    .exists({ checkFalsy: true })
+    .isLength({ max: 60 })
+    // .custom(checkIsUnique)
+    .withMessage('Name must be 60 characters or less.'),
+  check('about')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 50 })
+    .withMessage('About must be 50 characters or more.'),
+  check('type')
+    .exists({ checkFalsy: true })
+    .isIn(['Online', 'In Person'])
+    .withMessage("Type must be 'Online' or 'In Person'."),
+  check('private')
+    .exists({ checkFalsy: true })
+    .isBoolean()
+    .withMessage('Private must be a boolean value.'),
+  check('city')
+    .exists()
+    .withMessage('City is required.'),
+  check('state')
+    .exists()
+    .withMessage('State is required.'),
+  handleValidationErrors
+];
 
 // ! Creates and returns Group
-group.post("/", async (req, res) => {
+group.post("/", validateGroup, async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
+  const {user} = req;
+  const organizer = user.id;
 
-  const newGroup = Group.build({
-    name: name,
-    about: about,
-    type: type,
-    private: private,
-    city: city,
-    state: state,
+  const group = Group.create({
+    name,
+    about,
+    type,
+    private,
+    city,
+    state,
   });
+  const newGroup = {
+    organizerId : organizer,
+    name:name,
+    about:about,
+    type:type,
+    private:private,
+    city:city,
+    state:state,
+  };
 
-  await newGroup.save();
+  return res.json({group:newGroup});
 });
 
 // ! Adds Img to Group based on ID

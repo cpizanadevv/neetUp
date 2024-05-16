@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           model: "Users",
           key: "id",
         },
+        onDelete: 'cascade'
       },
       name: {
         type: DataTypes.STRING,
@@ -53,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM("In Person", "Online"),
         allowNull: false,
         validate: {
-          notIn: {
+          isIn: {
             args: ["In Person", "Online"],
             msg: "Type must be 'Online' or 'In Person'",
           },
@@ -67,7 +68,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlpha: true,
           min: 2,
           max: 20,
           isInPerson(val) {
@@ -81,7 +81,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          isAlpha: true,
           min: 2,
           max: 20,
           isInPerson(val) {
