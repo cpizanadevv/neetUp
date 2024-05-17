@@ -10,12 +10,10 @@ const {
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
-const { setTokenCookie, restoreUser } = require("../../utils/auth");
-const { IGNORE } = require("sequelize/lib/index-hints");
-
 const group = express.Router();
 
-// ! Make func for numMembers/previewImage
+
+
 //!VALIDATORS
 
 // Group Validator
