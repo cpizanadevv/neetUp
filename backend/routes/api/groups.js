@@ -21,7 +21,6 @@ const validateGroup = [
   check("name")
     .exists({ checkFalsy: true })
     .isLength({ max: 60 })
-    // .custom(checkIsUnique)
     .withMessage("Name must be 60 characters or less."),
   check("about")
     .exists({ checkFalsy: true })
@@ -35,8 +34,15 @@ const validateGroup = [
     .exists({ checkFalsy: true })
     .isBoolean()
     .withMessage("Private must be a boolean value."),
-  check("city").exists({ checkFalsy: true }).withMessage("City is required."),
-  check("state").exists({ checkFalsy: true }).withMessage("State is required."),
+  check("city")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 2, max: 20 })
+    .notEmpty()
+    .withMessage("City is required"),
+  check("state")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 2, max: 20 })
+    .withMessage("State is required."),
   handleValidationErrors,
 ];
 
@@ -84,8 +90,6 @@ const validateVenue = [
 //!ROUTES
 // * Returns all Groups
 group.get("/", async (req, res) => {
-  // const members = numMembers();
-  // const imgs = prevImage();
   const allGroups = await Group.findAll({
     attributes: {
       include: [
@@ -221,9 +225,8 @@ group.post("/", validateGroup, async (req, res) => {
   const { user } = req;
   let organizerId = user.id;
 
-  const groupName = await Group.findOne({
-    where: { name },
-  });
+  const groupName = await Group.findOne({where: { name },
+});
   if (groupName) {
     return res.status(400).json({ message: "Group name already exists." });
   } else {
@@ -350,30 +353,34 @@ group.get("/:groupId/venues", async (req, res) => {
 });
 // * Create newVenue for Group by ID
 group.post("/:groupId/venues", validateVenue, async (req, res) => {
-  const { usersId, groupsId,address, city, state, lat, lng } = req.body;
+  const { address, city, state, lat, lng } = req.body;
   const { user } = req;
+  const userId = user.id;
   const groupId = req.params.groupId;
   const group = await Group.findByPk(groupId);
-  const userId = user.id;
-  const member = await Membership.findByPk(userId);
+  const member = await Membership.findOne({where:userId});
+  const status = member.status;
 
+  if(!user){
+    return res.json({ message: "No user is currently logged in." });
+  }
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  if (user && group.organizerId === userId || member === 'co-host') {
-    const venue = Venue.create({
-      usersId,
-      groupsId,
+  if (status === 'co-host') {
+    const venue = await Venue.create({
+      userId,
+      groupId,
       address,
       city,
       state,
       lat,
       lng,
     });
-
     const newVenue = {
-      groupId: groupId,
+      id: venue.id,
+      groupId: venue.groupId,
       address: venue.address,
       city: venue.city,
       state: venue.state,
