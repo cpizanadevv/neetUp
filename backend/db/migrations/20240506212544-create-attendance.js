@@ -12,10 +12,20 @@ module.exports = {
       eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Events",
+          key:"id",
+        },
+        onDelete: 'cascade'
       },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Users",
+          key:"id",
+        },
+        onDelete: 'cascade'
       },
       status: {
         type: Sequelize.ENUM('attending', 'waitlist'),

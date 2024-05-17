@@ -10,7 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       groupId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Groups",
+          key:"id",
+        },
+        onDelete: 'cascade'
       },
       address: {
         type: Sequelize.STRING,
@@ -45,6 +50,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Venues');
+    await queryInterface.dropTable('Venue');
   }
 };

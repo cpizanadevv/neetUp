@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       groupId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "Group",
-          foreignKey: "groupId",
-        },
         onDelete: 'cascade'
       },
       address: {

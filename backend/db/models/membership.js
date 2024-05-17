@@ -18,18 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   Membership.init({
     userId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id'
-      },
       onDelete: 'cascade'
     },
     groupId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Group',
-        foreignKey: 'groupId'
-      },
       onDelete: 'cascade'
     },
     status: {
