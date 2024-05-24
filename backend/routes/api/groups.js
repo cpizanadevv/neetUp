@@ -1,6 +1,9 @@
 const express = require("express");
 const { Op, Sequelize } = require("sequelize");
 const {
+  Attendance,
+  EventImage,
+  Event,
   Group,
   User,
   Membership,
@@ -11,8 +14,6 @@ const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
 const group = express.Router();
-
-
 
 //!VALIDATORS
 
@@ -84,6 +85,31 @@ const validateVenue = [
     .isFloat({ min: -180, max: 180 })
     .withMessage("Longitude must be within -180 and 180"),
 
+  handleValidationErrors,
+];
+// Event Validator
+const validateEvent = [
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 5, max: 100 })
+    .withMessage("Name must be at least 5 characters."),
+  check("description")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Description is required"),
+  check("type")
+    .exists({ checkFalsy: true })
+    .isIn(["Online", "In Person"])
+    .withMessage("Type must be 'Online' or 'In Person'."),
+  check("capacity")
+    .exists({ checkFalsy: true })
+    .isInt()
+    .withMessage("Capacity must be an integer"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .isFloat()
+    .notEmpty()
+    .withMessage("Price is invalid"),
   handleValidationErrors,
 ];
 
@@ -225,8 +251,7 @@ group.post("/", validateGroup, async (req, res) => {
   const { user } = req;
   let organizerId = user.id;
 
-  const groupName = await Group.findOne({where: { name },
-});
+  const groupName = await Group.findOne({ where: { name } });
   if (groupName) {
     return res.status(400).json({ message: "Group name already exists." });
   } else {
@@ -340,16 +365,17 @@ group.get("/:groupId/venues", async (req, res) => {
 
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
+  } else {
+    const venuesOfGroup = await Venue.findAll({
+      where: {
+        groupId: groupId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    });
+    return res.json(venuesOfGroup);
   }
-  const venuesOfGroup = await Venue.findAll({
-    where: {
-      groupId: groupId,
-    },
-    attributes: {
-      exclude: ["createdAt", "updatedAt"],
-    },
-  });
-  return res.json(venuesOfGroup);
 });
 // * Create newVenue for Group by ID
 group.post("/:groupId/venues", validateVenue, async (req, res) => {
@@ -358,17 +384,17 @@ group.post("/:groupId/venues", validateVenue, async (req, res) => {
   const userId = user.id;
   const groupId = req.params.groupId;
   const group = await Group.findByPk(groupId);
-  const member = await Membership.findOne({where:userId});
+  const member = await Membership.findOne({ where: userId });
   const status = member.status;
 
-  if(!user){
+  if (!user) {
     return res.json({ message: "No user is currently logged in." });
   }
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  if (status === 'co-host') {
+  if (status === "co-host") {
     const venue = await Venue.create({
       userId,
       groupId,
@@ -388,9 +414,290 @@ group.post("/:groupId/venues", validateVenue, async (req, res) => {
       lng: venue.lng,
     };
     return res.json({ venue: newVenue });
-  }else {
-    return res.status(404).json({ message: "User is not co-host of this group" });
+  } else {
+    return res
+      .status(404)
+      .json({ message: "User is not co-host of this group" });
   }
 });
+
+// * Get all Events of a Group by ID
+group.get("/:groupId/events", async (req, res) => {
+  const groupId = req.params.groupId;
+  const group = await Group.findByPk(groupId);
+
+  if (!group) {
+    return res.status(404).json({ message: "Group couldn't be found" });
+  } else {
+    const eventsOfGroup = await Event.findAll({
+      where: {
+        groupId: groupId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "description", "capacity", "price"],
+        include: [
+          "id",
+          [
+            Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),
+            "numAttending",
+          ],
+          [Sequelize.col("EventImages.url"), "previewImage"],
+        ],
+      },
+      include: [
+        {
+          model: Attendance,
+          attributes: [],
+        },
+        {
+          model: EventImage,
+          attributes: [],
+        },
+        {
+          model: Group,
+          attributes: ["id", "name", "city", "state"],
+        },
+        {
+          model: Venue,
+          attributes: ["id", "city", "state"],
+        },
+      ],
+      group: ["Event.id", "EventImages.id", "Group.id", "Venue.id"],
+    });
+    return res.json(eventsOfGroup);
+  }
+});
+
+// ! Create and return Event for Group by its ID
+group.post("/:groupId/events", validateEvent, async (req, res) => {
+  // Extracting from req
+  const {
+    venueId,
+    name,
+    description,
+    type,
+    capacity,
+    price,
+    startDate,
+    endDate,
+  } = req.body;
+  const groupId = req.params.groupId;
+  const { user } = req;
+
+  // Checking for existence
+  const venue = await Venue.findByPk(venueId);
+  const group = await Group.findByPk(groupId);
+  const member = await Membership.findOne({ where: { groupId: groupId } });
+  const status = member.status;
+  console.log("THIS IS THE START: ",startDate);
+  console.log("THIS IS THE END: ",endDate);
+
+  // Error if doesn't exist
+  if (!user) {
+    return res.status(404).json({ message: "No user is currently logged in." });
+  }
+  if (!group) {
+    return res.status(404).json({ message: "Group couldn't be found" });
+  }
+  if (!venue) {
+    return res.status(404).json({ message: "Venue couldn't be found" });
+  }
+
+  // Must be co-host to create
+  if (status === "co-host") {
+    const event = await Event.create({
+      groupId,
+      venueId,
+      name,
+      description,
+      type,
+      capacity,
+      price,
+      startDate,
+      endDate,
+    });
+    console.log("THIS IS THE EVENT: ",event);
+
+    const newEvent = {
+      id: event.id,
+      groupId: event.groupId,
+      venueId: event.venueId,
+      name: event.name,
+      description: event.description,
+      type: event.type,
+      capacity: event.capacity,
+      price: event.price,
+      startDate: event.startDate,
+      endDate: event.endDate,
+    };
+
+    return res.json({ event: newEvent });
+  } else {
+    return res
+      .status(404)
+      .json({ message: "User is not co-host of this group" });
+  }
+});
+
+// ? Return all Members for a group by groupID
+// !Need to format
+group.get("/:groupId/members", async(req,res) => {
+  const { user } = req;
+  const groupId = req.params.groupId;
+
+  const group = await Group.findByPk(groupId)
+  const member = await Membership.findOne({
+    where:{
+      userId:user.id
+    }
+  });
+  const status = await Membership.findOne
+  if(!group){
+    return res.status(404).json({ message: "Group couldn't be found" });
+  }
+
+  if(member.status === 'co-host'){
+    const allMembers = await Membership.findAll({
+      where:{
+        groupId:groupId
+      },
+      attributes:{
+        exclude:["createdAt", "updatedAt","userId","groupId"],
+        include: ["status",]
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["firstName","lastName"],
+        }
+      ]
+      })
+
+    return res.json({members:allMembers})
+  }else{
+    const allMembers = await Membership.findAll({where:{
+      groupId:groupId,
+      status:{
+        [Op.notIn]: ['pending']
+      }
+      
+    }})
+  }
+})
+
+//* Request Membership to group by its ID
+group.post("/:groupId/membership", async (req,res) => {
+  const { user } = req;
+  const groupId = req.params.groupId;
+
+  const group = await Group.findByPk(groupId);
+  if (!group){
+    return res.status(404).json({ message: "Group couldn't be found" });
+  }
+
+  const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}});
+
+  if(membership && membership.status === 'pending'){
+    return res.status(400).json({ message: "Membership has already been requested" });
+  }
+  
+  if(membership && membership.status === 'member'){
+    return res.status(400).json({ message: "User is already a member of the group" });
+  }
+
+  const status = "pending";
+  await Membership.create({
+    userId: user.id,
+    groupId: groupId,
+    status: status,
+  });
+
+  return res.json({
+    memberId: user.id,
+    status: status
+  })
+
+})
+
+// * Co-Host || Organizer change Membership status for group by its ID
+group.put("/:groupId/membership", async (req,res) =>{
+  const { user } = req;
+  const groupId = req.params.groupId;
+  const { memberId, status} = req.body;
+
+  const isUser = await User.findByPk(memberId);
+  if(!isUser){
+    return res.status(404).json({ message: "User couldn't be found" })
+
+  }
+
+  const group = await Group.findByPk(groupId);
+  if(!group){
+    return res.status(404).json({ message: "Group couldn't be found"});
+  }
+
+  const host = group.organizerId;
+  const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}});
+  const userStatus = membership.status;
+  
+  const pendingMember = await Membership.findOne({where:{userId:memberId,groupId:groupId}});
+  if(!pendingMember){
+    return res.status(404).json({ message: "Membership between the user and the group does not exist" });
+    
+  }
+
+  if(status === 'co-host'){
+    if(user.id !== host){
+      return res.status(400).json({ message: "Must be Group Organizer to change to co-host" });
+    }
+    await pendingMember.update({
+      status:'co-host',
+     });
+  }else if(status === 'member'){
+    if(userStatus !== 'co-host'){
+      return res.status(400).json({ message: "Must be co-host to change to member" });
+    }
+    await pendingMember.update({
+      status:'member',
+     });
+  }else if(status === 'pending'){
+    return res.status(400).json({ message: "Cannot change a membership status to pending" });
+  }
+})
+
+// * Delete membership to a group specified by id
+group.delete("/:groupId/membership/:memberId", async (req,res) => {
+  const { user } = req;
+  const groupId = req.params.groupId;
+  const memberId = req.params.memberId;
+
+  const isUser = await User.findByPk(memberId);
+  if(!isUser){
+    return res.status(404).json({message: "User couldn't be found"})
+  }
+
+  const group = await Group.findByPk(groupId);
+  if(!group){
+    return res.status(404).json({message: "Group couldn't be found"})
+
+  }
+
+  const memberShip = await Membership.findOne({where:{userId:memberId,groupId:groupId}});
+  if(!memberShip){
+    return res.status(404).json({message: "Membership does not exist for this User"})
+  }
+
+  const host = group.organizerId;
+
+  if(user.id === host || user.id === memberId){
+    memberShip.destroy();
+    return res.json({
+      message:"Successfully deleted membership from group"
+    })
+  }
+
+})
+
+
 
 module.exports = group;
