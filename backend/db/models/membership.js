@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Membership extends Model {
     /**
@@ -11,34 +9,45 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Membership.belongsTo(models.User, { as: "memberId", foreignKey: 'userId'});
-      Membership.belongsTo(models.Group, { foreignKey: 'groupId'});
+      Membership.belongsTo(models.User, {
+        as: "memberId",
+        foreignKey: "userId",
+      });
+      Membership.belongsTo(models.Group, { foreignKey: "groupId" });
     }
   }
-  Membership.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id'
+  Membership.init(
+    {
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "User",
+          key: "id",
+        },
+        onDelete: "cascade",
       },
-      onDelete: 'cascade'
-    },
-    groupId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Group',
-        foreignKey: 'groupId'
+      groupId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Group",
+          foreignKey: "groupId",
+        },
+        onDelete: "cascade",
       },
-      onDelete: 'cascade'
+      status: {
+        type: DataTypes.ENUM("co-host", "member", "pending"),
+        allowNull: false,
+      },
     },
-    status: {
-      type: DataTypes.ENUM('co-host','member','pending'),
-      allowNull: false,
-    },
-  }, {
-    sequelize,
-    modelName: 'Membership',
-  });
+    {
+      sequelize,
+      modelName: "Membership",
+      defaultScope: {
+        attributes: {
+          exclude: ["updatedAt", "createdAt"],
+        },
+      },
+    }
+  );
   return Membership;
 };

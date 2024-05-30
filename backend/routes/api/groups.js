@@ -677,11 +677,14 @@ group.put("/:groupId/membership", async (req, res) => {
   const pendingMember = await Membership.findOne({
     where: { userId: memberId, groupId: groupId },
   });
+  console.log(pendingMember)
   if (!pendingMember) {
     return res.status(404).json({
       message: "Membership between the user and the group does not exist",
     });
   }
+
+  let updatedMember;
 
   if (status === "co-host") {
     if (user.id !== host) {
@@ -689,7 +692,7 @@ group.put("/:groupId/membership", async (req, res) => {
         .status(400)
         .json({ message: "Must be Group Organizer to change to co-host" });
     }
-    await pendingMember.update({
+    updatedMember = await pendingMember.update({
       status: "co-host",
     });
   } else if (status === "member") {
@@ -698,7 +701,7 @@ group.put("/:groupId/membership", async (req, res) => {
         .status(400)
         .json({ message: "Must be co-host to change to member" });
     }
-    await pendingMember.update({
+    updatedMember = await pendingMember.update({
       status: "member",
     });
   } else if (status === "pending") {
@@ -706,6 +709,7 @@ group.put("/:groupId/membership", async (req, res) => {
       .status(400)
       .json({ message: "Cannot change a membership status to pending" });
   }
+  return res.json(updatedMember)
 });
 
 // * Delete membership to a group specified by id
