@@ -85,29 +85,19 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Event",
-      // defaultScope: {
-      //   attributes: {
-      //     exclude: ["createdAt", "updatedAt", "description", "capacity"],
-      //     include: [
-      //       "id",
-      //       [
-      //         Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),
-      //         "numAttending",
-      //       ],
-      //       [Sequelize.col("EventImages.url"), "previewImage"],
-      //     ],
-      //   },
-      //   include: [
-      //     {
-      //       model: Sequelize.model(Attendance),
-      //       attributes: [],
-      //     },
-      //     {
-      //       model: EventImage,
-      //       attributes: [],
-      //     },
-      //   ],
-      // },
+      defaultScope: {
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "description", "capacity"],
+          include: [
+            "id",
+            [
+              COUNT (sequelize.col("Attendances.id")),
+              "numAttending",
+            ],
+            [sequelize.col("EventImages.url"), "previewImage"],
+          ]
+        },
+      },
     }
   );
   return Event;

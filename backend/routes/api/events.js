@@ -7,7 +7,7 @@ const {
   Membership,
   Venue,
   EventImage,
-  Event,
+  Event
 } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -71,45 +71,40 @@ const validateParams = [
   handleValidationErrors,
 ];
 // ! Get all Events
-// ! Pagination is breaking this route
-event.get("/", validateParams, async (req, res) => {
-  let { page, size, name, type, startDate } = req.query;
-  let pagination = {};
-  let where = {};
-  if (name) {
-    where.name = name;
-  }
-  if (type) {
-    where.type = type;
-  }
-  if (startDate) {
-    where.startDate = startDate;
-  }
+// ! The COUNT fn is breaking this
+  // Only shows 1 event
+event.get("/",  async (req, res) => {
+  // let { page, size, name, type, startDate } = req.query;
+  // let pagination = {};
+  // let where = {};
+  // if (name) {
+  //   where.name = name;
+  // }
+  // if (type) {
+  //   where.type = type;
+  // }
+  // if (startDate) {
+  //   where.startDate = startDate;
+  // }
 
-  page = parseInt(page);
-  size = parseInt(size);
+  // page = parseInt(page);
+  // size = parseInt(size);
 
-  if (isNaN(page) || page <= 0) {
-    page = 1;
-  }
+  // if (isNaN(page) || page <= 0) {
+  //   page = 1;
+  // }
 
-  if (isNaN(size) || size <= 0) {
-    size = 20;
-  }
+  // if (isNaN(size) || size <= 0) {
+  //   size = 20;
+  // }
 
-  pagination.limit = size;
-  pagination.offset = size * (page - 1);
+  // pagination.limit = size;
+  // pagination.offset = size * (page - 1);
 
   const allEvents = await Event.findAll({
     attributes: {
-      exclude: ["createdAt", "updatedAt", "description", "capacity"],
       include: [
         "id",
-        [
-          Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),
-          "numAttending",
-        ],
-        [Sequelize.col("EventImages.url"), "previewImage"],
       ],
     },
     include: [
@@ -130,10 +125,10 @@ event.get("/", validateParams, async (req, res) => {
         attributes: ["id", "city", "state"],
       },
     ],
-    where,
-    ...pagination
+    // where,
+    // ...pagination
   });
-  return res.json(allEvents);
+  return res.json({Events:allEvents});
 });
 
 // * Get Event by ID
@@ -248,7 +243,7 @@ event.put("/:eventId", validateEvent, async (req, res) => {
     return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
-  // Must be co-host to create
+  // Must be co-host to update
   if (status === "co-host") {
     const updatedEvent = await Event.update({
       venueId: venueId,

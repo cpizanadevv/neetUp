@@ -101,6 +101,11 @@ module.exports = (sequelize, DataTypes) => {
             "updatedAt",
             "createdAt"
           ],
+        // include:[
+        //   sequelize.fn("COUNT", sequelize.col("Attendances.id")),
+        //   "numAttending",
+        //   [sequelize.col("EventImages.url"), "previewImage"],
+        // ]
         }
     }
     }
