@@ -14,7 +14,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const eventImages = express.Router();
 
-// ! Delete an existing image for a Group
+// * Delete an existing image for an Event
 eventImages.delete('/:imageId', async (req,res) => {
     const {user} = req;
     const imgId = req.params.imageId;
@@ -31,6 +31,8 @@ eventImages.delete('/:imageId', async (req,res) => {
     if(status === 'co-host'){
         img.destroy();
         return res.json({message:"Successfully deleted"})
+    }else{
+        return res.status(400).json({message:"User is not co-host of this group"})
     }
 })
 

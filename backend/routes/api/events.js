@@ -59,22 +59,20 @@ const validateParams = [
   check("size")
     .isInt({ min: 1 })
     .withMessage("Size must be greater than or equal to 1"),
-  check("name")
-  .optional()
-    .isAlpha()
-    .withMessage("Name must be a string"),
+  check("name").optional().isAlpha().withMessage("Name must be a string"),
   check("type")
-  .optional()
-    .isIn(['Online','In Person'])
+    .optional()
+    .isIn(["Online", "In Person"])
     .withMessage("Type must be 'Online' or 'In Person'"),
-    check("startDate")
-      .optional()
-      .isDate()
-      .withMessage("Start date must be a valid datetime"),
-      handleValidationErrors,
+  check("startDate")
+    .optional()
+    .isDate()
+    .withMessage("Start date must be a valid datetime"),
+  handleValidationErrors,
 ];
-// * Get all Events
-event.get("/",validateParams, async (req, res) => {
+// ! Get all Events
+// ! Pagination is breaking this route
+event.get("/", validateParams, async (req, res) => {
   let { page, size, name, type, startDate } = req.query;
   let pagination = {};
   let where = {};
@@ -133,8 +131,7 @@ event.get("/",validateParams, async (req, res) => {
       },
     ],
     where,
-    // limit:1,
-    // offset:5
+    ...pagination
   });
   return res.json(allEvents);
 });
@@ -216,7 +213,7 @@ event.post("/:eventId/images", validateImg, async (req, res) => {
   }
 });
 
-// ? Edit and return event by it's ID
+// * Edit and return event by it's ID
 event.put("/:eventId", validateEvent, async (req, res) => {
   const {
     venueId,
@@ -229,77 +226,79 @@ event.put("/:eventId", validateEvent, async (req, res) => {
     endDate,
   } = req.body;
   const { user } = req;
-  const eventId = req.params.eventId;
-
-  // Checking for existence
-  const event = await Event.findByPk(eventId);
-  const groupId = event.groupId;
-  const venue = await Venue.findByPk(venueId);
-  const member = await Membership.findOne({ where: { groupId: groupId } });
-  const status = member.status;
-
-  // Error if doesn't exist
   if (!user) {
     return res.status(404).json({ message: "No user is currently logged in." });
   }
-  if (!group) {
-    return res.status(404).json({ message: "Group couldn't be found" });
+
+  const eventId = req.params.eventId;
+  const event = await Event.findByPk(eventId);
+  if (!event) {
+    return res.status(404).json({ message: "Event couldn't be found" });
   }
+
+  const groupId = event.groupId;
+  const venue = await Venue.findByPk(venueId);
+  const membership = await Membership.findOne({ where: { groupId: groupId } });
+  if(!membership){
+    return res.status(400).json({ message: "User is not a member of this Group" });
+  }
+  const status = membership.status;
+
   if (!venue) {
     return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
   // Must be co-host to create
   if (status === "co-host") {
-    const event = await Event.create({
-      groupId,
-      venueId,
-      name,
-      description,
-      type,
-      capacity,
-      price,
-      startDate,
-      endDate,
+    const updatedEvent = await Event.update({
+      venueId: venueId,
+      name: name,
+      description: description,
+      type: type,
+      capacity: capacity,
+      price: price,
+      startDate: startDate,
+      endDate: endDate
     });
-    console.log("THIS IS THE EVENT: ", event);
 
     const newEvent = {
-      id: event.id,
-      groupId: event.groupId,
-      venueId: event.venueId,
-      name: event.name,
-      description: event.description,
-      type: event.type,
-      capacity: event.capacity,
-      price: event.price,
-      startDate: event.startDate,
-      endDate: event.endDate,
+      id: updatedEvent.id,
+      groupId: updatedEvent.groupId,
+      venueId: updatedEvent.venueId,
+      name: updatedEvent.name,
+      description: updatedEvent.description,
+      type: updatedEvent.type,
+      capacity: updatedEvent.capacity,
+      price: updatedEvent.price,
+      startDate: updatedEvent.startDate,
+      endDate: updatedEvent.endDate
     };
 
     return res.json({ event: newEvent });
   } else {
     return res
-      .status(404)
+      .status(400)
       .json({ message: "User is not co-host of this group" });
   }
 });
 
-// ? Deletes Event by it's ID
+// * Deletes Event by it's ID
 event.delete("/:eventId", async (req, res) => {
   const { user } = req;
+
+  if(!user){
+    return res.status(400).json({ message: "User is not logged in" });
+  }
   const eventId = req.params.eventId;
-
-  // Checking for existence
   const event = await Event.findByPk(eventId);
-  const groupId = event.groupId;
-  const venue = await Venue.findByPk(venueId);
-  const member = await Membership.findOne({ where: { groupId: groupId } });
-  const status = member.status;
-
   if (!event) {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
+
+  const groupId = event.groupId;
+  const member = await Membership.findOne({ where: { groupId: groupId } });
+  const status = member.status;
+
 
   if (status === "co-host") {
     event.destroy();
@@ -410,7 +409,7 @@ event.post("/:eventId/attendance", async (req, res) => {
   }
 });
 
-// ? Change the status of an attendance for an event specified by id
+// * Change the status of an attendance for an event specified by id
 
 event.put("/:eventId/attendance", async (req, res) => {
   const { user } = req;
@@ -428,34 +427,35 @@ event.put("/:eventId/attendance", async (req, res) => {
   }
 
   if (status === "pending") {
-    res
-      .status(400)
-      .json({ message: "Cannot change an attendance status to pending" });
+    res.status(400).json({ message: "Cannot change an attendance status to pending" });
   }
 
   const attendance = await Attendance.findOne({ where: { userId: userId } });
   if (!attendance) {
-    res
-      .status(404)
-      .json({
-        message: "Attendance between the user and the event does not exist",
-      });
+    res.status(404).json({
+      message: "Attendance between the user and the event does not exist",
+    });
   }
 
   const currUser = user.id;
   const groupId = event.groupId;
-  const currUserStatus = await Membership.findOne({
+  const currUserMembership = await Membership.findOne({
     where: { userId: currUser, groupId: groupId },
   });
+  const currUserStatus = currUserMembership.status;
   if (currUserStatus === "co-host") {
     await attendance.update({
       status: status,
     });
     return res.json({ attendance });
+  }else{
+    res.status(400).json({
+      message: "User is not co-host of the group",
+    });
   }
 });
 
-// ! Delete an attendance to an event specified by id
+// * Delete an attendance to an event specified by id
 
 event.delete("/:eventId/attendance/:userId", async (req, res) => {
   const { user } = req;
@@ -474,23 +474,26 @@ event.delete("/:eventId/attendance/:userId", async (req, res) => {
 
   const attendance = await Attendance.findOne({ where: { userId: userId } });
   if (!attendance) {
-    res
-      .status(404)
-      .json({
-        message: "Attendance between the user and the event does not exist",
-      });
+    res.status(404).json({
+      message: "Attendance between the user and the event does not exist",
+    });
   }
 
   const currUser = user.id;
   const groupId = event.groupId;
-  const currUserStatus = await Membership.findOne({
+  const currUserMembership = await Membership.findOne({
     where: { userId: currUser, groupId: groupId },
   });
+  if(!currUserMembership){
+    res.status(404).json({
+      message: "Membership couldn't be found",
+    });
+  }
+  const currUserStatus = currUserMembership.status;
   if (currUserStatus === "co-host" || currUser === userId) {
     attendance.destroy();
     return res.json({ message: "Successfully deleted attendance from event" });
   }
 });
-
 
 module.exports = event;

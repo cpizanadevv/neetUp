@@ -38,44 +38,48 @@ const validateVenue = [
   handleValidationErrors,
 ];
 
-// ! Edit Venue
+// * Edit Venue
 venue.put('/:venueId', async (req, res) => {
   const { user } = req;
   const userId = user.id;
+  if(!user){
+    return res.status(400).json({ message: "No user is currently logged in." });
+  }
+
   const venueId = req.params.venueId;
   const {address,city,state,lat,lng} = req.body;
-  const venueExists = await Venue.findByPk(venueId);
-  const member = await Membership.findOne({where:userId});
-  const status = member.status;
-  const groupId = venueExists.groupId;
-
-  if(!user){
-    return res.json({ message: "No user is currently logged in." });
-  }
-  if(!venueExists){
-    return res.json({ message: "Venue couldn't be found" });
-
+  const venue = await Venue.findByPk(venueId);
+  if(!venue){
+    return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
-  if(venueExists && status === 'co-host'){
-    const venue = await Venue.create({
-      userId,
-      groupId,
-      address,
-      city,
-      state,
-      lat,
-      lng,
-    });
+  const groupId = venue.groupId;
+  const membership = await Membership.findOne({where:{userId:userId, groupId:groupId}});
+  if(!membership){
+    return res.status(400).json({ message: "User is not a member of this group" });
+  }
+  const status = membership.status;
+
+  if(status === 'co-host'){
+    const updatedVenue = await venue.update({
+      address:address,
+      city:city,
+      state:state,
+      lat:lat,
+      lng:lng
+    })
     const newVenue = {
+      id: +venueId,
       groupId: groupId,
-      address: venue.address,
-      city: venue.city,
-      state: venue.state,
-      lat: venue.lat,
-      lng: venue.lng,
+      address: updatedVenue.address,
+      city: updatedVenue.city,
+      state: updatedVenue.state,
+      lat: updatedVenue.lat,
+      lng: updatedVenue.lng,
     };
-    return res.json({ venue: newVenue });
+
+    return res.json({ event: newVenue });
+
   }else {
     return res.status(404).json({ message: "User is not co-host of this group" });
   }

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
           model: "Venue",
           key: "id",
         },
-        onDelete: 'cascade'
+        onDelete: "cascade",
       },
       groupId: {
         type: DataTypes.INTEGER,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
           model: "Group",
           key: "id",
         },
-        onDelete: 'cascade'
+        onDelete: "cascade",
       },
       name: {
         type: DataTypes.STRING(100),
@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       price: {
-        type: DataTypes.INTEGER(4, 2),
+        type: DataTypes.DECIMAL(4, 2),
         allowNull: false,
       },
       startDate: {
@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           isAfter: {
-            args: Sequelize.literal("CURRENT_TIMESTAMP"),
+            args: new Date().toISOString(),
             msg: "Start date must be in the future",
           },
         },
@@ -74,9 +74,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
         validate: {
-          isAfter: {
-            args: this.startDate,
-            msg: "End date is less than start date",
+          isAfterStart(value) {
+            if (new Date(value) <= new Date(this.startDate)) {
+              throw new Error("End date must be after the start date.");
+            }
           },
         },
       },
@@ -84,6 +85,29 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Event",
+      // defaultScope: {
+      //   attributes: {
+      //     exclude: ["createdAt", "updatedAt", "description", "capacity"],
+      //     include: [
+      //       "id",
+      //       [
+      //         Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),
+      //         "numAttending",
+      //       ],
+      //       [Sequelize.col("EventImages.url"), "previewImage"],
+      //     ],
+      //   },
+      //   include: [
+      //     {
+      //       model: Sequelize.model(Attendance),
+      //       attributes: [],
+      //     },
+      //     {
+      //       model: EventImage,
+      //       attributes: [],
+      //     },
+      //   ],
+      // },
     }
   );
   return Event;
