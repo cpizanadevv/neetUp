@@ -296,6 +296,8 @@ group.post("/", validateGroup, async (req, res) => {
       private: group.private,
       city: group.city,
       state: group.state,
+      createdAt: group.createdAt,
+      updatedAt: group.updatedAt
     };
     const status = "co-host";
     await Membership.create({
@@ -325,7 +327,7 @@ group.put("/:groupId", validateGroup, async (req, res) => {
     if (groupName) {
       return res.json({ message: "Group name already exists." });
     } else {
-      await group.update({
+      const updatedGroup = await group.update({
         name: name,
         about: about,
         type: type,
@@ -333,6 +335,7 @@ group.put("/:groupId", validateGroup, async (req, res) => {
         city: city,
         state: state,
       });
+      return res.json(updatedGroup)
     }
   } else {
     return res.json({ message: "User is not owner of this group" });

@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
           include: [
             "id",
             "updatedAt",
-            "createdAt",
+            "createdAt"
           ],
         }
     }
