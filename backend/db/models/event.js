@@ -61,17 +61,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       startDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATE(6),
         allowNull: false,
         validate: {
           isAfter: {
-            args: new Date().toISOString(),
+            args: new Date(),
             msg: "Start date must be in the future",
           },
         },
       },
       endDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATE(6),
         allowNull: false,
         validate: {
           isAfterStart(value) {
@@ -90,11 +90,11 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ["createdAt", "updatedAt", "description", "capacity"],
           include: [
             "id",
-            [
-              COUNT (sequelize.col("Attendances.id")),
-              "numAttending",
-            ],
-            [sequelize.col("EventImages.url"), "previewImage"],
+            // [
+            //   sequelize.fn("COUNT", sequelize.col("Attendances.id")),
+            //   "numAttending",
+            // ],
+            // [sequelize.col("EventImages.url"), "previewImage"],
           ]
         },
       },

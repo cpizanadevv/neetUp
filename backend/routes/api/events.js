@@ -14,6 +14,7 @@ const { handleValidationErrors } = require("../../utils/validation");
 
 const event = express.Router();
 
+// Validators
 const validateEvent = [
   check("name")
     .exists({ checkFalsy: true })
@@ -64,71 +65,109 @@ const validateParams = [
     .optional()
     .isIn(["Online", "In Person"])
     .withMessage("Type must be 'Online' or 'In Person'"),
-  check("startDate")
-    .optional()
-    .isDate()
-    .withMessage("Start date must be a valid datetime"),
   handleValidationErrors,
 ];
+
+function dateFormat(date) {
+  const tmp = new Date(date);
+  const year = tmp.getFullYear();
+  const month = String(tmp.getMonth() + 1).padStart(2, '0');
+  const day = String(tmp.getDate()).padStart(2, '0');
+  const hours = String(tmp.getHours()).padStart(2, '0');
+  const minutes = String(tmp.getMinutes()).padStart(2, '0');
+  const seconds = String(tmp.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 // ! Get all Events
-// ! The COUNT fn is breaking this
-  // Only shows 1 event
-event.get("/",  async (req, res) => {
-  // let { page, size, name, type, startDate } = req.query;
-  // let pagination = {};
-  // let where = {};
-  // if (name) {
-  //   where.name = name;
-  // }
-  // if (type) {
-  //   where.type = type;
-  // }
-  // if (startDate) {
-  //   where.startDate = startDate;
-  // }
+// ! Pagination is giving err
+event.get("/", validateParams, async (req, res) => {
+  let { page, size, name, type, startDate } = req.query;
+  let pagination = {};
+  let where = {};
+  
+  if (name) {
+    where.name = {
+      [Op.like]: `%${name}%`
+    };
+  }
+  if (type) {
+    where.type = type;
+  }
+  if (startDate) {
+    where.startDate = startDate
+  }
 
-  // page = parseInt(page);
-  // size = parseInt(size);
+  page = parseInt(page);
+  size = parseInt(size);
 
-  // if (isNaN(page) || page <= 0) {
-  //   page = 1;
-  // }
+  if (isNaN(page) || page <= 0) {
+    page = 1;
+  }
 
-  // if (isNaN(size) || size <= 0) {
-  //   size = 20;
-  // }
+  if (isNaN(size) || size <= 0) {
+    size = 20;
+  }
 
-  // pagination.limit = size;
-  // pagination.offset = size * (page - 1);
+  pagination.limit = size;
+  pagination.offset = size * (page - 1);
+
+  const eventIds = await Event.findAll({
+    attributes: ['id'],
+    where,
+    ...pagination,
+  });
+
+  const ids = eventIds.map(event => event.id);
+
+   if (ids.length === 0) {
+    return res.json({ Events: [] });
+  }
 
   const allEvents = await Event.findAll({
     attributes: {
       include: [
         "id",
-      ],
+        [Sequelize.fn("COUNT", Sequelize.col("Attendances.id")), "numAttending"],
+        [Sequelize.col("EventImages.url"), "previewImage"]
+      ]
     },
     include: [
       {
         model: Attendance,
-        attributes: [],
+        attributes: []
       },
       {
         model: EventImage,
-        attributes: [],
+        attributes: []
       },
       {
         model: Group,
-        attributes: ["id", "name", "city", "state"],
+        attributes: ["id", "name", "city", "state"]
       },
       {
         model: Venue,
-        attributes: ["id", "city", "state"],
-      },
+        attributes: ["id", "city", "state"]
+      }
     ],
-    // where,
-    // ...pagination
+    where: {
+      id: {
+        [Op.in]: ids
+      }
+    },
+    group: ['Event.id', 'Attendances.id', 'EventImages.id', 'Group.id', 'Venue.id'],
   });
-  return res.json({Events:allEvents});
+
+  const formattedEvents = allEvents.map(event => {
+    return {
+      ...event.get(),
+      startDate: dateFormat(event.startDate),
+      endDate: dateFormat(event.endDate)
+    };
+  });
+
+  return res.json({ Events: formattedEvents });
 });
 
 // * Get Event by ID
