@@ -17,6 +17,10 @@ const eventImages = express.Router();
 // * Delete an existing image for an Event
 eventImages.delete('/:imageId', async (req,res) => {
     const {user} = req;
+    if(!user){
+        return res.status(401).json({ message: "Authentication required" });
+      }
+    
     const imgId = req.params.imageId;
     const img = await EventImage.findByPk(imgId);
     if(!img){
@@ -27,12 +31,20 @@ eventImages.delete('/:imageId', async (req,res) => {
     const event = await Event.findByPk(eventId);
     const groupId = event.groupId;
     const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}});
+    if (!membership) {
+        return res
+          .status(404)
+          .json({ message: "Membership between the user and the group does not exist"
+        });
+      }
+    
     const status = membership.status;
     if(status === 'co-host'){
         img.destroy();
         return res.json({message:"Successfully deleted"})
     }else{
-        return res.status(400).json({message:"User is not co-host of this group"})
+        return res.status(403).json({ message: "Forbidden" });
+
     }
 })
 

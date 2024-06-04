@@ -99,8 +99,19 @@ module.exports = (sequelize, DataTypes) => {
           include: [
             "id",
             "updatedAt",
-            "createdAt"
+            "createdAt",
           ],
+          // include: [
+          //   {
+          //     model: Membership,
+          //     attributes: [],
+          //     where: {
+          //       status: {
+          //         [Op.or]: ["member", "co-host"],
+          //       },
+          //     }
+          //   },
+          // ]
         // include:[
         //   sequelize.fn("COUNT", sequelize.col("Attendances.id")),
         //   "numAttending",

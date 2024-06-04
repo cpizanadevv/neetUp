@@ -43,7 +43,8 @@ venue.put('/:venueId', async (req, res) => {
   const { user } = req;
   const userId = user.id;
   if(!user){
-    return res.status(400).json({ message: "No user is currently logged in." });
+    return res.status(401).json({ message: "Authentication required" });
+
   }
 
   const venueId = req.params.venueId;
@@ -56,7 +57,8 @@ venue.put('/:venueId', async (req, res) => {
   const groupId = venue.groupId;
   const membership = await Membership.findOne({where:{userId:userId, groupId:groupId}});
   if(!membership){
-    return res.status(400).json({ message: "User is not a member of this group" });
+    return res.status(403).json({ message: "Forbidden" });
+
   }
   const status = membership.status;
 
@@ -81,7 +83,7 @@ venue.put('/:venueId', async (req, res) => {
     return res.json({ event: newVenue });
 
   }else {
-    return res.status(404).json({ message: "User is not co-host of this group" });
+    return res.status(403).json({ message: "Forbidden" });
   }
 
 })
