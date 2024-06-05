@@ -250,7 +250,7 @@ event.put("/:eventId", validateEvent, async (req, res) => {
     capacity,
     price,
     startDate,
-    endDate
+    endDate,
   } = req.body;
   const { user } = req;
   if (!user) {
@@ -271,14 +271,13 @@ event.put("/:eventId", validateEvent, async (req, res) => {
     return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
-  const membership = await Membership.findOne({ where: {userId,groupId } });
+  const membership = await Membership.findOne({ where: { userId, groupId } });
   if (!membership) {
     return res.status(404).json({
       message: "Membership between the user and the group does not exist",
     });
   }
   const status = membership.status;
-
 
   // Must be co-host to update
   if (status === "co-host") {
@@ -337,7 +336,6 @@ event.delete("/:eventId", async (req, res) => {
 });
 
 // * Get all Attendees of an Event specified by its id
-// ! Needs formatting
 event.get("/:eventId/attendees", async (req, res) => {
   const { user } = req;
   const eventId = req.params.eventId;
@@ -358,22 +356,14 @@ event.get("/:eventId/attendees", async (req, res) => {
       where: {
         eventId: event.id,
       },
-      attributes: {
-        include: [
-          [Sequelize.col("User.id"), "id"],
-          [Sequelize.col("User.firstName"), "firstName"],
-          [Sequelize.col("User.lastName"), "lastName"],
-        ],
-        exclude: ["createdAt", "updatedAt", "eventId", "userId"],
-      },
+      attributes: ["status"],
       include: [
         {
           model: User,
-          attributes: [],
+          attributes: ["id", "firstName", "lastName"],
         },
       ],
     });
-    return res.json({ Attendees: attendees });
   } else {
     attendees = await Attendance.findAll({
       where: {
@@ -382,23 +372,25 @@ event.get("/:eventId/attendees", async (req, res) => {
           [Op.notIn]: ["pending"],
         },
       },
-      attributes: {
-        include: [
-          "status",
-          Sequelize.col("User.id"),
-          Sequelize.col("User.firstName"),
-          Sequelize.col("User.lastName"),
-        ],
-      },
+      attributes: ["status"],
       include: [
         {
           model: User,
-          attributes: [],
+          attributes: ["id", "firstName", "lastName"],
         },
       ],
     });
-    return res.json({ Attendees: attendees });
   }
+  const formatAttendees = attendees.map((attendance) => ({
+    id: attendance.User.id,
+    firstName: attendance.User.firstName,
+    lastName: attendance.User.lastName,
+    Attendance: {
+      status: attendance.status,
+    },
+  }));
+
+  return res.json({ Attendees: formatAttendees });
 });
 
 // * Request attendance for an event specified by id
@@ -415,11 +407,9 @@ event.post("/:eventId/attendance", async (req, res) => {
   }
   const membership = await Membership.findOne({ where: { userId: user.id } });
   if (!membership) {
-    return res
-      .status(404)
-      .json({
-        message: "Membership between the user and the group does not exist",
-      });
+    return res.status(404).json({
+      message: "Membership between the user and the group does not exist",
+    });
   }
   const attendance = await Attendance.findOne({
     where: { userId: user.id, eventId: eventId },
@@ -432,7 +422,7 @@ event.post("/:eventId/attendance", async (req, res) => {
       userId: userId,
       status: "pending",
     });
-    return res.json({userId:userId,status:attend.status});
+    return res.json({ userId: userId, status: attend.status });
   } else if (attendance.status === "pending") {
     return res
       .status(400)
@@ -448,7 +438,7 @@ event.post("/:eventId/attendance", async (req, res) => {
 
 event.put("/:eventId/attendance", async (req, res) => {
   const { user } = req;
-  if(!user){
+  if (!user) {
     return res.status(401).json({ message: "Authentication required" });
   }
 
@@ -488,7 +478,12 @@ event.put("/:eventId/attendance", async (req, res) => {
     const attend = await attendance.update({
       status: status,
     });
-    return res.json({id:attend.id,eventId:+eventId,userId:userId,status:attend.status});
+    return res.json({
+      id: attend.id,
+      eventId: +eventId,
+      userId: userId,
+      status: attend.status,
+    });
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -498,7 +493,7 @@ event.put("/:eventId/attendance", async (req, res) => {
 
 event.delete("/:eventId/attendance/:userId", async (req, res) => {
   const { user } = req;
-  if(!user){
+  if (!user) {
     return res.status(401).json({ message: "Authentication required" });
   }
 
@@ -536,9 +531,8 @@ event.delete("/:eventId/attendance/:userId", async (req, res) => {
   if (currUserStatus === "co-host" || currUser === userId) {
     await attendance.destroy();
     return res.json({ message: "Successfully deleted attendance from event" });
-  }else{
+  } else {
     return res.status(403).json({ message: "Forbidden" });
-
   }
 });
 
