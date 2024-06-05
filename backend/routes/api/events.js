@@ -217,13 +217,15 @@ event.post("/:eventId/images", validateImg, async (req, res) => {
     where: { userId: user.id, groupId: groupId },
   });
   if (!membership) {
-    return res.status(403).json({ message: "Forbidden" });
+    return res.status(404).json({
+      message: "Membership between the user and the group does not exist",
+    });
   }
   const status = membership.status;
 
   const isAttendee = await Attendance.findOne({ where: { userId: user.id } });
 
-  if (status === co - host || isAttendee === true) {
+  if (status === "co-host" || isAttendee === true) {
     const img = await EventImage.create({ groupId, url, preview });
 
     const newImg = {
@@ -248,12 +250,13 @@ event.put("/:eventId", validateEvent, async (req, res) => {
     capacity,
     price,
     startDate,
-    endDate,
+    endDate
   } = req.body;
   const { user } = req;
   if (!user) {
     return res.status(401).json({ message: "Authentication required" });
   }
+  const userId = user.id;
 
   const eventId = req.params.eventId;
   const event = await Event.findByPk(eventId);
@@ -262,20 +265,24 @@ event.put("/:eventId", validateEvent, async (req, res) => {
   }
 
   const groupId = event.groupId;
-  const venue = await Venue.findByPk(venueId);
-  const membership = await Membership.findOne({ where: { groupId: groupId } });
-  if (!membership) {
-    return res.status(403).json({ message: "Forbidden" });
-  }
-  const status = membership.status;
 
+  const venue = await Venue.findByPk(venueId);
   if (!venue) {
     return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
+  const membership = await Membership.findOne({ where: {userId,groupId } });
+  if (!membership) {
+    return res.status(404).json({
+      message: "Membership between the user and the group does not exist",
+    });
+  }
+  const status = membership.status;
+
+
   // Must be co-host to update
   if (status === "co-host") {
-    const updatedEvent = await Event.update({
+    const updatedEvent = await event.update({
       venueId: venueId,
       name: name,
       description: description,
@@ -291,10 +298,10 @@ event.put("/:eventId", validateEvent, async (req, res) => {
       groupId: updatedEvent.groupId,
       venueId: updatedEvent.venueId,
       name: updatedEvent.name,
-      description: updatedEvent.description,
       type: updatedEvent.type,
       capacity: updatedEvent.capacity,
       price: updatedEvent.price,
+      description: updatedEvent.description,
       startDate: updatedEvent.startDate,
       endDate: updatedEvent.endDate,
     };
@@ -323,7 +330,7 @@ event.delete("/:eventId", async (req, res) => {
   const status = member.status;
 
   if (status === "co-host") {
-    event.destroy();
+    await event.destroy();
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -420,11 +427,12 @@ event.post("/:eventId/attendance", async (req, res) => {
   const userId = user.id;
 
   if (!attendance) {
-    await Attendance.create({
+    const attend = await Attendance.create({
       eventId: eventId,
       userId: userId,
       status: "pending",
     });
+    return res.json({userId:userId,status:attend.status});
   } else if (attendance.status === "pending") {
     return res
       .status(400)
@@ -477,13 +485,12 @@ event.put("/:eventId/attendance", async (req, res) => {
   });
   const currUserStatus = currUserMembership.status;
   if (currUserStatus === "co-host") {
-    await attendance.update({
+    const attend = await attendance.update({
       status: status,
     });
-    return res.json({ attendance });
+    return res.json({id:attend.id,eventId:+eventId,userId:userId,status:attend.status});
   } else {
     return res.status(403).json({ message: "Forbidden" });
-
   }
 });
 
@@ -527,7 +534,7 @@ event.delete("/:eventId/attendance/:userId", async (req, res) => {
   }
   const currUserStatus = currUserMembership.status;
   if (currUserStatus === "co-host" || currUser === userId) {
-    attendance.destroy();
+    await attendance.destroy();
     return res.json({ message: "Successfully deleted attendance from event" });
   }else{
     return res.status(403).json({ message: "Forbidden" });
