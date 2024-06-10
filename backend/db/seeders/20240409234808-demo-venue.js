@@ -22,8 +22,6 @@ module.exports = {
       state: 'NY',
       lat: 40.73061,
       lng: -73.935242,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 3,
@@ -32,8 +30,6 @@ module.exports = {
       state: 'CA',
       lat: 37.774929,
       lng: -122.419416,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 3,
@@ -42,8 +38,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 4,
@@ -52,8 +46,6 @@ module.exports = {
       state: 'FL',
       lat: 28.538336,
       lng: -81.379234,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 4,
@@ -62,8 +54,6 @@ module.exports = {
       state: 'FL',
       lat: 28.538336,
       lng: -81.379234,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 4,
@@ -72,8 +62,6 @@ module.exports = {
       state: 'FL',
       lat: 28.538336,
       lng: -81.379234,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 8,
@@ -82,8 +70,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 8,
@@ -92,8 +78,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 8,
@@ -102,8 +86,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 11,
@@ -112,8 +94,6 @@ module.exports = {
       state: 'NY',
       lat: 40.712776,
       lng: -74.005974,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 11,
@@ -122,8 +102,6 @@ module.exports = {
       state: 'NY',
       lat: 40.712776,
       lng: -74.005974,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 11,
@@ -132,8 +110,6 @@ module.exports = {
       state: 'NY',
       lat: 40.712776,
       lng: -74.005974,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 13,
@@ -142,8 +118,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 13,
@@ -152,8 +126,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 13,
@@ -162,8 +134,6 @@ module.exports = {
       state: 'CA',
       lat: 34.052235,
       lng: -118.243683,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 16,
@@ -172,8 +142,6 @@ module.exports = {
       state: 'Tokyo',
       lat: 35.6895,
       lng: 139.6917,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 16,
@@ -182,8 +150,6 @@ module.exports = {
       state: 'Tokyo',
       lat: 35.6895,
       lng: 139.6917,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 16,
@@ -192,8 +158,6 @@ module.exports = {
       state: 'Tokyo',
       lat: 35.6895,
       lng: 139.6917,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 18,
@@ -202,8 +166,6 @@ module.exports = {
       state: 'Tokyo',
       lat: 35.6895,
       lng: 139.6917,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 18,
@@ -212,8 +174,6 @@ module.exports = {
       state: 'Tokyo',
       lat: 35.6895,
       lng: 139.6917,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     },
     {
       groupId: 18,
@@ -222,8 +182,6 @@ module.exports = {
       state: 'Tokyo',
       lat: 35.6895,
       lng: 139.6917,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     }
    ])
   },
