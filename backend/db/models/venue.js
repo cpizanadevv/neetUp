@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         references: {
           model: "Group",
-          foreignKey: "groupId",
+          key: "id",
         },
         onDelete: 'cascade'
       },
