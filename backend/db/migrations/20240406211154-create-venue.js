@@ -13,8 +13,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      groupId: {
-        type: Sequelize.INTEGER
+      groupId:  {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Groups',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       address: {
         type: Sequelize.STRING,
