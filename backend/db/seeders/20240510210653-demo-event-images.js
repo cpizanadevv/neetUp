@@ -888,6 +888,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("EventImages");
+    options.tableName = 'EventImages';
+    return queryInterface.bulkDelete(options);
   },
 };
