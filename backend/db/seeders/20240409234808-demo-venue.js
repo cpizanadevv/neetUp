@@ -183,7 +183,9 @@ module.exports = {
       lat: 35.6895,
       lng: 139.6917,
     }
-   ])
+   ], {
+    validate: true // Enable validations
+  })
   },
 
   async down (queryInterface, Sequelize) {
