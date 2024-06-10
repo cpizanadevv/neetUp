@@ -20,21 +20,6 @@ module.exports = {
     */
    await User.bulkCreate([
     {
-      email: 'demo@user.io',
-      username: 'Demo-lition',
-      hashedPassword: bcrypt.hashSync('password'),
-    },
-    {
-      email: 'user1@user.io',
-      username: 'FakeUser1',
-      hashedPassword: bcrypt.hashSync('password2'),
-    },
-    {
-      email: 'user2@user.io',
-      username: 'FakeUser2',
-      hashedPassword: bcrypt.hashSync('password3'),
-    },
-    {
       firstName: "Naruto",
       lastName: "Uzumaki",
       username: "BelieveItNaruto",
@@ -127,7 +112,7 @@ module.exports = {
       lastName: "Moon",
       username: "MoonPrincess",
       email: "moonprincess@example.com",
-      hashedPassword: bcrypt.hashSync('')
+      hashedPassword: bcrypt.hashSync('MoonLight00')
       
     },
     {
@@ -193,6 +178,146 @@ module.exports = {
       email: "deathnotelight@example.com",
       hashedPassword: bcrypt.hashSync('HeroicKnight88')
       
+    },
+    {
+      firstName: "Tanjiro",
+      lastName: "Kamado",
+      username: "DemonSlayerTanjiro",
+      email: "demonslayertanjiro@example.com",
+      hashedPassword: bcrypt.hashSync('HashiraLegend20')
+    },
+    {
+      firstName: "Nezuko",
+      lastName: "Kamado",
+      username: "DemonNezuko",
+      email: "demonnezuko@example.com",
+      hashedPassword: bcrypt.hashSync('BloodDemonArt7')
+    },
+    {
+      firstName: "Eren",
+      lastName: "Yeager",
+      username: "AttackTitanEren",
+      email: "attacktitaneren@example.com",
+      hashedPassword: bcrypt.hashSync('FoundingTitan35')
+    },
+    {
+      firstName: "Levi",
+      lastName: "Ackerman",
+      username: "CaptainLevi",
+      email: "captainlevi@example.com",
+      hashedPassword: bcrypt.hashSync('SurveyCorps10')
+    },
+    {
+      firstName: "Saitama",
+      lastName: "Hero",
+      username: "OnePunchManSaitama",
+      email: "onepunchmansaitama@example.com",
+      hashedPassword: bcrypt.hashSync('SeriousPunch99')
+    },
+    {
+      firstName: "Erza",
+      lastName: "Scarlet",
+      username: "TitaniaErza",
+      email: "titaniaerza@example.com",
+      hashedPassword: bcrypt.hashSync('RequipQueen18')
+    },
+    {
+      firstName: "Guts",
+      lastName: "Berserk",
+      username: "BlackSwordsmanGuts",
+      email: "blackswordsman@example.com",
+      hashedPassword: bcrypt.hashSync('BerserkerArmor52')
+    },
+    {
+      firstName: "Spike",
+      lastName: "Spiegel",
+      username: "CowboyBebopSpike",
+      email: "cowboybebopspike@example.com",
+      hashedPassword: bcrypt.hashSync('RedDragonSyndicate11')
+    },
+    {
+      firstName: "Yusuke",
+      lastName: "Urameshi",
+      username: "SpiritDetectiveYusuke",
+      email: "spiritdetective@example.com",
+      hashedPassword: bcrypt.hashSync('ReiGun20')
+    },
+    {
+      firstName: "Roy",
+      lastName: "Mustand",
+      username: "FlameAlchemist",
+      email: "flamealchemistroy@example.com",
+      hashedPassword: bcrypt.hashSync('mustache12')
+    },
+    {
+      firstName: "Alphonse",
+      lastName: "Elric",
+      username: "ArmorAlphonse",
+      email: "armoralphonse@example.com",
+      hashedPassword: bcrypt.hashSync('TransmutationCircle21')
+    },
+    {
+      firstName: "Kirito",
+      lastName: "Kirigaya",
+      username: "BlackSwordsmanKirito",
+      email: "blackswordkirito@example.com",
+      hashedPassword: bcrypt.hashSync('DualBlades42')
+    },
+    {
+      firstName: "Rintarou",
+      lastName: "Okabe",
+      username: "MadScientistRintarou",
+      email: "madscientist@example.com",
+      hashedPassword: bcrypt.hashSync('SteinsGate5')
+    },
+    {
+      firstName: "Holo",
+      lastName: "Wise",
+      username: "WiseWolfHolo",
+      email: "wiseholowolf@example.com",
+      hashedPassword: bcrypt.hashSync('SpiceAndWolf99')
+    },
+    {
+      firstName: "Tohru",
+      lastName: "Honda",
+      username: "FruitBasketTohru",
+      email: "fruitbaskettohru@example.com",
+      hashedPassword: bcrypt.hashSync('Zodiac12')
+    },
+    {
+      firstName: "Sebastian",
+      lastName: "Michaelis",
+      username: "BlackButlerSebastian",
+      email: "blackbutler@example.com",
+      hashedPassword: bcrypt.hashSync('DemonButler21')
+    },
+    {
+      firstName: "Kaneki",
+      lastName: "Ken",
+      username: "TokyoGhoulKaneki",
+      email: "tokyoghoul@example.com",
+      hashedPassword: bcrypt.hashSync('HalfGhoul77')
+    },
+    {
+      firstName: "Rem",
+      lastName: "Death",
+      username: "ShinigamiRem",
+      email: "shinigamirem@example.com",
+      hashedPassword: bcrypt.hashSync('DeathNote44')
+    },
+    {
+      firstName: "Inuyasha",
+      lastName: "Hanyo",
+      username: "HalfDemonInuyasha",
+      email: "halfdemoninuyasha@example.com",
+      hashedPassword: bcrypt.hashSync('Tetsusaiga66')
+    },
+    {
+      firstName: "Killua",
+      lastName: "Zoldyck",
+      username: "AssassinKillua",
+      email: "assassinkillua@example.com",
+      hashedPassword: bcrypt.hashSync('Godspeed45')
     }
    ], { validate: true });
   },

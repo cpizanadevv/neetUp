@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 const { Event } = require("../models");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -11,224 +11,654 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
-   await Event.bulkCreate([
-    
-    {
-      venueId:1,
-      groupId:3,
-      name: "Anime Picnic under the Cherry Blossoms",
-      description:
-        "Join fellow anime enthusiasts for a picturesque picnic under blooming cherry blossoms. Bring your favorite anime-themed snacks and enjoy cosplay contests, trivia, and screenings of popular anime films and episodes.",
-      type: "In Person",
-      capacity: 50,
-    price: 10,
-    startDate: new Date('2024-06-01T08:00:00'),
-    endDate: new Date('2024-06-01T18:00:00')
-    },
-    {
-      venueId:2,
-      groupId:7,
-      name: "Manga Book Club at Mt. Fuji Cafe",
-      description:
-        "Gather with fellow manga lovers at Mt. Fuji Cafe for lively discussions about your favorite manga series. Share recommendations, fan theories, and delve into the world of Japanese comics.",
-      type: "In Person",
-      capacity: 30,
-      price: 15,
-      startDate: new Date('2024-06-02T10:00:00'),
-      endDate: new Date('2024-06-02T16:00:00')
-    },
-    {
-      venueId:3,
-      groupId:1,
-      name: "Anime Karaoke Night at Sakura Lounge",
-      description:
-        "Sing your heart out to iconic anime theme songs and J-pop hits at Sakura Lounge's Anime Karaoke Night. Cosplay encouraged, and prizes await the best performances!",
-      type: "In Person",
-      capacity: 100,
-      price: 20,
-      startDate: new Date('2024-06-03T12:00:00'),
-      endDate: new Date('2024-06-03T20:00:00')
-    },
-    {
-      venueId:4,
-      groupId:4,
-      name: "Cosplay Parade in Central Park",
-      description:
-        "Join a vibrant parade of cosplayers through the scenic trails of Central Park. From classic characters to the latest anime trends, showcase your cosplay creativity!",
-      type: "In Person",
-      capacity: 80,
-      price: 25,
-      startDate: new Date('2024-06-04T09:00:00'),
-      endDate: new Date('2024-06-04T17:00:00')
-    },
-    {
-      venueId:null,
-      groupId:7,
-      name: "Anime Movie Marathon",
-      description:
-        "Embark on an epic anime movie marathon. Enjoy back-to-back screenings of classic and contemporary anime films, plus exclusive sneak peeks!",
-      type: "Online",
-      capacity: 70,
-      price: 0,
-      startDate: new Date('2024-06-05T11:00:00'),
-      endDate: new Date('2024-06-05T19:00:00')
-    },
-    {
-      venueId:null,
-      groupId:5,
-      name: "Anime Gaming Tournament",
-      description:
-        "Compete in thrilling anime gaming tournaments at Shinobi Arena. Test your skills in popular titles like Naruto Ultimate Ninja Storm and Dragon Ball FighterZ!",
-      type: "Online",
-      capacity: 60,
-      price: 35,
-      startDate: new Date('2024-06-06T13:00:00'),
-      endDate: new Date('2024-06-06T21:00:00')
-    },
-    {
-      venueId:5,
-      groupId:6,
-      name: "Anime Art Exhibit at Studio Ghibli Gallery",
-      description:
-        "Marvel at exquisite anime-inspired artwork at the Studio Ghibli Gallery's Anime Art Exhibit. Discover talented artists and immerse yourself in the beauty of anime aesthetics.",
-      type: "In Person",
-      capacity: 40,
-      price: 40,
-      startDate: new Date('2024-06-07T07:00:00'),
-      endDate: new Date('2024-06-07T15:00:00')
-    },
-    {
-      venueId:null,
-      groupId:2,
-      name: "Anime Trivia Night",
-      description:
-        "Test your anime knowledge at Anime Trivia Night. Compete against fellow fans for bragging rights and enjoy delicious ramen specials!",
-      type: "Online",
-      capacity: 90,
-      price: 0,
-      startDate: new Date('2024-06-08T14:00:00'),
-      endDate: new Date('2024-06-08T22:00:00')
-    },
-    {
-      venueId:6,
-      groupId:4,
-      name: "Anime Dance Party at Neon Dreams Club",
-      description:
-        "Dance the night away to electrifying anime EDM remixes at Neon Dreams Club's Anime Dance Party. Get your groove on with fellow otaku under the neon lights!",
-      type: "In Person",
-      capacity: 120,
-      price: 50,
-      startDate: new Date('2024-06-09T10:00:00'),
-      endDate: new Date('2024-06-09T18:00:00')
-    },
-    {
-      venueId:7,
-      groupId:1,
-      name: "Anime Figure Swap Meet at Akihabara Alley",
-      description:
-        "Trade, buy, and sell anime figures and merchandise at Akihabara Alley's Anime Figure Swap Meet. Discover rare collectibles and connect with fellow figure enthusiasts!",
-      type: "In Person",
-      capacity: 55,
-      price: 55,
-      startDate: new Date('2024-06-10T11:30:00'),
-      endDate: new Date('2024-06-10T19:30:00')
-    },
-    {
-      venueId:8,
-      groupId:8,
-      name: "Anime Cosplay Picnic at Cherry Blossom Park",
-      description:
-        "Celebrate the beauty of cosplay amidst blooming cherry blossoms at Cherry Blossom Park's Anime Cosplay Picnic. Bring your favorite characters to life in a picturesque setting!",
-      type: "In Person",
-      capacity: 85,
-      price: 20,
-      startDate: new Date('2024-06-11T12:45:00'),
-      endDate: new Date('2024-06-11T20:45:00')
-  
-    },
-    {
-      venueId:null,
-      groupId:5,
-      name: "Virtual Anime Watch Party: Attack on Titan Finale",
-      description:
-        "Experience the epic conclusion of Attack on Titan with fellow fans at our Virtual Anime Watch Party. Discuss theories, reactions, and bid farewell to this legendary series!",
-      type: "Online",
-      capacity: 65,
-      price: 0,
-      startDate: new Date('2024-06-12T08:15:00'),
-      endDate: new Date('2024-06-12T16:15:00')
-    },
-    {
-      venueId:9,
-      groupId:1,
-      name: "Anime Book Signing with Renowned Mangaka",
-      description:
-        "Meet and greet a legendary mangaka at our Anime Book Signing event. Get your favorite manga volumes signed and gain insight into the creative process behind iconic series!",
-      type: "In Person",
-      capacity: 75,
-      price: 0,
-      startDate: new Date('2024-06-13T09:30:00'),
-      endDate: new Date('2024-06-13T17:30:00')
-    },
-    {
-      venueId:null,
-      groupId:6,
-      name: "Anime Cooking Class: Ramen Master Edition",
-      description:
-        "Learn the art of crafting authentic ramen from an anime-inspired menu at our Anime Cooking Class. Impress your friends with homemade ramen worthy of a shonen hero!",
-      type: "Online",
-      capacity: 110,
-      price: 75,
-      startDate: new Date('2024-06-14T13:45:00'),
-      endDate: new Date('2024-06-14T21:45:00')
-    },
-    {
-      venueId:10,
-      groupId:4,
-      name: "Anime Yoga Session: Zen in the Spirit of Anime",
-      description:
-        "Find balance and harmony with an anime-themed yoga session. Connect mind, body, and spirit as we flow through poses inspired by iconic anime characters and settings!",
-      type: "In Person",
-      capacity: 95,
-      price: 0,
-      startDate: new Date('2024-06-15T15:00:00'),
-      endDate: new Date('2024-06-15T23:00:00')
-    },
-    {
-      venueId:11,
-      groupId:8,
-      name: "Anime Charity Cosplay Ball",
-      description:
-        "Dress to impress in your finest cosplay attire at our Anime Charity Cosplay Ball. Dance, mingle, and raise funds for a noble cause with fellow otaku philanthropists!",
-      type: "In Person",
-      capacity: 200,
-      price: 100,
-      startDate: new Date('2024-06-16T10:00:00'),
-      endDate: new Date('2024-06-16T18:00:00')
-    },
-    {
-      venueId:12,
-      groupId:3,
-      name: "Anime Crafting Workshop: DIY Plushie Party",
-      description:
-        "Unleash your creativity and craft adorable anime plushies at our DIY Plushie Party. Learn sewing techniques and bring your favorite anime characters to life!",
-      type: "In Person",
-      capacity: 70,
-      price: 35,
-      startDate: new Date('2024-06-17T12:00:00'),
-      endDate: new Date('2024-06-17T20:00:00')
-    }
-   ])
+     */
+    await Event.bulkCreate([
+      // Otaku Haven
+      {
+        venueId: null,
+        groupId: 1,
+        name: "Anime Discussion Night",
+        description:
+          "Join us online to discuss the latest anime series and episodes!",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-15T20:00:00"),
+        endDate: new Date("2024-06-15T22:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 1,
+        name: "Fan Art Showcase",
+        description:
+          "Show off your fan art and get feedback from fellow otakus.",
+        type: "Online",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-06-22T18:00:00"),
+        endDate: new Date("2024-06-22T20:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 1,
+        name: "Cosplay Tips and Tricks",
+        description:
+          "Learn cosplay tips and tricks from experienced cosplayers.",
+        type: "Online",
+        capacity: 40,
+        price: 5.0,
+        startDate: new Date("2024-06-29T17:00:00"),
+        endDate: new Date("2024-06-29T19:00:00"),
+      },
+      // Mecha Madness
+      {
+        venueId: null,
+        groupId: 2,
+        name: "Mecha Anime Watch Party",
+        description: "Watch and discuss classic mecha anime series.",
+        type: "Online",
+        capacity: 60,
+        price: 0.0,
+        startDate: new Date("2024-07-05T19:00:00"),
+        endDate: new Date("2024-07-05T23:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 2,
+        name: "Mecha Model Building",
+        description:
+          "Learn to build your own mecha models with step-by-step instructions.",
+        type: "Online",
+        capacity: 20,
+        price: 10.0,
+        startDate: new Date("2024-07-12T15:00:00"),
+        endDate: new Date("2024-07-12T18:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 2,
+        name: "Virtual Mecha Battle",
+        description: "Participate in a virtual mecha battle simulation.",
+        type: "Online",
+        capacity: 30,
+        price: 5.0,
+        startDate: new Date("2024-07-19T14:00:00"),
+        endDate: new Date("2024-07-19T17:00:00"),
+      },
+      // FanArts and Crafts
+      {
+        venueId: 1,
+        groupId: 3,
+        name: "Craft Fair and Exhibition",
+        description: "Showcase your handmade crafts and art.",
+        type: "In Person",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-06-20T10:00:00"),
+        endDate: new Date("2024-06-20T14:00:00"),
+      },
+      {
+        venueId: 2,
+        groupId: 3,
+        name: "Art Supplies Swap Meet",
+        description: "Exchange art supplies with other members.",
+        type: "In Person",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-06-27T13:00:00"),
+        endDate: new Date("2024-06-27T15:00:00"),
+      },
+      {
+        venueId: 3,
+        groupId: 3,
+        name: "DIY Anime Merchandise Workshop",
+        description: "Create your own anime merchandise.",
+        type: "In Person",
+        capacity: 20,
+        price: 15.0,
+        startDate: new Date("2024-07-04T11:00:00"),
+        endDate: new Date("2024-07-04T14:00:00"),
+      },
+      // Magical Girls United
+      {
+        venueId: 4,
+        groupId: 4,
+        name: "Magical Girl Transformation Class",
+        description: "Learn transformation sequences and poses.",
+        type: "In Person",
+        capacity: 25,
+        price: 10.0,
+        startDate: new Date("2024-06-21T15:00:00"),
+        endDate: new Date("2024-06-21T18:00:00"),
+      },
+      {
+        venueId: 5,
+        groupId: 4,
+        name: "Magical Girl Costume Contest",
+        description: "Compete in a magical girl costume contest.",
+        type: "In Person",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-28T14:00:00"),
+        endDate: new Date("2024-06-28T17:00:00"),
+      },
+      {
+        venueId: 6,
+        groupId: 4,
+        name: "Magical Girl Anime Marathon",
+        description: "Watch your favorite magical girl anime series.",
+        type: "In Person",
+        capacity: 60,
+        price: 0.0,
+        startDate: new Date("2024-07-05T12:00:00"),
+        endDate: new Date("2024-07-05T20:00:00"),
+      },
+
+      // Shonen Showdown Events
+      {
+        venueId: null,
+        groupId: 5,
+        name: "Shonen Anime Discussion",
+        description:
+          "Discuss the latest episodes of your favorite shonen anime.",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-23T18:00:00"),
+        endDate: new Date("2024-06-23T20:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 5,
+        name: "Shonen Anime Trivia Night",
+        description: "Test your knowledge of shonen anime in our trivia night.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-06-30T19:00:00"),
+        endDate: new Date("2024-06-30T21:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 5,
+        name: "Shonen Character Design Workshop",
+        description: "Learn to design your own shonen characters.",
+        type: "Online",
+        capacity: 30,
+        price: 10.0,
+        startDate: new Date("2024-07-07T15:00:00"),
+        endDate: new Date("2024-07-07T18:00:00"),
+      },
+
+      // Slice of Life Society Events
+      {
+        venueId: null,
+        groupId: 6,
+        name: "Slice of Life Anime Watch Party",
+        description: "Watch cozy slice of life anime with friends.",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-25T19:00:00"),
+        endDate: new Date("2024-06-25T21:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 6,
+        name: "Slice of Life Discussion",
+        description: "Discuss your favorite slice of life anime moments.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-07-02T18:00:00"),
+        endDate: new Date("2024-07-02T20:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 6,
+        name: "Cozy Cooking Night",
+        description:
+          "Cook simple and cozy meals inspired by slice of life anime.",
+        type: "Online",
+        capacity: 30,
+        price: 5.0,
+        startDate: new Date("2024-07-09T17:00:00"),
+        endDate: new Date("2024-07-09T19:00:00"),
+      },
+      // Dark Fantasy League
+      {
+        venueId: null,
+        groupId: 7,
+        name: "Dark Fantasy Anime Watch Party",
+        description: "Watch dark fantasy anime series together.",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-28T20:00:00"),
+        endDate: new Date("2024-06-28T23:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 7,
+        name: "Horror Manga Reading",
+        description: "Read and discuss horror manga in an online session.",
+        type: "Online",
+        capacity: 30,
+        price: 5.0,
+        startDate: new Date("2024-07-05T21:00:00"),
+        endDate: new Date("2024-07-05T23:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 7,
+        name: "Psychological Thriller Discussion",
+        description:
+          "Dive into psychological thrillers and discuss their themes.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-07-12T20:00:00"),
+        endDate: new Date("2024-07-12T22:00:00"),
+      },
+
+      // Cosplay Collective Events
+      {
+        venueId: 7,
+        groupId: 8,
+        name: "Cosplay Workshop",
+        description: "Learn the basics of cosplay crafting.",
+        type: "In Person",
+        capacity: 25,
+        price: 15.0,
+        startDate: new Date("2024-06-24T10:00:00"),
+        endDate: new Date("2024-06-24T13:00:00"),
+      },
+      {
+        venueId: 8,
+        groupId: 8,
+        name: "Cosplay Photoshoot",
+        description: "Join us for a cosplay photoshoot session.",
+        type: "In Person",
+        capacity: 20,
+        price: 10.0,
+        startDate: new Date("2024-07-01T14:00:00"),
+        endDate: new Date("2024-07-01T17:00:00"),
+      },
+      {
+        venueId: 9,
+        groupId: 8,
+        name: "Convention Prep Session",
+        description: "Get tips on how to prepare for anime conventions.",
+        type: "In Person",
+        capacity: 30,
+        price: 5.0,
+        startDate: new Date("2024-07-08T16:00:00"),
+        endDate: new Date("2024-07-08T18:00:00"),
+      },
+
+      // Anime Marathon Events
+      {
+        venueId: null,
+        groupId: 9,
+        name: "Shonen Anime Marathon",
+        description: "Binge-watch your favorite shonen anime with fellow fans.",
+        type: "Online",
+        capacity: 100,
+        price: 0.0,
+        startDate: new Date("2024-06-30T10:00:00"),
+        endDate: new Date("2024-06-30T22:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 9,
+        name: "Shojo Anime Marathon",
+        description: "Enjoy a day of shojo anime series and movies.",
+        type: "Online",
+        capacity: 100,
+        price: 0.0,
+        startDate: new Date("2024-07-07T10:00:00"),
+        endDate: new Date("2024-07-07T22:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 9,
+        name: "Anime OVA Marathon",
+        description: "Watch various anime OVAs together.",
+        type: "Online",
+        capacity: 100,
+        price: 0.0,
+        startDate: new Date("2024-07-14T10:00:00"),
+        endDate: new Date("2024-07-14T22:00:00"),
+      },
+
+      // Ghibli Fan Club Events
+      {
+        venueId: null,
+        groupId: 10,
+        name: "Ghibli Movie Night: Spirited Away",
+        description: "Watch and discuss Spirited Away.",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-26T20:00:00"),
+        endDate: new Date("2024-06-26T23:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 10,
+        name: "Ghibli Art Workshop",
+        description: "Create art inspired by Studio Ghibli films.",
+        type: "Online",
+        capacity: 30,
+        price: 10.0,
+        startDate: new Date("2024-07-03T15:00:00"),
+        endDate: new Date("2024-07-03T18:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 10,
+        name: "Ghibli Cosplay Contest",
+        description:
+          "Dress up as your favorite Ghibli characters and compete in a contest.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-07-10T18:00:00"),
+        endDate: new Date("2024-07-10T21:00:00"),
+      },
+      // Anime Fitness Squad Events
+      {
+        venueId: 10,
+        groupId: 11,
+        name: "Anime Workout Session",
+        description: "Get fit with workouts inspired by anime characters.",
+        type: "In Person",
+        capacity: 20,
+        price: 5.0,
+        startDate: new Date("2024-06-25T08:00:00"),
+        endDate: new Date("2024-06-25T09:30:00"),
+      },
+      {
+        venueId: 11,
+        groupId: 11,
+        name: "Yoga with Anime Music",
+        description: "Relax with a yoga session set to anime soundtracks.",
+        type: "In Person",
+        capacity: 25,
+        price: 10.0,
+        startDate: new Date("2024-07-02T10:00:00"),
+        endDate: new Date("2024-07-02T11:30:00"),
+      },
+      {
+        venueId: 12,
+        groupId: 11,
+        name: "Cosplay Run",
+        description:
+          "Participate in a fun run dressed as your favorite anime characters.",
+        type: "In Person",
+        capacity: 50,
+        price: 15.0,
+        startDate: new Date("2024-07-09T07:00:00"),
+        endDate: new Date("2024-07-09T09:00:00"),
+      },
+
+      // Seinen Society Events
+      {
+        venueId: null,
+        groupId: 12,
+        name: "Seinen Anime Discussion",
+        description:
+          "Discuss the themes and characters of seinen anime series.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-06-27T18:00:00"),
+        endDate: new Date("2024-06-27T20:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 12,
+        name: "Seinen Manga Reading Group",
+        description: "Read and discuss seinen manga.",
+        type: "Online",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-07-04T19:00:00"),
+        endDate: new Date("2024-07-04T21:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 12,
+        name: "Seinen Anime Watch Party",
+        description: "Watch mature and sophisticated anime series together.",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-07-11T20:00:00"),
+        endDate: new Date("2024-07-11T23:00:00"),
+      },
+
+      // Sports Anime Enthusiasts Events
+      {
+        venueId: 13,
+        groupId: 13,
+        name: "Sports Anime Watch Party",
+        description: "Watch and discuss your favorite sports anime.",
+        type: "In Person",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-24T15:00:00"),
+        endDate: new Date("2024-06-24T18:00:00"),
+      },
+      {
+        venueId: 14,
+        groupId: 13,
+        name: "Friendly Sports Competition",
+        description:
+          "Participate in a friendly sports competition inspired by anime.",
+        type: "In Person",
+        capacity: 40,
+        price: 5.0,
+        startDate: new Date("2024-07-01T10:00:00"),
+        endDate: new Date("2024-07-01T13:00:00"),
+      },
+      {
+        venueId: 15,
+        groupId: 13,
+        name: "Sports Anime Trivia Night",
+        description: "Test your knowledge of sports anime.",
+        type: "In Person",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-07-08T17:00:00"),
+        endDate: new Date("2024-07-08T19:00:00"),
+      },
+
+      // Historical Anime Group Events
+      {
+        venueId: null,
+        groupId: 14,
+        name: "Historical Anime Watch Party",
+        description: "Watch and discuss anime set in historical periods.",
+        type: "Online",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-06-23T16:00:00"),
+        endDate: new Date("2024-06-23T19:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 14,
+        name: "Historical Anime Discussion",
+        description: "Dive into the historical accuracy and themes of anime.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-06-30T18:00:00"),
+        endDate: new Date("2024-06-30T20:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 14,
+        name: "Historical Anime Film Screening",
+        description: "Enjoy a screening of classic historical anime movies.",
+        type: "Online",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-07-07T17:00:00"),
+        endDate: new Date("2024-07-07T20:00:00"),
+      },
+      // Fantasy Worlds Club Events
+      {
+        venueId: 16,
+        groupId: 15,
+        name: "Fantasy Anime Discussion",
+        description: "Discuss your favorite fantasy anime series and movies.",
+        type: "In Person",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-06-28T18:00:00"),
+        endDate: new Date("2024-06-28T20:00:00"),
+      },
+      {
+        venueId: 17,
+        groupId: 15,
+        name: "Fantasy Book Club",
+        description: "Read and discuss fantasy novels and manga.",
+        type: "In Person",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-07-05T19:00:00"),
+        endDate: new Date("2024-07-05T21:00:00"),
+      },
+      {
+        venueId: 18,
+        groupId: 15,
+        name: "Fantasy Anime Movie Marathon",
+        description: "Binge-watch fantasy anime movies with fellow fans.",
+        type: "In Person",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-07-12T12:00:00"),
+        endDate: new Date("2024-07-12T20:00:00"),
+      },
+
+      // Anime Cooking Club Events
+      {
+        venueId: 19,
+        groupId: 16,
+        name: "Anime Cooking Workshop: Ramen Edition",
+        description: "Learn to cook delicious ramen inspired by anime.",
+        type: "In Person",
+        capacity: 20,
+        price: 20.0,
+        startDate: new Date("2024-06-29T11:00:00"),
+        endDate: new Date("2024-06-29T14:00:00"),
+      },
+      {
+        venueId: 20,
+        groupId: 16,
+        name: "Anime Baking Class: Sweets Galore",
+        description: "Bake a variety of anime-inspired sweets and treats.",
+        type: "In Person",
+        capacity: 15,
+        price: 25.0,
+        startDate: new Date("2024-07-06T13:00:00"),
+        endDate: new Date("2024-07-06T16:00:00"),
+      },
+      {
+        venueId: 21,
+        groupId: 16,
+        name: "Anime Food Potluck",
+        description:
+          "Bring your favorite anime-inspired dish to share with the group.",
+        type: "In Person",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-07-13T12:00:00"),
+        endDate: new Date("2024-07-13T14:00:00"),
+      },
+
+      // Anime Book Club Events
+      {
+        venueId: null,
+        groupId: 17,
+        name: "Manga Reading Session",
+        description: "Read and discuss manga volumes together.",
+        type: "Online",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-06-25T17:00:00"),
+        endDate: new Date("2024-06-25T19:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 17,
+        name: "Light Novel Discussion",
+        description: "Discuss the latest light novel releases.",
+        type: "Online",
+        capacity: 20,
+        price: 0.0,
+        startDate: new Date("2024-07-02T18:00:00"),
+        endDate: new Date("2024-07-02T20:00:00"),
+      },
+      {
+        venueId: null,
+        groupId: 17,
+        name: "Anime Book Recommendations",
+        description:
+          "Share your favorite anime-related books and recommendations.",
+        type: "Online",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-07-09T19:00:00"),
+        endDate: new Date("2024-07-09T21:00:00"),
+      },
+
+      // Miyazaki Appreciation Society Events
+      {
+        venueId: 22,
+        groupId: 18,
+        name: "Ghibli Film Discussion: Princess Mononoke",
+        description: "Discuss the themes and messages of Princess Mononoke.",
+        type: "In Person",
+        capacity: 30,
+        price: 0.0,
+        startDate: new Date("2024-06-26T17:00:00"),
+        endDate: new Date("2024-06-26T19:00:00"),
+      },
+      {
+        venueId: 23,
+        groupId: 18,
+        name: "Ghibli Movie Marathon",
+        description: "Binge-watch Studio Ghibli movies all day!",
+        type: "In Person",
+        capacity: 50,
+        price: 0.0,
+        startDate: new Date("2024-07-03T10:00:00"),
+        endDate: new Date("2024-07-03T22:00:00"),
+      },
+      {
+        venueId: 24,
+        groupId: 18,
+        name: "Miyazaki Tribute Art Exhibition",
+        description: "View and appreciate art inspired by Hayao Miyazaki.",
+        type: "In Person",
+        capacity: 40,
+        price: 0.0,
+        startDate: new Date("2024-07-10T12:00:00"),
+        endDate: new Date("2024-07-10T16:00:00"),
+      }
+    ]);
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Events')
-  }
+    await queryInterface.bulkDelete("Events");
+  },
 };
