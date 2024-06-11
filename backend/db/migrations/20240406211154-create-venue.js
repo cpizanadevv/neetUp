@@ -4,7 +4,6 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-console.log('Schema in use:', options.schema);
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Venues', {
@@ -54,7 +53,6 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
-    console.log("Migration successful")
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Venues";
