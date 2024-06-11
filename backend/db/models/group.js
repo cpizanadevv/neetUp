@@ -95,22 +95,6 @@ module.exports = (sequelize, DataTypes) => {
             "updatedAt",
             "createdAt",
           ],
-          // include: [
-          //   {
-          //     model: Membership,
-          //     attributes: [],
-          //     where: {
-          //       status: {
-          //         [Op.or]: ["member", "co-host"],
-          //       },
-          //     }
-          //   },
-          // ]
-        // include:[
-        //   sequelize.fn("COUNT", sequelize.col("Attendances.id")),
-        //   "numAttending",
-        //   [sequelize.col("EventImages.url"), "previewImage"],
-        // ]
         }
     }
     }

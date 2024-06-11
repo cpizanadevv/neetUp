@@ -1,13 +1,12 @@
 'use strict';
 
-const {Venue} = require('../models');
+const { Venue } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-console.log('Seeding venues...');
 module.exports = {
   async up (queryInterface, Sequelize) {
    await Venue.bulkCreate([
@@ -179,9 +178,7 @@ module.exports = {
       lat: 35.6895,
       lng: 139.6917,
     }
-   ], {
-    validate: true // Enable validations
-  })
+   ], {validate: true})
   },
 
   async down (queryInterface, Sequelize) {
