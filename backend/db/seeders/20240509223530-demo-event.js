@@ -1,7 +1,10 @@
 "use strict";
+
 const { Event } = require("../models");
 /** @type {import('sequelize-cli').Migration} */
+
 let options = {};
+
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
@@ -18,8 +21,8 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price: 0,
-        startDate: new Date("2024-06-15T20:00:00"),
-        endDate: new Date("2024-06-15T22:00:00"),
+        startDate: new Date("2024-06-15 20:00:00"),
+        endDate: new Date("2024-06-15 22:00:00"),
       },
       {
         venueId: null,
@@ -30,8 +33,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price: 0,
-        startDate: new Date("2024-06-22T18:00:00"),
-        endDate: new Date("2024-06-22T20:00:00"),
+        startDate: new Date("2024-06-22 18:00:00"),
+        endDate: new Date("2024-06-22 20:00:00"),
       },
       {
         venueId: null,
@@ -43,7 +46,7 @@ module.exports = {
         capacity: 40,
         price: 5.00,
         startDate: new Date("2024-06-29T17:00:00"),
-        endDate: new Date("2024-06-29T19:00:00"),
+        endDate: new Date("2024-06-29 19:00:00"),
       },
       // Mecha Madness
       {
@@ -54,8 +57,8 @@ module.exports = {
         type: "Online",
         capacity: 60,
         price: 0,
-        startDate: new Date("2024-07-05T19:00:00"),
-        endDate: new Date("2024-07-05T23:00:00"),
+        startDate: new Date("2024-07-05 19:00:00"),
+        endDate: new Date("2024-07-05 23:00:00"),
       },
       {
         venueId: null,
@@ -66,8 +69,8 @@ module.exports = {
         type: "Online",
         capacity: 20,
         price: 10.00,
-        startDate: new Date("2024-07-12T15:00:00"),
-        endDate: new Date("2024-07-12T18:00:00"),
+        startDate: new Date("2024-07-12 15:00:00"),
+        endDate: new Date("2024-07-12 18:00:00"),
       },
       {
         venueId: null,
@@ -77,8 +80,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price: 5.00,
-        startDate: new Date("2024-07-19T14:00:00"),
-        endDate: new Date("2024-07-19T17:00:00"),
+        startDate: new Date("2024-07-19 14:00:00"),
+        endDate: new Date("2024-07-19 17:00:00"),
       },
       // FanArts and Crafts
       {
@@ -89,8 +92,8 @@ module.exports = {
         type: "In Person",
         capacity: 40,
         price: 0,
-        startDate: new Date("2024-06-20T10:00:00"),
-        endDate: new Date("2024-06-20T14:00:00"),
+        startDate: new Date("2024-06-20 10:00:00"),
+        endDate: new Date("2024-06-20 14:00:00"),
       },
       {
         venueId: 2,
@@ -100,8 +103,8 @@ module.exports = {
         type: "In Person",
         capacity: 30,
         price: 0,
-        startDate: new Date("2024-06-27T13:00:00"),
-        endDate: new Date("2024-06-27T15:00:00"),
+        startDate: new Date("2024-06-27 13:00:00"),
+        endDate: new Date("2024-06-27 15:00:00"),
       },
       {
         venueId: 3,
@@ -111,8 +114,8 @@ module.exports = {
         type: "In Person",
         capacity: 20,
         price: 15.00,
-        startDate: new Date("2024-07-04T11:00:00"),
-        endDate: new Date("2024-07-04T14:00:00"),
+        startDate: new Date("2024-07-04 11:00:00"),
+        endDate: new Date("2024-07-04 14:00:00"),
       },
       // Magical Girls United
       {
@@ -123,8 +126,8 @@ module.exports = {
         type: "In Person",
         capacity: 25,
         price: 10.00,
-        startDate: new Date("2024-06-21T15:00:00"),
-        endDate: new Date("2024-06-21T18:00:00"),
+        startDate: new Date("2024-06-21 15:00:00"),
+        endDate: new Date("2024-06-21 18:00:00"),
       },
       {
         venueId: 5,
@@ -134,8 +137,8 @@ module.exports = {
         type: "In Person",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-06-28T14:00:00"),
-        endDate: new Date("2024-06-28T17:00:00"),
+        startDate: new Date("2024-06-28 14:00:00"),
+        endDate: new Date("2024-06-28 17:00:00"),
       },
       {
         venueId: 6,
@@ -145,8 +148,8 @@ module.exports = {
         type: "In Person",
         capacity: 60,
         price:0,
-        startDate: new Date("2024-07-05T12:00:00"),
-        endDate: new Date("2024-07-05T20:00:00"),
+        startDate: new Date("2024-07-05 12:00:00"),
+        endDate: new Date("2024-07-05 20:00:00"),
       },
 
       // Shonen Showdown Events
@@ -159,8 +162,8 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-06-23T18:00:00"),
-        endDate: new Date("2024-06-23T20:00:00"),
+        startDate: new Date("2024-06-23 18:00:00"),
+        endDate: new Date("2024-06-23 20:00:00"),
       },
       {
         venueId: null,
@@ -170,8 +173,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price:0,
-        startDate: new Date("2024-06-30T19:00:00"),
-        endDate: new Date("2024-06-30T21:00:00"),
+        startDate: new Date("2024-06-30 19:00:00"),
+        endDate: new Date("2024-06-30 21:00:00"),
       },
       {
         venueId: null,
@@ -181,8 +184,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price: 10.00,
-        startDate: new Date("2024-07-07T15:00:00"),
-        endDate: new Date("2024-07-07T18:00:00"),
+        startDate: new Date("2024-07-07 15:00:00"),
+        endDate: new Date("2024-07-07 18:00:00"),
       },
 
       // Slice of Life Society Events
@@ -194,8 +197,8 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price: 0,
-        startDate: new Date("2024-06-25T19:00:00"),
-        endDate: new Date("2024-06-25T21:00:00"),
+        startDate: new Date("2024-06-25 19:00:00"),
+        endDate: new Date("2024-06-25 21:00:00"),
       },
       {
         venueId: null,
@@ -205,8 +208,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price: 0,
-        startDate: new Date("2024-07-02T18:00:00"),
-        endDate: new Date("2024-07-02T20:00:00"),
+        startDate: new Date("2024-07-02 18:00:00"),
+        endDate: new Date("2024-07-02 20:00:00"),
       },
       {
         venueId: null,
@@ -217,8 +220,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price: 5,
-        startDate: new Date("2024-07-09T17:00:00"),
-        endDate: new Date("2024-07-09T19:00:00"),
+        startDate: new Date("2024-07-09 17:00:00"),
+        endDate: new Date("2024-07-09 19:00:00"),
       },
       // Dark Fantasy League
       {
@@ -229,7 +232,7 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price: 0,
-        startDate: new Date("2024-06-28T20:00:00"),
+        startDate: new Date("2024-06-28 20:00:00"),
         endDate: new Date("2024-06-28T23:00:00"),
       },
       {
@@ -240,8 +243,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price: 5,
-        startDate: new Date("2024-07-05T21:00:00"),
-        endDate: new Date("2024-07-05T23:00:00"),
+        startDate: new Date("2024-07-05 21:00:00"),
+        endDate: new Date("2024-07-05 23:00:00"),
       },
       {
         venueId: null,
@@ -252,8 +255,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price: 0,
-        startDate: new Date("2024-07-12T20:00:00"),
-        endDate: new Date("2024-07-12T22:00:00"),
+        startDate: new Date("2024-07-12 20:00:00"),
+        endDate: new Date("2024-07-12 22:00:00"),
       },
 
       // Cosplay Collective Events
@@ -265,8 +268,8 @@ module.exports = {
         type: "In Person",
         capacity: 25,
         price: 15.00,
-        startDate: new Date("2024-06-24T10:00:00"),
-        endDate: new Date("2024-06-24T13:00:00"),
+        startDate: new Date("2024-06-24 10:00:00"),
+        endDate: new Date("2024-06-24 13:00:00"),
       },
       {
         venueId: 8,
@@ -276,8 +279,8 @@ module.exports = {
         type: "In Person",
         capacity: 20,
         price: 10.00,
-        startDate: new Date("2024-07-01T14:00:00"),
-        endDate: new Date("2024-07-01T17:00:00"),
+        startDate: new Date("2024-07-01 14:00:00"),
+        endDate: new Date("2024-07-01 17:00:00"),
       },
       {
         venueId: 9,
@@ -287,8 +290,8 @@ module.exports = {
         type: "In Person",
         capacity: 30,
         price: 5.00,
-        startDate: new Date("2024-07-08T16:00:00"),
-        endDate: new Date("2024-07-08T18:00:00"),
+        startDate: new Date("2024-07-08 16:00:00"),
+        endDate: new Date("2024-07-08 18:00:00"),
       },
 
       // Anime Marathon Events
@@ -300,8 +303,8 @@ module.exports = {
         type: "Online",
         capacity: 100,
         price: 0,
-        startDate: new Date("2024-06-30T10:00:00"),
-        endDate: new Date("2024-06-30T22:00:00"),
+        startDate: new Date("2024-06-30 10:00:00"),
+        endDate: new Date("2024-06-30 22:00:00"),
       },
       {
         venueId: null,
@@ -311,8 +314,8 @@ module.exports = {
         type: "Online",
         capacity: 100,
         price: 0,
-        startDate: new Date("2024-07-07T10:00:00"),
-        endDate: new Date("2024-07-07T22:00:00"),
+        startDate: new Date("2024-07-07 10:00:00"),
+        endDate: new Date("2024-07-07 22:00:00"),
       },
       {
         venueId: null,
@@ -322,8 +325,8 @@ module.exports = {
         type: "Online",
         capacity: 100,
         price:0,
-        startDate: new Date("2024-07-14T10:00:00"),
-        endDate: new Date("2024-07-14T22:00:00"),
+        startDate: new Date("2024-07-14 10:00:00"),
+        endDate: new Date("2024-07-14 22:00:00"),
       },
 
       // Ghibli Fan Club Events
@@ -335,8 +338,8 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-06-26T20:00:00"),
-        endDate: new Date("2024-06-26T23:00:00"),
+        startDate: new Date("2024-06-26 20:00:00"),
+        endDate: new Date("2024-06-26 23:00:00"),
       },
       {
         venueId: null,
@@ -346,8 +349,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price: 10.00,
-        startDate: new Date("2024-07-03T15:00:00"),
-        endDate: new Date("2024-07-03T18:00:00"),
+        startDate: new Date("2024-07-03 15:00:00"),
+        endDate: new Date("2024-07-03 18:00:00"),
       },
       {
         venueId: null,
@@ -358,8 +361,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price:0,
-        startDate: new Date("2024-07-10T18:00:00"),
-        endDate: new Date("2024-07-10T21:00:00"),
+        startDate: new Date("2024-07-10 18:00:00"),
+        endDate: new Date("2024-07-10 21:00:00"),
       },
       // Anime Fitness Squad Events
       {
@@ -370,8 +373,8 @@ module.exports = {
         type: "In Person",
         capacity: 20,
         price: 5.0,
-        startDate: new Date("2024-06-25T08:00:00"),
-        endDate: new Date("2024-06-25T09:30:00"),
+        startDate: new Date("2024-06-25 08:00:00"),
+        endDate: new Date("2024-06-25 09:30:00"),
       },
       {
         venueId: 11,
@@ -381,8 +384,8 @@ module.exports = {
         type: "In Person",
         capacity: 25,
         price: 10.0,
-        startDate: new Date("2024-07-02T10:00:00"),
-        endDate: new Date("2024-07-02T11:30:00"),
+        startDate: new Date("2024-07-02 10:00:00"),
+        endDate: new Date("2024-07-02 11:30:00"),
       },
       {
         venueId: 12,
@@ -393,8 +396,8 @@ module.exports = {
         type: "In Person",
         capacity: 50,
         price: 15.0,
-        startDate: new Date("2024-07-09T07:00:00"),
-        endDate: new Date("2024-07-09T09:00:00"),
+        startDate: new Date("2024-07-09 07:00:00"),
+        endDate: new Date("2024-07-09 09:00:00"),
       },
 
       // Seinen Society Events
@@ -407,8 +410,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price:0,
-        startDate: new Date("2024-06-27T18:00:00"),
-        endDate: new Date("2024-06-27T20:00:00"),
+        startDate: new Date("2024-06-27 18:00:00"),
+        endDate: new Date("2024-06-27 20:00:00"),
       },
       {
         venueId: null,
@@ -418,8 +421,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-07-04T19:00:00"),
-        endDate: new Date("2024-07-04T21:00:00"),
+        startDate: new Date("2024-07-04 19:00:00"),
+        endDate: new Date("2024-07-04 21:00:00"),
       },
       {
         venueId: null,
@@ -429,8 +432,8 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-07-11T20:00:00"),
-        endDate: new Date("2024-07-11T23:00:00"),
+        startDate: new Date("2024-07-11 20:00:00"),
+        endDate: new Date("2024-07-11 23:00:00"),
       },
 
       // Sports Anime Enthusiasts Events
@@ -442,8 +445,8 @@ module.exports = {
         type: "In Person",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-06-24T15:00:00"),
-        endDate: new Date("2024-06-24T18:00:00"),
+        startDate: new Date("2024-06-24 15:00:00"),
+        endDate: new Date("2024-06-24 18:00:00"),
       },
       {
         venueId: 14,
@@ -454,8 +457,8 @@ module.exports = {
         type: "In Person",
         capacity: 40,
         price: 5.0,
-        startDate: new Date("2024-07-01T10:00:00"),
-        endDate: new Date("2024-07-01T13:00:00"),
+        startDate: new Date("2024-07-01 10:00:00"),
+        endDate: new Date("2024-07-01 13:00:00"),
       },
       {
         venueId: 15,
@@ -465,8 +468,8 @@ module.exports = {
         type: "In Person",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-07-08T17:00:00"),
-        endDate: new Date("2024-07-08T19:00:00"),
+        startDate: new Date("2024-07-08 17:00:00"),
+        endDate: new Date("2024-07-08 19:00:00"),
       },
 
       // Historical Anime Group Events
@@ -478,8 +481,8 @@ module.exports = {
         type: "Online",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-06-23T16:00:00"),
-        endDate: new Date("2024-06-23T19:00:00"),
+        startDate: new Date("2024-06-23 16:00:00"),
+        endDate: new Date("2024-06-23 19:00:00"),
       },
       {
         venueId: null,
@@ -489,8 +492,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price:0,
-        startDate: new Date("2024-06-30T18:00:00"),
-        endDate: new Date("2024-06-30T20:00:00"),
+        startDate: new Date("2024-06-30 18:00:00"),
+        endDate: new Date("2024-06-30 20:00:00"),
       },
       {
         venueId: null,
@@ -500,8 +503,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-07-07T17:00:00"),
-        endDate: new Date("2024-07-07T20:00:00"),
+        startDate: new Date("2024-07-07 17:00:00"),
+        endDate: new Date("2024-07-07 20:00:00"),
       },
       // Fantasy Worlds Club Events
       {
@@ -513,7 +516,7 @@ module.exports = {
         capacity: 40,
         price:0,
         startDate: new Date("2024-06-28T18:00:00"),
-        endDate: new Date("2024-06-28T20:00:00"),
+        endDate: new Date("2024-06-28 20:00:00"),
       },
       {
         venueId: 17,
@@ -523,8 +526,8 @@ module.exports = {
         type: "In Person",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-07-05T19:00:00"),
-        endDate: new Date("2024-07-05T21:00:00"),
+        startDate: new Date("2024-07-05 19:00:00"),
+        endDate: new Date("2024-07-05 21:00:00"),
       },
       {
         venueId: 18,
@@ -534,8 +537,8 @@ module.exports = {
         type: "In Person",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-07-12T12:00:00"),
-        endDate: new Date("2024-07-12T20:00:00"),
+        startDate: new Date("2024-07-12 12:00:00"),
+        endDate: new Date("2024-07-12 20:00:00"),
       },
 
       // Anime Cooking Club Events
@@ -547,8 +550,8 @@ module.exports = {
         type: "In Person",
         capacity: 20,
         price: 20.0,
-        startDate: new Date("2024-06-29T11:00:00"),
-        endDate: new Date("2024-06-29T14:00:00"),
+        startDate: new Date("2024-06-29 11:00:00"),
+        endDate: new Date("2024-06-29 14:00:00"),
       },
       {
         venueId: 20,
@@ -558,8 +561,8 @@ module.exports = {
         type: "In Person",
         capacity: 15,
         price: 25.0,
-        startDate: new Date("2024-07-06T13:00:00"),
-        endDate: new Date("2024-07-06T16:00:00"),
+        startDate: new Date("2024-07-06 13:00:00"),
+        endDate: new Date("2024-07-06 16:00:00"),
       },
       {
         venueId: 21,
@@ -570,8 +573,8 @@ module.exports = {
         type: "In Person",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-07-13T12:00:00"),
-        endDate: new Date("2024-07-13T14:00:00"),
+        startDate: new Date("2024-07-13 12:00:00"),
+        endDate: new Date("2024-07-13 14:00:00"),
       },
 
       // Anime Book Club Events
@@ -583,8 +586,8 @@ module.exports = {
         type: "Online",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-06-25T17:00:00"),
-        endDate: new Date("2024-06-25T19:00:00"),
+        startDate: new Date("2024-06-25 17:00:00"),
+        endDate: new Date("2024-06-25 19:00:00"),
       },
       {
         venueId: null,
@@ -594,8 +597,8 @@ module.exports = {
         type: "Online",
         capacity: 20,
         price:0,
-        startDate: new Date("2024-07-02T18:00:00"),
-        endDate: new Date("2024-07-02T20:00:00"),
+        startDate: new Date("2024-07-02 18:00:00"),
+        endDate: new Date("2024-07-02 20:00:00"),
       },
       {
         venueId: null,
@@ -606,8 +609,8 @@ module.exports = {
         type: "Online",
         capacity: 40,
         price:0,
-        startDate: new Date("2024-07-09T19:00:00"),
-        endDate: new Date("2024-07-09T21:00:00"),
+        startDate: new Date("2024-07-09 19:00:00"),
+        endDate: new Date("2024-07-09 21:00:00"),
       },
 
       // Miyazaki Appreciation Society Events
@@ -619,8 +622,8 @@ module.exports = {
         type: "In Person",
         capacity: 30,
         price:0,
-        startDate: new Date("2024-06-26T17:00:00"),
-        endDate: new Date("2024-06-26T19:00:00"),
+        startDate: new Date("2024-06-26 17:00:00"),
+        endDate: new Date("2024-06-26 19:00:00"),
       },
       {
         venueId: 23,
@@ -630,8 +633,8 @@ module.exports = {
         type: "In Person",
         capacity: 50,
         price:0,
-        startDate: new Date("2024-07-03T10:00:00"),
-        endDate: new Date("2024-07-03T22:00:00"),
+        startDate: new Date("2024-07-03 10:00:00"),
+        endDate: new Date("2024-07-03 22:00:00"),
       },
       {
         venueId: 24,
@@ -641,8 +644,8 @@ module.exports = {
         type: "In Person",
         capacity: 40,
         price:0,
-        startDate: new Date("2024-07-10T12:00:00"),
-        endDate: new Date("2024-07-10T16:00:00"),
+        startDate: new Date("2024-07-10 12:00:00"),
+        endDate: new Date("2024-07-10 16:00:00"),
       }
     ], {validate: true});
   },

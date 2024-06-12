@@ -1,5 +1,5 @@
 "use strict";
-const { Model, Sequelize } = require("sequelize");
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**
@@ -76,12 +76,7 @@ module.exports = (sequelize, DataTypes) => {
         attributes: {
           exclude: ["createdAt", "updatedAt", "description", "capacity"],
           include: [
-            "id",
-            // [
-            //   sequelize.fn("COUNT", sequelize.col("Attendances.id")),
-            //   "numAttending",
-            // ],
-            // [sequelize.col("EventImages.url"), "previewImage"],
+            "id"
           ]
         },
       },
