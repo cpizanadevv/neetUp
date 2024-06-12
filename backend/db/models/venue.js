@@ -18,11 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       groupId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "Group",
-          key: "id",
-        },
-        onDelete: 'cascade'
       },
       address: {
         type: DataTypes.STRING,

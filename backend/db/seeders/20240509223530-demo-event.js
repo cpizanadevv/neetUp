@@ -5,7 +5,6 @@ const { Event } = require("../models");
 
 let options = {};
 
-console.log(`Using process.env.NODE_ENV: ${process.env.NODE_ENV}`);
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
