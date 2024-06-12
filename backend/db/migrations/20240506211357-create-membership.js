@@ -19,7 +19,7 @@ module.exports = {
         references: {
           model: 'Users'
         },
-        onDelete: 'cascade'
+        onDelete: 'CASCADE'
       },
       groupId: {
         type: Sequelize.INTEGER,
@@ -27,7 +27,7 @@ module.exports = {
         references: {
           model: 'Groups'
         },
-        onDelete: 'cascade'
+        onDelete: 'CASCADE'
       },
       status: {
         type: Sequelize.ENUM('co-host','member','pending'),

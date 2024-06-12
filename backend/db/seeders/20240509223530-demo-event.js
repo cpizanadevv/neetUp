@@ -508,7 +508,7 @@ module.exports = {
       },
       // Fantasy Worlds Club Events
       {
-        venueId: 16,
+        venueId: null,
         groupId: 15,
         name: "Fantasy Anime Discussion",
         description: "Discuss your favorite fantasy anime series and movies.",
@@ -519,7 +519,7 @@ module.exports = {
         endDate: new Date("2024-06-28T20:00:00"),
       },
       {
-        venueId: 17,
+        venueId: null,
         groupId: 15,
         name: "Fantasy Book Club",
         description: "Read and discuss fantasy novels and manga.",
@@ -530,7 +530,7 @@ module.exports = {
         endDate: new Date("2024-07-05T21:00:00"),
       },
       {
-        venueId: 18,
+        venueId: null,
         groupId: 15,
         name: "Fantasy Anime Movie Marathon",
         description: "Binge-watch fantasy anime movies with fellow fans.",
@@ -543,7 +543,7 @@ module.exports = {
 
       // Anime Cooking Club Events
       {
-        venueId: 19,
+        venueId: 16,
         groupId: 16,
         name: "Anime Cooking Workshop: Ramen Edition",
         description: "Learn to cook delicious ramen inspired by anime.",
@@ -554,7 +554,7 @@ module.exports = {
         endDate: new Date("2024-06-29T14:00:00"),
       },
       {
-        venueId: 20,
+        venueId: 17,
         groupId: 16,
         name: "Anime Baking Class: Sweets Galore",
         description: "Bake a variety of anime-inspired sweets and treats.",
@@ -565,7 +565,7 @@ module.exports = {
         endDate: new Date("2024-07-06T16:00:00"),
       },
       {
-        venueId: 21,
+        venueId: 18,
         groupId: 16,
         name: "Anime Food Potluck",
         description:
@@ -615,7 +615,7 @@ module.exports = {
 
       // Miyazaki Appreciation Society Events
       {
-        venueId: 22,
+        venueId: 19,
         groupId: 18,
         name: "Ghibli Film Discussion: Princess Mononoke",
         description: "Discuss the themes and messages of Princess Mononoke.",
@@ -626,7 +626,7 @@ module.exports = {
         endDate: new Date("2024-06-26T19:00:00"),
       },
       {
-        venueId: 23,
+        venueId: 20,
         groupId: 18,
         name: "Ghibli Movie Marathon",
         description: "Binge-watch Studio Ghibli movies all day!",
@@ -637,7 +637,7 @@ module.exports = {
         endDate: new Date("2024-07-03T22:00:00"),
       },
       {
-        venueId: 24,
+        venueId: 21,
         groupId: 18,
         name: "Miyazaki Tribute Art Exhibition",
         description: "View and appreciate art inspired by Hayao Miyazaki.",

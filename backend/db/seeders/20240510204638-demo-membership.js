@@ -105,8 +105,8 @@ module.exports = {
 
       // Memberships for "Miyazaki Appreciation Society"
       { userId: 33, groupId: 18, status: "co-host" },
-      { userId: 41, groupId: 18, status: "member" },
-      { userId: 42, groupId: 18, status: "pending" }
+      { userId: 4, groupId: 18, status: "member" },
+      { userId: 2, groupId: 18, status: "pending" }
     ]);
   },
 
@@ -117,7 +117,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'Membership';
+    options.tableName = 'Memberships';
     return queryInterface.bulkDelete(options);
   },
 };
