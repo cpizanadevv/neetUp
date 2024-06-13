@@ -20,6 +20,10 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "Users"
+        },
+        onDelete:"CASCADE"
       },
       status: {
         type: Sequelize.ENUM('attending', 'waitlist','pending'),
