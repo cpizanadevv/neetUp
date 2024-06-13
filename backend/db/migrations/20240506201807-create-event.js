@@ -16,10 +16,6 @@ module.exports = {
       venueId: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        references: {
-          model: "Venues"
-        },
-        onDelete:"CASCADE"
       },
       groupId: {
         type: Sequelize.INTEGER,
