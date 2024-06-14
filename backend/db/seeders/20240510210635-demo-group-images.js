@@ -323,7 +323,7 @@ module.exports = {
         url: "https://example.com/images/miyazaki-society-3.jpg",
         preview: false,
       },
-    ]);
+    ], { validate: true });
   },
 
   async down(queryInterface, Sequelize) {

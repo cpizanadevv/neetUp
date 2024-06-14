@@ -107,7 +107,7 @@ module.exports = {
       { userId: 33, groupId: 18, status: "co-host" },
       { userId: 4, groupId: 18, status: "member" },
       { userId: 2, groupId: 18, status: "pending" }
-    ]);
+    ], { validate: true });
   },
 
   async down(queryInterface, Sequelize) {

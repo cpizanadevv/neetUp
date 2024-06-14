@@ -198,7 +198,7 @@ module.exports = {
       { eventId: 54, userId: 28, status: "attending" },
       { eventId: 54, userId: 31, status: "waitlist" },
       { eventId: 54, userId: 32, status: "pending" },
-    ]);
+    ], { validate: true });
   },
 
   async down(queryInterface, Sequelize) {

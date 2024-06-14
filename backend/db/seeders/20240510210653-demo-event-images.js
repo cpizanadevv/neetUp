@@ -882,7 +882,7 @@ module.exports = {
         url: "https://example.com/miyazaki-tribute-art-exhibition-image3.jpg",
         preview: false,
       },
-    ]);
+    ], { validate: true });
   },
 
   async down(queryInterface, Sequelize) {

@@ -152,7 +152,7 @@ module.exports = {
         city: 'Portland',
         state: 'OR',
       },
-    ]);
+    ], { validate: true });
   },
 
   async down(queryInterface, Sequelize) {
