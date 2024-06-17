@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       city: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
           min: 2,
           max: 20,

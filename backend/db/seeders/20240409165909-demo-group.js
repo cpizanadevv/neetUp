@@ -130,7 +130,7 @@ module.exports = {
       {
         organizerId: 31,
         name: 'Anime Cooking Club',
-        about: 'Anime Cooking Club brings the delicious food from anime to life! Join us for cooking sessions where we recreate iconic dishes from your favorite shows. Whether you’re a seasoned chef or a kitchen newbie, come cook with us!',
+        about: "Anime Cooking Club brings the delicious food from anime to life! Join us for cooking sessions where we recreate iconic dishes from your favorite shows. Whether you're a seasoned chef or a kitchen newbie, come cook with us!",
         type: 'In Person',
         private: false,
         city: 'Seattle',
