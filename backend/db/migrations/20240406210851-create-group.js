@@ -6,6 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
+    options.tableName = "Groups";
     await queryInterface.createTable('Groups', {
       id: {
         allowNull: false,
@@ -58,7 +59,6 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Groups";
     return queryInterface.dropTable(options);
   }
 };

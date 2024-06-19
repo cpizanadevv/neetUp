@@ -6,6 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
+    options.tableName = "Users";
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
@@ -47,7 +48,6 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
     return queryInterface.dropTable(options);
   }
 };
