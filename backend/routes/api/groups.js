@@ -375,6 +375,13 @@ group.put("/:groupId", validateGroup, async (req, res) => {
     return res.json({ message: "Group name already exists." });
   }
 
+  if(!name) name = group.name;
+  if(!about) about = group.about;
+  if(!type) type = group.type;
+  if(!private) private = group.private;
+  if(!city) city = group.city;
+  if(!state) state = group.state;
+
   const updatedGroup = await group.update({
     name,
     about,

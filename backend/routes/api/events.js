@@ -279,6 +279,14 @@ event.put("/:eventId", validateEvent, async (req, res) => {
   }
   const status = membership.status;
 
+  if(!name) name = event.name;
+  if(!description) description = event.description;
+  if(!type) type = event.type;
+  if(!capacity) capacity = event.capacity;
+  if(!price) price = event.price;
+  if(!startDate) startDate = event.startDate;
+  if(!endDate) endDate = event.endDate;
+
   // Must be co-host to update
   if (status === "co-host") {
     const updatedEvent = await event.update({
@@ -449,7 +457,6 @@ event.put("/:eventId/attendance", async (req, res) => {
   if (!userExists) {
     res.status(404).json({ message: "User couldn't be found" });
   }
-
   const event = await Event.findByPk(eventId);
   if (!event) {
     res.status(404).json({ message: "Event couldn't be found" });
@@ -474,6 +481,9 @@ event.put("/:eventId/attendance", async (req, res) => {
     where: { userId: currUser, groupId: groupId },
   });
   const currUserStatus = currUserMembership.status;
+
+
+
   if (currUserStatus === "co-host") {
     const attend = await attendance.update({
       status: status,

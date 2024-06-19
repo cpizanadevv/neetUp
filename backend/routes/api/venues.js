@@ -39,7 +39,7 @@ const validateVenue = [
 ];
 
 // * Edit Venue
-venue.put('/:venueId', async (req, res) => {
+venue.put('/:venueId',validateVenue, async (req, res) => {
   const { user } = req;
   const userId = user.id;
   if(!user){
@@ -61,6 +61,12 @@ venue.put('/:venueId', async (req, res) => {
 
   }
   const status = membership.status;
+
+  if(!address) address = venue.address;
+  if(!city) city = venue.city;
+  if(!state) state = venue.state;
+  if(!lat) lat = venue.lat;
+  if(!lng) lng = venue.lng;
 
   if(status === 'co-host'){
     const updatedVenue = await venue.update({
