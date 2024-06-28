@@ -352,9 +352,6 @@ group.put("/:groupId", requireAuth, validateGroup, async (req, res) => {
   const { user } = req;
   const groupId = req.params.groupId;
   let { name, about, type, private, city, state } = req.body;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
   const group = await Group.findByPk(groupId);
 
   if (!group) {
@@ -466,7 +463,7 @@ group.get("/:groupId/venues", requireAuth, async (req, res) => {
   return res.json(venuesOfGroup);
 });
 
-// * Create newVenue for Group by ID
+// * Create new Venue for Group by ID
 group.post("/:groupId/venues", requireAuth, validateVenue, async (req, res) => {
   const { address, city, state, lat, lng } = req.body;
   const { user } = req;
