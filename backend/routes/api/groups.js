@@ -1,5 +1,5 @@
 const express = require("express");
-const { Op, Sequelize } = require("sequelize");
+const { Op, Sequelize, where } = require("sequelize");
 const {
   Attendance,
   EventImage,
@@ -30,7 +30,7 @@ const validateGroup = [
     .withMessage("About must be 50 characters or more."),
   check("type")
     .exists({ checkFalsy: true })
-    .isIn(["In Person", "Online"])
+    .isIn(["In Person", "Online",'In person'])
     .withMessage("Type must be 'Online' or 'In Person'."),
   check("private").isBoolean().withMessage("Private must be a boolean value."),
   check("city")
@@ -96,7 +96,7 @@ const validateEvent = [
     .withMessage("Description is required"),
   check("type")
     .exists({ checkFalsy: true })
-    .isIn(["Online", "In Person"])
+    .isIn(["Online", "In Person",'In person'])
     .withMessage("Type must be 'Online' or 'In Person'."),
   check("capacity")
     .exists({ checkFalsy: true })
@@ -315,7 +315,7 @@ group.post("/", requireAuth, validateGroup, async (req, res) => {
   if (groupName) {
     return res.status(400).json({ message: "Group name already exists." });
   }
-  
+
   const group = await Group.create({
     organizerId,
     name,
@@ -437,9 +437,7 @@ group.post("/:groupId/images", requireAuth, validateImg, async (req, res) => {
 // * Returns all Venues for Group by ID
 group.get("/:groupId/venues", requireAuth, async (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
+  
   const groupId = req.params.groupId;
   const group = await Group.findByPk(groupId);
   if (!group) {
@@ -447,8 +445,9 @@ group.get("/:groupId/venues", requireAuth, async (req, res) => {
   }
 
   const organizerId = group.organizerId;
+  const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}})
 
-  if (user.id !== organizerId) {
+  if (membership.status !== 'co-host') {
     return res.status(403).json({ message: "Forbidden" });
   }
 
@@ -496,7 +495,7 @@ group.post("/:groupId/venues", requireAuth, validateVenue, async (req, res) => {
       lat: venue.lat,
       lng: venue.lng,
     };
-    return res.json({ venue: newVenue });
+    return res.json(newVenue);
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -608,7 +607,7 @@ group.post("/:groupId/events", requireAuth, validateEvent, async (req, res) => {
       endDate: event.endDate,
     };
 
-    return res.json({ event: newEvent });
+    return res.json(newEvent);
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -670,9 +669,6 @@ group.get("/:groupId/members", async (req, res) => {
 //* Request Membership to group by its ID
 group.post("/:groupId/membership", requireAuth, async (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
 
   const groupId = req.params.groupId;
   const group = await Group.findByPk(groupId);
@@ -683,20 +679,21 @@ group.post("/:groupId/membership", requireAuth, async (req, res) => {
   const membership = await Membership.findOne({
     where: { userId: user.id, groupId: groupId },
   });
-  const currStatus = membership.status;
 
-  if (membership && currStatus === "pending") {
-    return res
-      .status(400)
-      .json({ message: "Membership has already been requested" });
+  if (membership) {
+    if (membership.status === "pending") {
+      return res
+        .status(400)
+        .json({ message: "Membership has already been requested" });
+    } else if (
+      membership.status === "member" ||
+      membership.status === "co-host"
+    ) {
+      return res
+        .status(400)
+        .json({ message: "User is already a member of the group" });
+    }
   }
-
-  if ((membership && currStatus === "member") || currStatus === "co-host") {
-    return res
-      .status(400)
-      .json({ message: "User is already a member of the group" });
-  }
-
   const status = "pending";
   await Membership.create({
     userId: user.id,

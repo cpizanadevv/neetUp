@@ -27,7 +27,7 @@ const validateEvent = [
     .withMessage("Description is required"),
   check("type")
     .exists({ checkFalsy: true })
-    .isIn(["Online", "In Person"])
+    .isIn(["Online", "In Person",'In person'])
     .withMessage("Type must be 'Online' or 'In Person'."),
   check("capacity")
     .exists({ checkFalsy: true })
@@ -235,7 +235,7 @@ event.post("/:eventId/images",requireAuth, validateImg, async (req, res) => {
       url: img.url,
       preview: img.preview,
     };
-    return res.json({ img: newImg });
+    return res.json(newImg);
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -314,7 +314,7 @@ event.put("/:eventId",requireAuth, validateEvent, async (req, res) => {
       endDate: updatedEvent.endDate,
     };
 
-    return res.json({ event: newEvent });
+    return res.json(newEvent);
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -324,9 +324,7 @@ event.put("/:eventId",requireAuth, validateEvent, async (req, res) => {
 event.delete("/:eventId",requireAuth, async (req, res) => {
   const { user } = req;
 
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
+  
   const eventId = req.params.eventId;
   const event = await Event.findByPk(eventId);
   if (!event) {
