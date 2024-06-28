@@ -11,6 +11,7 @@ const {
 } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { requireAuth } = require("../../utils/auth");
 
 const event = express.Router();
 
@@ -53,23 +54,23 @@ const validateImg = [
   handleValidationErrors,
 ];
 
-const validateParams = [
-  check("page")
-    .isInt({ min: 1 })
-    .withMessage("Page must be greater than or equal to 1"),
-  check("size")
-    .isInt({ min: 1 })
-    .withMessage("Size must be greater than or equal to 1"),
-  check("name").optional().isAlpha().withMessage("Name must be a string"),
-  check("type")
-    .optional()
-    .isIn(["Online", "In Person"])
-    .withMessage("Type must be 'Online' or 'In Person'"),
-  handleValidationErrors,
-];
+// const validateParams = [
+//   check("page")
+//     .isInt({ min: 1 })
+//     .withMessage("Page must be greater than or equal to 1"),
+//   check("size")
+//     .isInt({ min: 1 })
+//     .withMessage("Size must be greater than or equal to 1"),
+//   check("name").optional().isAlpha().withMessage("Name must be a string"),
+//   check("type")
+//     .optional()
+//     .isIn(["Online", "In Person"])
+//     .withMessage("Type must be 'Online' or 'In Person'"),
+//   handleValidationErrors,
+// ];
 
 // * Get all Events
-event.get("/", validateParams, async (req, res) => {
+event.get("/", async (req, res) => {
   let { page, size, name, type, startDate } = req.query;
   let pagination = {};
   let where = {};
@@ -200,7 +201,7 @@ event.get("/:eventId", async (req, res) => {
 });
 
 // * Add Img to Event by ID
-event.post("/:eventId/images", validateImg, async (req, res) => {
+event.post("/:eventId/images",requireAuth, validateImg, async (req, res) => {
   const { user } = req;
   if (!user) {
     return res.status(401).json({ message: "Authentication required" });
@@ -241,8 +242,8 @@ event.post("/:eventId/images", validateImg, async (req, res) => {
 });
 
 // * Edit and return event by it's ID
-event.put("/:eventId", validateEvent, async (req, res) => {
-  const {
+event.put("/:eventId",requireAuth, validateEvent, async (req, res) => {
+  let {
     venueId,
     name,
     description,
@@ -279,13 +280,13 @@ event.put("/:eventId", validateEvent, async (req, res) => {
   }
   const status = membership.status;
 
-  if(!name) name = event.name;
-  if(!description) description = event.description;
-  if(!type) type = event.type;
-  if(!capacity) capacity = event.capacity;
-  if(!price) price = event.price;
-  if(!startDate) startDate = event.startDate;
-  if(!endDate) endDate = event.endDate;
+  if (!name) name = event.name;
+  if (!description) description = event.description;
+  if (!type) type = event.type;
+  if (!capacity) capacity = event.capacity;
+  if (!price) price = event.price;
+  if (!startDate) startDate = event.startDate;
+  if (!endDate) endDate = event.endDate;
 
   // Must be co-host to update
   if (status === "co-host") {
@@ -320,7 +321,7 @@ event.put("/:eventId", validateEvent, async (req, res) => {
 });
 
 // * Deletes Event by it's ID
-event.delete("/:eventId", async (req, res) => {
+event.delete("/:eventId",requireAuth, async (req, res) => {
   const { user } = req;
 
   if (!user) {
@@ -402,7 +403,7 @@ event.get("/:eventId/attendees", async (req, res) => {
 });
 
 // * Request attendance for an event specified by id
-event.post("/:eventId/attendance", async (req, res) => {
+event.post("/:eventId/attendance",requireAuth, async (req, res) => {
   const { user } = req;
   if (!user) {
     return res.status(401).json({ message: "Authentication required" });
@@ -482,8 +483,6 @@ event.put("/:eventId/attendance", async (req, res) => {
   });
   const currUserStatus = currUserMembership.status;
 
-
-
   if (currUserStatus === "co-host") {
     const attend = await attendance.update({
       status: status,
@@ -501,7 +500,7 @@ event.put("/:eventId/attendance", async (req, res) => {
 
 // * Delete an attendance to an event specified by id
 
-event.delete("/:eventId/attendance/:userId", async (req, res) => {
+event.delete("/:eventId/attendance/:userId",requireAuth, async (req, res) => {
   const { user } = req;
   if (!user) {
     return res.status(401).json({ message: "Authentication required" });

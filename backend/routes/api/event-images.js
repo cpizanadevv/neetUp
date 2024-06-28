@@ -11,11 +11,12 @@ const {
 } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { requireAuth } = require("../../utils/auth");
 
 const eventImages = express.Router();
 
 // * Delete an existing image for an Event
-eventImages.delete('/:imageId', async (req,res) => {
+eventImages.delete('/:imageId',requireAuth, async (req,res) => {
     const {user} = req;
     if(!user){
         return res.status(401).json({ message: "Authentication required" });

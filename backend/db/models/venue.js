@@ -23,21 +23,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len:[2,20],
+          len:[2,100],
         }
       },
       city: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len:[2,20],
+          len:[2,100],
         }
       },
       state: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len:[2,20],
+          len:[2,100],
         }
       },
       lat: {

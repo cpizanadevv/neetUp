@@ -6,6 +6,7 @@ const {
 } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { requireAuth } = require("../../utils/auth");
 
 
 const venue = express.Router();
@@ -18,12 +19,12 @@ const validateVenue = [
     .withMessage("Street address is required"),
   check("city")
     .exists({ checkFalsy: true })
-    .isLength({ min: 2, max: 20 })
+    .isLength({ min: 2, max: 100 })
     .notEmpty()
     .withMessage("City is required"),
   check("state")
     .exists({ checkFalsy: true })
-    .isLength({ min: 2, max: 20 })
+    .isLength({ min: 2, max: 100 })
     .withMessage("State is required."),
   check("lat")
     .exists({ checkFalsy: true })
@@ -39,7 +40,7 @@ const validateVenue = [
 ];
 
 // * Edit Venue
-venue.put('/:venueId',validateVenue, async (req, res) => {
+venue.put('/:venueId',requireAuth, validateVenue, async (req, res) => {
   const { user } = req;
   const userId = user.id;
   if(!user){
@@ -48,7 +49,10 @@ venue.put('/:venueId',validateVenue, async (req, res) => {
   }
 
   const venueId = req.params.venueId;
-  const {address,city,state,lat,lng} = req.body;
+  if(isNaN(venueId)){
+    return res.status(404).json({ message: "Venue couldn't be found" });
+  }
+  let {address,city,state,lat,lng} = req.body;
   const venue = await Venue.findByPk(venueId);
   if(!venue){
     return res.status(404).json({ message: "Venue couldn't be found" });

@@ -8,11 +8,12 @@ const {
 } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const { requireAuth } = require("../../utils/auth");
 
 const groupImages = express.Router();
 
 // * Delete an existing image for a Group
-groupImages.delete('/:imageId', async (req,res) => {
+groupImages.delete('/:imageId',requireAuth, async (req,res) => {
     const {user} = req;
     if(!user){
         return res.status(401).json({ message: "Authentication required" });

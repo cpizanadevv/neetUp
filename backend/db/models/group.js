@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
           max: 20,
           isInPerson(val) {
             if (this.type !== "Online" && !val) {
-              throw new Error("City is required for In Person events.");
+              throw new Error("City is required.");
             }
           },
         },
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
           max: 20,
           isInPerson(val) {
             if (this.type !== "Online" && !val) {
-              throw new Error("State is required for In Person events.");
+              throw new Error("State is required.");
             }
           },
         },
