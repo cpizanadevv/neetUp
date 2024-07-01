@@ -18,23 +18,22 @@ const eventImages = express.Router();
 // * Delete an existing image for an Event
 eventImages.delete('/:imageId',requireAuth, async (req,res) => {
     const {user} = req;
-    if(!user){
-        return res.status(401).json({ message: "Authentication required" });
-      }
     
     const imgId = req.params.imageId;
     const img = await EventImage.findByPk(imgId);
     if(!img){
         return res.status(404).json({message:"Event Image couldn't be found"})
     }
+    const userId = user.id;
 
     const eventId = img.eventId;
     const event = await Event.findByPk(eventId);
     const groupId = event.groupId;
-    const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}});
+    const membership = await Membership.findOne({where:{userId:userId,groupId:groupId}});
     
-    const status = membership.status;
-    if(status === 'co-host'){
+
+
+    if(membership && membership.status === 'co-host'){
         img.destroy();
         return res.json({message:"Successfully deleted"})
     }else{

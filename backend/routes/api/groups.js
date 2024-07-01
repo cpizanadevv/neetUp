@@ -449,7 +449,7 @@ group.get("/:groupId/venues", requireAuth, async (req, res) => {
     where: { userId: userId, groupId: groupId },
   });
 
-  if (membership.status !== "co-host") {
+  if (!membership || membership.status !== "co-host") {
     return res.status(403).json({ message: "Forbidden" });
   }
 
@@ -475,34 +475,32 @@ group.post("/:groupId/venues", requireAuth, validateVenue, async (req, res) => {
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
-  const member = await Membership.findOne({
+  const membership = await Membership.findOne({
     where: { userId: user.id, groupId: groupId },
   });
-  const status = member.status;
-
-  if (status && status === "co-host") {
-    const venue = await Venue.create({
-      userId,
-      groupId,
-      address,
-      city,
-      state,
-      lat,
-      lng,
-    });
-    const newVenue = {
-      id: venue.id,
-      groupId: venue.groupId,
-      address: venue.address,
-      city: venue.city,
-      state: venue.state,
-      lat: venue.lat,
-      lng: venue.lng,
-    };
-    return res.json(newVenue);
-  } else {
+  if (!membership || membership.status !== "co-host") {
     return res.status(403).json({ message: "Forbidden" });
   }
+
+  const venue = await Venue.create({
+    userId,
+    groupId,
+    address,
+    city,
+    state,
+    lat,
+    lng,
+  });
+  const newVenue = {
+    id: venue.id,
+    groupId: venue.groupId,
+    address: venue.address,
+    city: venue.city,
+    state: venue.state,
+    lat: venue.lat,
+    lng: venue.lng,
+  };
+  return res.json(newVenue);
 });
 
 // * Get all Events of a Group by ID
@@ -661,6 +659,13 @@ group.get("/:groupId/members", requireAuth, async (req, res) => {
           [Op.notIn]: ["pending"],
         },
       },
+      include: [
+        {
+          model: User,
+          as: "memberId",
+          attributes: { include: ["firstName", "lastName"] },
+        },
+      ]
     });
   }
   const formattedMembers = allMembers.map((member) => {
@@ -730,11 +735,6 @@ group.put("/:groupId/membership", requireAuth, async (req, res) => {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  const hostId = group.organizerId;
-  const membership = await Membership.findOne({
-    where: { userId: currUserId, groupId: groupId },
-  });
-  const userStatus = membership.status;
 
   const pendingMember = await Membership.findOne({
     where: { userId: memberId, groupId: groupId },
@@ -745,17 +745,25 @@ group.put("/:groupId/membership", requireAuth, async (req, res) => {
     });
   }
 
+  const hostId = group.organizerId;
+  const membership = await Membership.findOne({
+    where: { userId: currUserId, groupId: groupId },
+  });
+  if(!membership || membership.status !== "co-host"){
+    return res.status(403).json({ message: "Forbidden" });
+  }
+
   let updatedMember;
 
   if (status === "co-host") {
-    if (currUserId !== hostId) {
+    if (!membership || currUserId !== hostId) {
       return res.status(403).json({ message: "Forbidden" });
     }
     updatedMember = await pendingMember.update({
       status: "co-host",
     });
   } else if (status === "member") {
-    if (userStatus !== "co-host") {
+    if (!membership || membership.status !== "co-host") {
       return res.status(403).json({ message: "Forbidden" });
     }
     updatedMember = await pendingMember.update({

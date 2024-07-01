@@ -218,16 +218,15 @@ event.post("/:eventId/images", requireAuth, validateImg, async (req, res) => {
   const membership = await Membership.findOne({
     where: { userId: userId, groupId: groupId },
   });
-  if (!membership) {
-    return res.status(404).json({
-      message: "Membership between the user and the group does not exist",
-    });
-  }
-  const status = membership.status;
 
-  const isAttendee = await Attendance.findOne({ where: { userId: user.id, eventId:eventId } });
+  const attendance = await Attendance.findOne({
+    where: { userId: user.id, eventId: eventId },
+  });
+  // if(!membership){
+  //   return res.status(403).json({ message: "Forbidden" });
+  // }
 
-  if (status === "co-host" || isAttendee === true) {
+  if ((membership && membership.status === "co-host")|| (attendance &&attendance.status === 'attending')){
     const img = await EventImage.create({ eventId, url, preview });
 
     const newImg = {
@@ -238,7 +237,7 @@ event.post("/:eventId/images", requireAuth, validateImg, async (req, res) => {
     return res.json(newImg);
   } else {
     return res.status(403).json({ message: "Forbidden" });
-  }
+  } 
 });
 
 // * Edit and return event by it's ID
@@ -254,9 +253,6 @@ event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
     endDate,
   } = req.body;
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
   const userId = user.id;
 
   const eventId = req.params.eventId;
@@ -272,13 +268,9 @@ event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
     return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
-  const membership = await Membership.findOne({ where: { userId:userId, groupId: groupId } });
-  if (!membership) {
-    return res.status(404).json({
-      message: "Membership between the user and the group does not exist",
-    });
-  }
-  const status = membership.status;
+  const membership = await Membership.findOne({
+    where: { userId: userId, groupId: groupId },
+  });
 
   if (!name) name = event.name;
   if (!description) description = event.description;
@@ -289,7 +281,9 @@ event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
   if (!endDate) endDate = event.endDate;
 
   // Must be co-host to update
-  if (status === "co-host") {
+  if (!membership || membership.status !== "co-host"){
+    return res.status(403).json({ message: "Forbidden" });
+  } else {
     const updatedEvent = await event.update({
       venueId: venueId,
       name: name,
@@ -315,9 +309,7 @@ event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
     };
 
     return res.json(newEvent);
-  } else {
-    return res.status(403).json({ message: "Forbidden" });
-  }
+  } 
 });
 
 // * Deletes Event by it's ID
@@ -331,12 +323,11 @@ event.delete("/:eventId", requireAuth, async (req, res) => {
   }
   const userId = user.id;
   const groupId = event.groupId;
-  const member = await Membership.findOne({
+  const membership = await Membership.findOne({
     where: { userId: userId, groupId: groupId },
   });
-  const status = member.status;
 
-  if (status === "co-host") {
+  if (membership && membership.status === "co-host") {
     event.destroy();
     return res.json({ message: "Successfully deleted" });
   } else {
@@ -412,17 +403,18 @@ event.post("/:eventId/attendance", requireAuth, async (req, res) => {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
 
-  const userId = user.userId;
+  const userId = user.id;
   const groupId = event.groupId;
-  const membership = await Membership.findOne({ where: { userId: userId, groupId: groupId } });
-  if (!membership) {
-    return res.status(404).json({
-      message: "Membership between the user and the group does not exist",
-    });
+  const membership = await Membership.findOne({
+    where: { userId: userId, groupId: groupId },
+  });
+  if (!membership){
+    return res.status(403).json({ message: "Forbidden" });
   }
-  if (membership.status === "co-host" || membership.status === "member") {
+
+  if (membership.status === "co-host" || membership.status === "member"){
     const attendance = await Attendance.findOne({
-      where: { userId: userId, eventId: eventId },
+      where: { userId: userId, eventId: eventId }
     });
 
     if (!attendance) {
@@ -441,18 +433,15 @@ event.post("/:eventId/attendance", requireAuth, async (req, res) => {
         .status(400)
         .json({ message: "User is already an attendee of the event" });
     }
-  }else {
-    return res.status(403).json({ message: "Forbidden" })
-  }
+  }else{
+    return res.status(403).json({ message: "Forbidden" });
+  } 
 });
 
 // * Change the status of an attendance for an event specified by id
 
-event.put("/:eventId/attendance", async (req, res) => {
+event.put("/:eventId/attendance",requireAuth, async (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
 
   const { userId, status } = req.body;
   const eventId = req.params.eventId;
@@ -472,21 +461,20 @@ event.put("/:eventId/attendance", async (req, res) => {
       .json({ message: "Cannot change an attendance status to pending" });
   }
 
-  const attendance = await Attendance.findOne({ where: { userId: userId } });
+  const attendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId } });
   if (!attendance) {
     res.status(404).json({
       message: "Attendance between the user and the event does not exist",
     });
   }
 
-  const currUser = user.id;
+  const currUserId = user.id;
   const groupId = event.groupId;
   const currUserMembership = await Membership.findOne({
-    where: { userId: currUser, groupId: groupId },
+    where: { userId: currUserId, groupId: groupId },
   });
-  const currUserStatus = currUserMembership.status;
 
-  if (currUserStatus === "co-host") {
+  if (currUserMembership && currUserMembership.status === "co-host") {
     const attend = await attendance.update({
       status: status,
     });
@@ -505,9 +493,6 @@ event.put("/:eventId/attendance", async (req, res) => {
 
 event.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
 
   const eventId = req.params.eventId;
   const userId = req.params.userId;
@@ -522,25 +507,20 @@ event.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
     res.status(404).json({ message: "Event couldn't be found" });
   }
 
-  const attendance = await Attendance.findOne({ where: { userId: userId } });
+  const attendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId } });
   if (!attendance) {
     res.status(404).json({
       message: "Attendance between the user and the event does not exist",
     });
   }
 
-  const currUser = user.id;
+  const currUserId = +user.id;
   const groupId = event.groupId;
-  const currUserMembership = await Membership.findOne({
-    where: { userId: currUser, groupId: groupId },
-  });
-  if (!currUserMembership) {
-    res.status(404).json({
-      message: "Membership between the user and the group does not exist",
-    });
-  }
-  const currUserStatus = currUserMembership.status;
-  if (currUserStatus === "co-host" || currUser === userId) {
+  const group = await Group.findByPk(groupId);
+  const hostId = +group.organizerId;
+  
+
+  if (hostId == userId || currUserId == userId) {
     await attendance.destroy();
     return res.json({ message: "Successfully deleted attendance from event" });
   } else {
