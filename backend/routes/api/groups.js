@@ -30,7 +30,7 @@ const validateGroup = [
     .withMessage("About must be 50 characters or more."),
   check("type")
     .exists({ checkFalsy: true })
-    .isIn(["In Person", "Online",'In person'])
+    .isIn(["In Person", "Online", "In person"])
     .withMessage("Type must be 'Online' or 'In Person'."),
   check("private").isBoolean().withMessage("Private must be a boolean value."),
   check("city")
@@ -96,7 +96,7 @@ const validateEvent = [
     .withMessage("Description is required"),
   check("type")
     .exists({ checkFalsy: true })
-    .isIn(["Online", "In Person",'In person'])
+    .isIn(["Online", "In Person", "In person"])
     .withMessage("Type must be 'Online' or 'In Person'."),
   check("capacity")
     .exists({ checkFalsy: true })
@@ -437,17 +437,19 @@ group.post("/:groupId/images", requireAuth, validateImg, async (req, res) => {
 // * Returns all Venues for Group by ID
 group.get("/:groupId/venues", requireAuth, async (req, res) => {
   const { user } = req;
-  
+
   const groupId = req.params.groupId;
   const group = await Group.findByPk(groupId);
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  const organizerId = group.organizerId;
-  const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}})
+  const userId = user.id;
+  const membership = await Membership.findOne({
+    where: { userId: userId, groupId: groupId },
+  });
 
-  if (membership.status !== 'co-host') {
+  if (membership.status !== "co-host") {
     return res.status(403).json({ message: "Forbidden" });
   }
 
@@ -473,7 +475,9 @@ group.post("/:groupId/venues", requireAuth, validateVenue, async (req, res) => {
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
-  const member = await Membership.findOne({ where: { userId: userId } });
+  const member = await Membership.findOne({
+    where: { userId: user.id, groupId: groupId },
+  });
   const status = member.status;
 
   if (status && status === "co-host") {
@@ -564,6 +568,7 @@ group.post("/:groupId/events", requireAuth, validateEvent, async (req, res) => {
 
   const groupId = req.params.groupId;
   const { user } = req;
+  const userId = user.id;
 
   const venue = await Venue.findByPk(venueId);
   if (!venue) {
@@ -575,10 +580,13 @@ group.post("/:groupId/events", requireAuth, validateEvent, async (req, res) => {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  const membership = await Membership.findOne({ where: { groupId: groupId } });
-  if (!membership) {
+  const membership = await Membership.findOne({
+    where: { userId: userId, groupId: groupId },
+  });
+  if (!membership || membership.status !== "co-host") {
     return res.status(403).json({ message: "Forbidden" });
   }
+
   const status = membership.status;
   // Must be co-host to create
   if (status === "co-host") {
@@ -608,13 +616,11 @@ group.post("/:groupId/events", requireAuth, validateEvent, async (req, res) => {
     };
 
     return res.json(newEvent);
-  } else {
-    return res.status(403).json({ message: "Forbidden" });
   }
 });
 
 // * Return all Members for a group by groupID
-group.get("/:groupId/members", async (req, res) => {
+group.get("/:groupId/members", requireAuth, async (req, res) => {
   const { user } = req;
   const groupId = req.params.groupId;
 
@@ -710,10 +716,6 @@ group.post("/:groupId/membership", requireAuth, async (req, res) => {
 // * Co-Host || Organizer change Membership status for group by its ID
 group.put("/:groupId/membership", requireAuth, async (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
-
   const groupId = req.params.groupId;
   const { memberId, status } = req.body;
 
@@ -721,15 +723,16 @@ group.put("/:groupId/membership", requireAuth, async (req, res) => {
   if (!isUser) {
     return res.status(404).json({ message: "User couldn't be found" });
   }
+  const currUserId = user.id;
 
   const group = await Group.findByPk(groupId);
   if (!group) {
     return res.status(404).json({ message: "Group couldn't be found" });
   }
 
-  const host = group.organizerId;
+  const hostId = group.organizerId;
   const membership = await Membership.findOne({
-    where: { userId: user.id, groupId: groupId },
+    where: { userId: currUserId, groupId: groupId },
   });
   const userStatus = membership.status;
 
@@ -745,7 +748,7 @@ group.put("/:groupId/membership", requireAuth, async (req, res) => {
   let updatedMember;
 
   if (status === "co-host") {
-    if (user.id !== host) {
+    if (currUserId !== hostId) {
       return res.status(403).json({ message: "Forbidden" });
     }
     updatedMember = await pendingMember.update({

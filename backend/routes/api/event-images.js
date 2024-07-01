@@ -32,12 +32,6 @@ eventImages.delete('/:imageId',requireAuth, async (req,res) => {
     const event = await Event.findByPk(eventId);
     const groupId = event.groupId;
     const membership = await Membership.findOne({where:{userId:user.id,groupId:groupId}});
-    if (!membership) {
-        return res
-          .status(404)
-          .json({ message: "Membership between the user and the group does not exist"
-        });
-      }
     
     const status = membership.status;
     if(status === 'co-host'){

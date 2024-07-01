@@ -27,7 +27,7 @@ const validateEvent = [
     .withMessage("Description is required"),
   check("type")
     .exists({ checkFalsy: true })
-    .isIn(["Online", "In Person",'In person'])
+    .isIn(["Online", "In Person", "In person"])
     .withMessage("Type must be 'Online' or 'In Person'."),
   check("capacity")
     .exists({ checkFalsy: true })
@@ -201,11 +201,12 @@ event.get("/:eventId", async (req, res) => {
 });
 
 // * Add Img to Event by ID
-event.post("/:eventId/images",requireAuth, validateImg, async (req, res) => {
+event.post("/:eventId/images", requireAuth, validateImg, async (req, res) => {
   const { user } = req;
   if (!user) {
     return res.status(401).json({ message: "Authentication required" });
   }
+  const userId = user.id;
 
   const { url, preview } = req.body;
   const eventId = req.params.eventId;
@@ -215,7 +216,7 @@ event.post("/:eventId/images",requireAuth, validateImg, async (req, res) => {
   }
   const groupId = event.groupId;
   const membership = await Membership.findOne({
-    where: { userId: user.id, groupId: groupId },
+    where: { userId: userId, groupId: groupId },
   });
   if (!membership) {
     return res.status(404).json({
@@ -224,14 +225,13 @@ event.post("/:eventId/images",requireAuth, validateImg, async (req, res) => {
   }
   const status = membership.status;
 
-  const isAttendee = await Attendance.findOne({ where: { userId: user.id } });
+  const isAttendee = await Attendance.findOne({ where: { userId: user.id, eventId:eventId } });
 
   if (status === "co-host" || isAttendee === true) {
-    const img = await EventImage.create({ groupId, url, preview });
+    const img = await EventImage.create({ eventId, url, preview });
 
     const newImg = {
       id: img.id,
-      groupId: img.groupId,
       url: img.url,
       preview: img.preview,
     };
@@ -242,7 +242,7 @@ event.post("/:eventId/images",requireAuth, validateImg, async (req, res) => {
 });
 
 // * Edit and return event by it's ID
-event.put("/:eventId",requireAuth, validateEvent, async (req, res) => {
+event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
   let {
     venueId,
     name,
@@ -272,7 +272,7 @@ event.put("/:eventId",requireAuth, validateEvent, async (req, res) => {
     return res.status(404).json({ message: "Venue couldn't be found" });
   }
 
-  const membership = await Membership.findOne({ where: { userId, groupId } });
+  const membership = await Membership.findOne({ where: { userId:userId, groupId: groupId } });
   if (!membership) {
     return res.status(404).json({
       message: "Membership between the user and the group does not exist",
@@ -321,22 +321,24 @@ event.put("/:eventId",requireAuth, validateEvent, async (req, res) => {
 });
 
 // * Deletes Event by it's ID
-event.delete("/:eventId",requireAuth, async (req, res) => {
+event.delete("/:eventId", requireAuth, async (req, res) => {
   const { user } = req;
 
-  
   const eventId = req.params.eventId;
   const event = await Event.findByPk(eventId);
   if (!event) {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
-
+  const userId = user.id;
   const groupId = event.groupId;
-  const member = await Membership.findOne({ where: { groupId: groupId } });
+  const member = await Membership.findOne({
+    where: { userId: userId, groupId: groupId },
+  });
   const status = member.status;
 
   if (status === "co-host") {
-    await event.destroy();
+    event.destroy();
+    return res.json({ message: "Successfully deleted" });
   } else {
     return res.status(403).json({ message: "Forbidden" });
   }
@@ -401,43 +403,46 @@ event.get("/:eventId/attendees", async (req, res) => {
 });
 
 // * Request attendance for an event specified by id
-event.post("/:eventId/attendance",requireAuth, async (req, res) => {
+event.post("/:eventId/attendance", requireAuth, async (req, res) => {
   const { user } = req;
-  if (!user) {
-    return res.status(401).json({ message: "Authentication required" });
-  }
 
   const eventId = req.params.eventId;
   const event = await Event.findByPk(eventId);
   if (!event) {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
-  const membership = await Membership.findOne({ where: { userId: user.id } });
+
+  const userId = user.userId;
+  const groupId = event.groupId;
+  const membership = await Membership.findOne({ where: { userId: userId, groupId: groupId } });
   if (!membership) {
     return res.status(404).json({
       message: "Membership between the user and the group does not exist",
     });
   }
-  const attendance = await Attendance.findOne({
-    where: { userId: user.id, eventId: eventId },
-  });
-  const userId = user.id;
-
-  if (!attendance) {
-    const attend = await Attendance.create({
-      eventId: eventId,
-      userId: userId,
-      status: "pending",
+  if (membership.status === "co-host" || membership.status === "member") {
+    const attendance = await Attendance.findOne({
+      where: { userId: userId, eventId: eventId },
     });
-    return res.json({ userId: userId, status: attend.status });
-  } else if (attendance.status === "pending") {
-    return res
-      .status(400)
-      .json({ message: "Attendance has already been requested" });
-  } else {
-    return res
-      .status(400)
-      .json({ message: "User is already an attendee of the event" });
+
+    if (!attendance) {
+      const attend = await Attendance.create({
+        eventId: eventId,
+        userId: userId,
+        status: "pending",
+      });
+      return res.json({ userId: userId, status: attend.status });
+    } else if (attendance.status === "pending") {
+      return res
+        .status(400)
+        .json({ message: "Attendance has already been requested" });
+    } else {
+      return res
+        .status(400)
+        .json({ message: "User is already an attendee of the event" });
+    }
+  }else {
+    return res.status(403).json({ message: "Forbidden" })
   }
 });
 
@@ -498,7 +503,7 @@ event.put("/:eventId/attendance", async (req, res) => {
 
 // * Delete an attendance to an event specified by id
 
-event.delete("/:eventId/attendance/:userId",requireAuth, async (req, res) => {
+event.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
   const { user } = req;
   if (!user) {
     return res.status(401).json({ message: "Authentication required" });
