@@ -294,7 +294,7 @@ group.get("/:groupId", async (req, res) => {
         },
       },
     ],
-    group: ["Group.id", "GroupImages.id", "Memberships.id", "Organizer.id"],
+    group: ["Group.id", "GroupImages.id", "Memberships.id", "Organizer.id", "Venues.id"],
   });
   if (groupById.id === null) {
     return res.status(404).json({
