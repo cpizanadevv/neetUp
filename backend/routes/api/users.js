@@ -11,6 +11,14 @@ const router = express.Router();
 
 
 const validateSignup = [
+    check('firstName')
+    .exists({ checkFalsy: true })
+    .isAlpha()
+    .withMessage('First Name is required.'),
+    check('lastName')
+    .exists({ checkFalsy: true })
+    .isAlpha()
+    .withMessage('Last Name is required.'),
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
@@ -72,13 +80,15 @@ const userExists = async (req, res, next) => {
 };
 
 router.post('/',userExists, validateSignup, async( req,res) => {
-    const { email, password, username } = req.body;
+    const { firstName,lastName,email, password, username } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
     
-    const user = await User.create({ email, username, hashedPassword });
+    const user = await User.create({ firstName,lastName,email, username, hashedPassword });
 
     const safeUser = {
       id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       username: user.username,
     };

@@ -40,11 +40,11 @@ module.exports = {
       },
       city: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       state: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

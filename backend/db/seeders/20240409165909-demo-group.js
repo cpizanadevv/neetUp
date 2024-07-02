@@ -16,6 +16,8 @@ module.exports = {
         about:'Welcome to Otaku Haven, where anime enthusiasts gather to discuss their favorite series, share fan art, and participate in cosplay events. Join us to connect with fellow otaku and immerse yourself in the world of anime!',
         type:'Online',
         private:false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId:5,
@@ -23,6 +25,8 @@ module.exports = {
         about:"Mecha Madness is a community dedicated to all things mecha anime. Whether you're a fan of classic series like Gundam or newer titles like Evangelion, this is the place to be. Join us for discussions, watch parties, and mech-themed events!",
         type:'Online',
         private:false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId:2,
@@ -47,14 +51,18 @@ module.exports = {
         name:'Shonen Showdown',
         about:"Shonen Showdown is the ultimate destination for fans of action-packed shonen anime. Whether you're into epic battles, intense training arcs, or powerful friendships, this is the group for you. Join us as we journey through the worlds of Naruto, One Piece, Dragon Ball, and more!",
         type:'Online',
-        private:false
+        private:false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId:4,
         name:'Slice of Life Society',
         about:"Welcome to Slice of Life Society, where we appreciate the beauty in everyday moments portrayed in slice-of-life anime. Join us for cozy watch parties, heartfelt discussions, and a warm sense of community. Let's explore the ordinary and find the extraordinary together!",
         type:"Online",
-        private:false
+        private:false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId:6,
@@ -62,6 +70,8 @@ module.exports = {
         about:"Dark Fantasy League is for those who revel in the darker side of anime. From supernatural mysteries to psychological thrillers, we delve into the depths of darkness and intrigue. Join us if you dare to explore the shadows of the anime world.",
         type:'Online',
         private:true,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId:7,
@@ -78,6 +88,8 @@ module.exports = {
         about: 'Join us for an endless stream of anime marathons! Whether you love shonen, shojo, or anything in between, Anime Marathon is the place to binge-watch your favorite series with fellow fans. Grab your snacks and get ready for an anime binge session!',
         type: 'Online',
         private: false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId: 25,
@@ -85,6 +97,8 @@ module.exports = {
         about: 'Welcome to the Ghibli Fan Club! Here, we celebrate the magic and wonder of Studio Ghibli films. From Spirited Away to My Neighbor Totoro, we watch, discuss, and share our love for these timeless classics.',
         type: 'Online',
         private: false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId: 26,
@@ -101,6 +115,8 @@ module.exports = {
         about: 'Seinen Society is dedicated to fans of mature and sophisticated anime series. We discuss themes, characters, and stories that cater to an adult audience. If you enjoy thought-provoking and complex anime, this is the group for you.',
         type: 'Online',
         private: true,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId: 28,
@@ -117,6 +133,8 @@ module.exports = {
         about: 'Step back in time with the Historical Anime Group. We explore anime set in historical periods, from ancient Japan to medieval Europe. Join us for discussions and viewings of your favorite historical anime.',
         type: 'Online',
         private: false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId: 30,
@@ -142,6 +160,8 @@ module.exports = {
         about: 'Anime Book Club is for those who enjoy both anime and reading. We read and discuss light novels, manga, and anime-related literature. Join us for book discussions and recommendations.',
         type: 'Online',
         private: false,
+        city:'Los Angeles',
+        state:'CA',
       },
       {
         organizerId: 33,

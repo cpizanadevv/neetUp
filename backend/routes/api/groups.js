@@ -103,9 +103,7 @@ const validateEvent = [
     .isInt()
     .withMessage("Capacity must be an integer"),
   check("price")
-    .exists({ checkFalsy: true })
-    .isFloat()
-    .notEmpty()
+    .isFloat({ min: 0 })
     .withMessage("Price is invalid"),
   check("startDate")
     .exists({ checkFalsy: true })

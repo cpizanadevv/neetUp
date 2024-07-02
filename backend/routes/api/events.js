@@ -12,6 +12,7 @@ const {
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const { requireAuth } = require("../../utils/auth");
+const e = require("express");
 
 const event = express.Router();
 
@@ -34,10 +35,30 @@ const validateEvent = [
     .isInt()
     .withMessage("Capacity must be an integer"),
   check("price")
-    .exists({ checkFalsy: true })
-    .isFloat()
-    .notEmpty()
+    .isFloat({ min: 0 })
     .withMessage("Price is invalid"),
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .custom((value) => {
+      if (isNaN(Date.parse(value))) {
+        throw new Error("Start date must be a valid date.");
+      }
+      if (new Date(value) <= new Date()) {
+        throw new Error("Start date must be in the future.");
+      }
+      return true;
+    }),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .custom((value, { req }) => {
+      if (isNaN(Date.parse(value))) {
+        throw new Error("End date must be a valid date.");
+      }
+      if (new Date(value) <= new Date(req.body.startDate)) {
+        throw new Error("End date must be after the start date.");
+      }
+      return true;
+    }),
   handleValidationErrors,
 ];
 
@@ -56,9 +77,11 @@ const validateImg = [
 
 // const validateParams = [
 //   check("page")
+//   .optional()
 //     .isInt({ min: 1 })
 //     .withMessage("Page must be greater than or equal to 1"),
 //   check("size")
+//   .optional()
 //     .isInt({ min: 1 })
 //     .withMessage("Size must be greater than or equal to 1"),
 //   check("name").optional().isAlpha().withMessage("Name must be a string"),
@@ -74,29 +97,57 @@ event.get("/", async (req, res) => {
   let { page, size, name, type, startDate } = req.query;
   let pagination = {};
   let where = {};
+  const errors = {};
+  
+    page = parseInt(page);
+    size = parseInt(size);
 
-  if (name) {
-    where.name = {
-      [Op.like]: `%${name}%`,
-    };
-  }
-  if (type) {
-    where.type = type;
-  }
-  if (startDate) {
-    where.startDate = startDate;
-  }
-
-  page = parseInt(page);
-  size = parseInt(size);
-
-  if (isNaN(page) || page <= 0) {
+  if (page <= 0) {
+    errors.page = "Page must be greater than or equal to 1";
+  } else if (!page || isNaN(page)) {
     page = 1;
   }
-
-  if (isNaN(size) || size <= 0) {
+  if (size <= 0) {
+    errors.size = "Size must be greater than or equal to 1";
+  } else if (!size || isNaN(size)) {
     size = 20;
   }
+
+  if (name) {
+    if(typeof(name) !== 'string'){
+      errors.name = "Name must be a string";
+
+    }else{
+      where.name = {
+      [Op.like]: `%${name}%`,
+    };
+    }
+    
+  }
+  if (type) {
+    if(typeof(type) !== 'string'){
+      errors.type = "Type must be 'Online' or 'In Person'";
+
+    }else{
+      where.type = type;
+    }
+  }
+  if (startDate) {
+    let setDate = new Date(startDate);
+    if(isNaN(setDate)){
+      errors.startDate = "Start date must be a valid datetime";
+
+    }else{
+      where.startDate = {[Op.gte]:date}
+    }
+  }
+  if(Object.keys(errors).length){
+    res.status(400);
+    return res.json({
+        message:"Bad Request",
+        errors:{...errors}
+    })
+}
 
   pagination.limit = size;
   pagination.offset = size * (page - 1);
@@ -114,6 +165,10 @@ event.get("/", async (req, res) => {
   }
 
   const allEvents = await Event.findAll({
+    // where,
+    // ...pagination,
+    // subQuery: false,
+
     attributes: {
       include: [
         "id",
@@ -141,19 +196,20 @@ event.get("/", async (req, res) => {
         model: Venue,
         attributes: ["id", "city", "state"],
       },
-    ],
+    ],    
     where: {
       id: {
         [Op.in]: ids,
       },
     },
+
     group: [
       "Event.id",
       "Attendances.id",
       "EventImages.id",
       "Group.id",
       "Venue.id",
-    ],
+    ]
   });
 
   return res.json({ Events: allEvents });
@@ -226,7 +282,10 @@ event.post("/:eventId/images", requireAuth, validateImg, async (req, res) => {
   //   return res.status(403).json({ message: "Forbidden" });
   // }
 
-  if ((membership && membership.status === "co-host")|| (attendance &&attendance.status === 'attending')){
+  if (
+    (membership && membership.status === "co-host") ||
+    (attendance && attendance.status === "attending")
+  ) {
     const img = await EventImage.create({ eventId, url, preview });
 
     const newImg = {
@@ -237,7 +296,7 @@ event.post("/:eventId/images", requireAuth, validateImg, async (req, res) => {
     return res.json(newImg);
   } else {
     return res.status(403).json({ message: "Forbidden" });
-  } 
+  }
 });
 
 // * Edit and return event by it's ID
@@ -281,7 +340,7 @@ event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
   if (!endDate) endDate = event.endDate;
 
   // Must be co-host to update
-  if (!membership || membership.status !== "co-host"){
+  if (!membership || membership.status !== "co-host") {
     return res.status(403).json({ message: "Forbidden" });
   } else {
     const updatedEvent = await event.update({
@@ -309,7 +368,7 @@ event.put("/:eventId", requireAuth, validateEvent, async (req, res) => {
     };
 
     return res.json(newEvent);
-  } 
+  }
 });
 
 // * Deletes Event by it's ID
@@ -408,13 +467,13 @@ event.post("/:eventId/attendance", requireAuth, async (req, res) => {
   const membership = await Membership.findOne({
     where: { userId: userId, groupId: groupId },
   });
-  if (!membership){
+  if (!membership) {
     return res.status(403).json({ message: "Forbidden" });
   }
 
-  if (membership.status === "co-host" || membership.status === "member"){
+  if (membership.status === "co-host" || membership.status === "member") {
     const attendance = await Attendance.findOne({
-      where: { userId: userId, eventId: eventId }
+      where: { userId: userId, eventId: eventId },
     });
 
     if (!attendance) {
@@ -433,14 +492,14 @@ event.post("/:eventId/attendance", requireAuth, async (req, res) => {
         .status(400)
         .json({ message: "User is already an attendee of the event" });
     }
-  }else{
+  } else {
     return res.status(403).json({ message: "Forbidden" });
-  } 
+  }
 });
 
 // * Change the status of an attendance for an event specified by id
 
-event.put("/:eventId/attendance",requireAuth, async (req, res) => {
+event.put("/:eventId/attendance", requireAuth, async (req, res) => {
   const { user } = req;
 
   const { userId, status } = req.body;
@@ -461,7 +520,9 @@ event.put("/:eventId/attendance",requireAuth, async (req, res) => {
       .json({ message: "Cannot change an attendance status to pending" });
   }
 
-  const attendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId } });
+  const attendance = await Attendance.findOne({
+    where: { userId: userId, eventId: eventId },
+  });
   if (!attendance) {
     res.status(404).json({
       message: "Attendance between the user and the event does not exist",
@@ -507,7 +568,9 @@ event.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
     res.status(404).json({ message: "Event couldn't be found" });
   }
 
-  const attendance = await Attendance.findOne({ where: { userId: userId, eventId: eventId } });
+  const attendance = await Attendance.findOne({
+    where: { userId: userId, eventId: eventId },
+  });
   if (!attendance) {
     res.status(404).json({
       message: "Attendance between the user and the event does not exist",
@@ -518,7 +581,6 @@ event.delete("/:eventId/attendance/:userId", requireAuth, async (req, res) => {
   const groupId = event.groupId;
   const group = await Group.findByPk(groupId);
   const hostId = +group.organizerId;
-  
 
   if (hostId == userId || currUserId == userId) {
     await attendance.destroy();

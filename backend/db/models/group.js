@@ -55,28 +55,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       city: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         validate: {
           min: 2,
           max: 20,
-          isInPerson(val) {
-            if (this.type !== "Online" && !val) {
-              throw new Error("City is required.");
-            }
-          },
         },
       },
       state: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         validate: {
           min: 2,
           max: 20,
-          isInPerson(val) {
-            if (this.type !== "Online" && !val) {
-              throw new Error("State is required.");
-            }
-          },
         },
       },
     },
