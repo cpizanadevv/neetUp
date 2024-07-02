@@ -34,9 +34,7 @@ const validateEvent = [
     .exists({ checkFalsy: true })
     .isInt()
     .withMessage("Capacity must be an integer"),
-  check("price")
-    .isFloat({ min: 0 })
-    .withMessage("Price is invalid"),
+  check("price").isFloat({ min: 0 }).withMessage("Price is invalid"),
   check("startDate")
     .exists({ checkFalsy: true })
     .custom((value) => {
@@ -98,9 +96,9 @@ event.get("/", async (req, res) => {
   let pagination = {};
   let where = {};
   const errors = {};
-  
-    page = parseInt(page);
-    size = parseInt(size);
+
+  page = parseInt(page);
+  size = parseInt(size);
 
   if (page <= 0) {
     errors.page = "Page must be greater than or equal to 1";
@@ -114,40 +112,36 @@ event.get("/", async (req, res) => {
   }
 
   if (name) {
-    if(typeof(name) !== 'string'){
+    if (typeof(name) !== "string") {
       errors.name = "Name must be a string";
-
-    }else{
+    } else {
       where.name = {
-      [Op.like]: `%${name}%`,
-    };
+        [Op.like]: `%${name}%`,
+      };
     }
-    
   }
   if (type) {
-    if(typeof(type) !== 'string'){
+    if (typeof(type) !== "string" || type !='Online' || type !== 'In Person') {
       errors.type = "Type must be 'Online' or 'In Person'";
-
-    }else{
+    } else {
       where.type = type;
     }
   }
   if (startDate) {
     let setDate = new Date(startDate);
-    if(isNaN(setDate)){
+    if (isNaN(setDate)) {
       errors.startDate = "Start date must be a valid datetime";
-
-    }else{
-      where.startDate = {[Op.gte]:date}
+    } else {
+      where.startDate = { [Op.gte]: date };
     }
   }
-  if(Object.keys(errors).length){
+  if (Object.keys(errors).length) {
     res.status(400);
     return res.json({
-        message:"Bad Request",
-        errors:{...errors}
-    })
-}
+      message: "Bad Request",
+      errors: { ...errors },
+    });
+  }
 
   pagination.limit = size;
   pagination.offset = size * (page - 1);
@@ -168,7 +162,7 @@ event.get("/", async (req, res) => {
     // where,
     // ...pagination,
     // subQuery: false,
-    order:[['id','ASC']],
+    order: [["id", "ASC"]],
     attributes: {
       include: [
         "id",
@@ -196,7 +190,7 @@ event.get("/", async (req, res) => {
         model: Venue,
         attributes: ["id", "city", "state"],
       },
-    ],    
+    ],
     where: {
       id: {
         [Op.in]: ids,
@@ -209,7 +203,7 @@ event.get("/", async (req, res) => {
       "EventImages.id",
       "Group.id",
       "Venue.id",
-    ]
+    ],
   });
 
   return res.json({ Events: allEvents });
@@ -223,7 +217,7 @@ event.get("/:eventId", async (req, res) => {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
   const eventById = await Event.findByPk(eventId, {
-    order:[['id','ASC']],
+    order: [["id", "ASC"]],
     attributes: {
       exclude: ["createdAt", "updatedAt"],
       include: [
@@ -416,7 +410,7 @@ event.get("/:eventId/attendees", async (req, res) => {
       where: {
         eventId: event.id,
       },
-      order:[['id','ASC']],
+      order: [["id", "ASC"]],
       attributes: ["status"],
       include: [
         {
@@ -433,7 +427,7 @@ event.get("/:eventId/attendees", async (req, res) => {
           [Op.notIn]: ["pending"],
         },
       },
-      order:[['id','ASC']],
+      order: [["id", "ASC"]],
       attributes: ["status"],
       include: [
         {
