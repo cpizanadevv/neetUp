@@ -112,7 +112,7 @@ event.get("/", async (req, res) => {
   }
 
   if (name) {
-    if (typeof(name) !== "string") {
+    if (typeof(name) !== "string" || !isNaN(name) || name != null) {
       errors.name = "Name must be a string";
     } else {
       where.name = {
