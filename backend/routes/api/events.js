@@ -168,7 +168,7 @@ event.get("/", async (req, res) => {
     // where,
     // ...pagination,
     // subQuery: false,
-
+    order:[['id','ASC']],
     attributes: {
       include: [
         "id",
@@ -223,6 +223,7 @@ event.get("/:eventId", async (req, res) => {
     return res.status(404).json({ message: "Event couldn't be found" });
   }
   const eventById = await Event.findByPk(eventId, {
+    order:[['id','ASC']],
     attributes: {
       exclude: ["createdAt", "updatedAt"],
       include: [
@@ -415,6 +416,7 @@ event.get("/:eventId/attendees", async (req, res) => {
       where: {
         eventId: event.id,
       },
+      order:[['id','ASC']],
       attributes: ["status"],
       include: [
         {
@@ -431,6 +433,7 @@ event.get("/:eventId/attendees", async (req, res) => {
           [Op.notIn]: ["pending"],
         },
       },
+      order:[['id','ASC']],
       attributes: ["status"],
       include: [
         {

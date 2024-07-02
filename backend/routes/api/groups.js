@@ -134,6 +134,7 @@ const validateEvent = [
 // * Returns all Groups
 group.get("/", async (req, res) => {
   const allGroups = await Group.findAll({
+    order:[['id','ASC']],
     attributes: {
       include: [
         "id",
@@ -153,7 +154,7 @@ group.get("/", async (req, res) => {
         attributes: [],
       },
     ],
-    group: ["Group.id", "GroupImages.id"],
+    group: ["Group.id", "GroupImages.id"]
   });
   return res.json({ Groups: allGroups });
 });
@@ -161,9 +162,9 @@ group.get("/", async (req, res) => {
 // * Returns all Groups currUser is a part of
 group.get("/current", requireAuth, async (req, res) => {
   const { user } = req;
-
+  
   const userId = user.id;
-
+  
   const groupsOfCurrUser = await Group.findAll({
     attributes: [
       "id",
@@ -191,6 +192,7 @@ group.get("/current", requireAuth, async (req, res) => {
       },
     ],
     group: ["Group.id", "GroupImages.id"],
+    order:[['id','ASC']],
   });
 
   const groupIds = groupsOfCurrUser.map((group) => group.id);
@@ -251,6 +253,7 @@ group.get("/:groupId", async (req, res) => {
     where: {
       id: currGroupId,
     },
+    order:[['id','ASC']],
     attributes: {
       include: [
         [Sequelize.fn("COUNT", Sequelize.col("Memberships.id")), "numMembers"],
@@ -455,6 +458,7 @@ group.get("/:groupId/venues", requireAuth, async (req, res) => {
     where: {
       groupId: groupId,
     },
+    order:[['id','ASC']],
     attributes: {
       exclude: ["createdAt", "updatedAt"],
     },
@@ -513,6 +517,7 @@ group.get("/:groupId/events", async (req, res) => {
       where: {
         groupId: groupId,
       },
+      order:[['id','ASC']],
       attributes: {
         exclude: ["createdAt", "updatedAt", "description", "capacity", "price"],
         include: [
@@ -636,6 +641,7 @@ group.get("/:groupId/members", requireAuth, async (req, res) => {
       where: {
         groupId: groupId,
       },
+      order:[['id','ASC']],
       attributes: {
         exclude: ["createdAt", "updatedAt", "userId", "groupId"],
         include: ["status"],
@@ -657,13 +663,14 @@ group.get("/:groupId/members", requireAuth, async (req, res) => {
           [Op.notIn]: ["pending"],
         },
       },
+      order:[['id','ASC']],
       include: [
         {
           model: User,
           as: "memberId",
           attributes: { include: ["firstName", "lastName"] },
         },
-      ]
+      ],
     });
   }
   const formattedMembers = allMembers.map((member) => {
