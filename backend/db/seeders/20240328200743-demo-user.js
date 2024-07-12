@@ -319,6 +319,13 @@ module.exports = {
       username: "AssassinKillua",
       email: "assassinkillua@example.com",
       hashedPassword: bcrypt.hashSync('Godspeed45')
+    },{
+      firstName: "Test",
+      lastName: "Tester",
+      username: "testertest",
+      email: "test@test.com",
+      hashedPassword: bcrypt.hashSync('testing123')
+
     }
    ], { validate: true });
   },
