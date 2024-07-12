@@ -1,45 +1,39 @@
+import { csrfFetch } from "./csrf";
 
 //*  ACTIONS
 export const setSessionUser = (user) => ({
   type: "SET_SESSION_USER",
-  user,
+  payload: user,
 });
 
 export const deleteSessionUser = (user) => ({
-    type: "DELETE_SESSION_USER",
-    user
-})
-
+  type: "DELETE_SESSION_USER",
+  payload: user,
+});
 
 // * THUNK
+export const login = (user) => async (dispatch) => {
+  const { credential, password } = user;
+  const res = await csrfFetch("/api/session", {
+    method: "POST",
+    body: JSON.stringify({
+      credential,
+      password,
+    }),
+  });
+  if (res.ok) {
+    const session = await res.json();
+    dispatch(setSessionUser(session.user));
+    return res;
+  }
+};
 
-// export const getSession = () => async (dispatch) =>{
-//     const res = await fetch('/api/session')
-    
-//     if(res.ok){
-//         const userSession = await res.json();
-//         dispatch(setSessionUser(userSession))
-//     }
-// }
-
-export const login = (user) => async (dispatch)=>{
-    const res = await fetch('/api/session',{
-        method: "POST",
-        headers: {
-            'ContentType': 'application/json'
-        },
-        body:{
-            credential,
-            password
-        }
-    })
-
-    if (res.ok) {
-        const user = res.json()
-        dispatch(setSessionUser(user))
-    }
-}
-
+export const restoreUser = () => async (dispatch) => {
+  const res = await csrfFetch("/api/session");
+  const session = await res.json();
+  dispatch(setSessionUser(session.user));
+  return res;
+};
 
 // * Reducer
 const initialState = {
@@ -51,18 +45,16 @@ const sessionReducer = (state = initialState, action) => {
     case "SET_SESSION_USER":
       return {
         ...state,
-        [action.user.id]: action.user
+        user: action.payload,
       };
     case "DELETE_SESSION_USER":
-        {
-            const newState = {...state}
-            delete newState[action.userId];
-            return newState;
-        }
+      return {
+        ...state,
+        user: null,
+      };
     default:
       return state;
   }
 };
-
 
 export default sessionReducer;
