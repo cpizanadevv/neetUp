@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./SignupForm.css";
 import * as sessionActions from "../../store/session";
+// import { Navigate } from "react-router-dom";
+import { useModal } from "../../context/Modal";
 
-function SignupFormPage() {
+
+function SignupFormModal() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errs, setErrs] = useState({});
-
-  const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-
-  if (sessionUser) return <Navigate to="/" replace={true} />;
+  const [errors, setErrors] = useState({});
+  const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,18 +27,19 @@ function SignupFormPage() {
           username,
           firstName,
           lastName,
-          password,
+          password
         })
-      ).catch(async (res) => {
-        const data = await res.json();
-        if (data?.errs) {
-          setErrs(data.errs);
-        }
-      });
+      )
+        .then(closeModal)
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data?.errors) {
+            setErrors(data.errors);
+          }
+        });
     }
     return setErrors({
-      confirmPassword:
-        "Confirm Password field must be the same as the Password field",
+      confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
 
@@ -55,7 +56,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errs.email && <p>{errs.email}</p>}
+        {errors.email && <p>{errors.email}</p>}
         <label>
           Username
           <input
@@ -65,7 +66,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errs.username && <p>{errs.username}</p>}
+        {errors.username && <p>{errors.username}</p>}
         <label>
           First Name
           <input
@@ -75,7 +76,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errs.firstName && <p>{errs.firstName}</p>}
+        {errors.firstName && <p>{errors.firstName}</p>}
         <label>
           Last Name
           <input
@@ -85,7 +86,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errs.lastName && <p>{errs.lastName}</p>}
+        {errors.lastName && <p>{errors.lastName}</p>}
         <label>
           Password
           <input
@@ -95,7 +96,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errs.password && <p>{errs.password}</p>}
+        {errors.password && <p>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -105,11 +106,13 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errs.confirmPassword && <p>{errs.confirmPassword}</p>}
+        {errors.confirmPassword && (
+          <p>{errors.confirmPassword}</p>
+        )}
         <button type="submit">Sign Up</button>
       </form>
     </>
   );
 }
 
-export default SignupFormPage;
+export default SignupFormModal;

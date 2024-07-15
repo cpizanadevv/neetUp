@@ -6,15 +6,10 @@ export const setUser = (user) => ({
   payload: user,
 });
 
-export const deleteSessionUser = (user) => ({
+export const removeUser = () => ({
   type: "DELETE_USER",
-  payload: user,
 });
 
-// export const signUpUser = (user) => ({
-//   type: "SIGN_UP_USER",
-//   payload: user
-// })
 
 // * THUNK
 export const login = (user) => async (dispatch) => {
@@ -58,6 +53,14 @@ export const signup = (user) => async (dispatch) => {
     return res;
   }
 };
+
+export const logout = () => async (dispatch) => {
+  const res = await csrfFetch('/api/session', {
+    method: 'DELETE'
+  });
+  dispatch(removeUser());
+  return res;
+}
 
 // * Reducer
 const initialState = {
