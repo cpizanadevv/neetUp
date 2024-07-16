@@ -3,12 +3,12 @@ import { csrfFetch } from "./csrf";
 //*  ACTIONS
 export const getAllGroups = (groups) => ({
   type: "GET_ALL_GROUPS",
-  payload: groups,
+  groups,
 });
 
 export const getGroup = (group) => ({
   type: "GET_GROUP",
-  payload: group,
+  group,
 });
 
 export const deleteGroup = () => ({
@@ -20,9 +20,9 @@ export const deleteGroup = () => ({
 // * THUNK
 
 export const getGroups = () => async (dispatch) => {
-    console.log("INSIDE THE THUNK")
+    // console.log("INSIDE THE THUNK")
     const res = await csrfFetch('/api/groups');
-    console.log(res)
+    // console.log(res)
     if (res.ok) {
         const groups = await res.json();
         // console.log("THIS IS GROUPS insode thunk",groups)
@@ -44,7 +44,7 @@ export const getGroupById = (groupId) => async (dispatch) => {
 
 // * Reducer
 const initialState = {
-  groups: null,
+  groups: [],
 };
 
 const groupReducer = (state = initialState, action) => {
@@ -52,12 +52,12 @@ const groupReducer = (state = initialState, action) => {
     case "GET_ALL_GROUPS":
       return {
         ...state,
-        groups: action.payload,
+        groups: action.groups,
       };
     case "GET_GROUP":
       return {
         ...state,
-        group: action.payload,
+        group: action.group,
       };
     case "DELETE_USER":
       return {

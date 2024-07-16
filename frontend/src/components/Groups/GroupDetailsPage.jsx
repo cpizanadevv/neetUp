@@ -1,7 +1,7 @@
 import { getGroup } from "../../store/group";
 
 const GroupDetailsPage = () => {
-    const groups = useSelector((state) => state.groups);
+    const group = useSelector((state) => state.group.group);
     const dispatch = useDispatch();
   
     useEffect(() => {
@@ -10,3 +10,5 @@ const GroupDetailsPage = () => {
   
 
 }
+
+export default GroupDetailsPage
