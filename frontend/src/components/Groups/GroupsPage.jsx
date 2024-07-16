@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllGroups } from "../../store/group";
 import { NavLink } from "react-router-dom";
+import * as sessionActions from '../../store/group';
+
 
 const GroupsPage = () => {
-  const groups = useSelector((state) => state.groups);
+  const groups = useSelector((state) => state.group.groups || []);
+  console.log("THIS IS GROUP",groups)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllGroups);
+    dispatch(sessionActions.getGroups());
   }, [dispatch]);
 
   return (
@@ -27,7 +29,7 @@ const GroupsPage = () => {
       </div>
       <div>
         {groups.map(({ id, name, city, state, about, preview, type }) => (
-          <NavLink to={`/${id}`}>
+          <NavLink key={id} to={`/groups/${id}`}>
             <div>
               <img src={preview} />
               <div>
