@@ -1,0 +1,31 @@
+
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style-type: none;
+    
+}
+
+
+.profile-dropdown {
+    background-color: #fff;
+    list-style-type:none;
+    position:fixed;
+    top: 3rem;
+    right: 0;
+    border: 1px solid black;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profile-dropdown li {
+    margin: .25rem;
+}

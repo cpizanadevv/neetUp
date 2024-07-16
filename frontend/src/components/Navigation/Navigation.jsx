@@ -37,8 +37,10 @@ function Navigation({ isLoaded }) {
 
   return (
     <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
+      <li id="home">
+        <NavLink to="/">
+        <h2 id="logo">neetUp</h2>
+        </NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
