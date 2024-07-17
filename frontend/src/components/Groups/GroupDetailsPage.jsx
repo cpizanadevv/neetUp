@@ -11,9 +11,9 @@ const GroupDetailsPage = () => {
 
   const { name, city, state, about, previewImage, type } = group;
   
-  console.log("THIS IS GROUP",group)
+  // console.log("THIS IS GROUP",group)
   const host = {...group.Organizer};
-  console.log("THIS IS HOST: ", host)
+  // console.log("THIS IS HOST: ", host)
   const { firstName, lastName } = host;
 
   useEffect(() => {

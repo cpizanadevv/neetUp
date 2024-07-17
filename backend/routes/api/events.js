@@ -159,12 +159,10 @@ event.get("/", async (req, res) => {
   }
 
   const allEvents = await Event.findAll({
-    // where,
-    // ...pagination,
-    // subQuery: false,
     order: [["id", "ASC"]],
     attributes: {
       include: [
+        "description",
         "id",
         [
           Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),

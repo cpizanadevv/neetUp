@@ -22,9 +22,9 @@ export const deleteEvent = () => ({
 export const getEvents = () => async (dispatch) => {
     const res = await csrfFetch('/api/events');
     if (res.ok) {
-        const events = await res.json();
+      const events = await res.json();
+      // console.log(events)
         dispatch(getAllEvents(events))
-        return events
     }
 }
 
@@ -33,7 +33,7 @@ export const getEventById = (eventId) => async (dispatch) => {
     if (res.ok) {
       const event = await res.json();
       dispatch(getEvent(event));
-      return event;
+      return event
     }
 }
 
@@ -45,15 +45,15 @@ const initialState = {
 
 const eventReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_ALL_EVENT":
+    case "GET_ALL_EVENTS":
       return {
         ...state,
-        events: action.payload,
+        events: action.events,
       };
     case "GET_EVENT":
       return {
         ...state,
-        event: action.payload,
+        event: action.event,
       };
     case "DELETE_EVENT":
       return {

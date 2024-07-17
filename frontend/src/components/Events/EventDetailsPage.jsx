@@ -1,15 +1,93 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as eventActions from "../../store/event";
+import { NavLink, useParams } from "react-router-dom";
+import { FaLongArrowAltLeft, FaMapPin, FaRegClock } from "react-icons/fa";
+import { FaCircleDollarToSlot } from "react-icons/fa6";
+
 const EventDetailsPage = () => {
-//     const dispatch = useDispatch();
-//     const events = useSelector((state) => state.event.events || []);
-//       console.log("THIS IS EVENTS", events);
-//   //   const allevents = events.events ? Object.values(events)[0] : [];
-//     //   console.log("allevents", allevents);
-  
-//     useEffect(() => {
-//       dispatch(groupActions.getevents());
-//     }, [dispatch]);
-  
-//     return <div></div>;
-  };
-  
-  export default EventDetailsPage;
+  const eventId = useParams();
+  const dispatch = useDispatch();
+  const event = useSelector((state) => state.event.event || []);
+
+  // console.log(group)
+
+  const {
+    name,
+    description,
+    startDate,
+    endDate,
+    price,
+    type,
+    Group,
+    previewImage,
+  } = event.Events;
+  console.log(event);
+
+  // const organizer = {...Group.Organizer}
+  // const host = organizer.lastName + " , " + organizer.firstName;
+  useEffect(() => {
+    dispatch(eventActions.getEventById(eventId.eventId));
+  }, [dispatch, eventId]);
+
+  return (
+    <div>
+      <div>
+        <div>
+          <NavLink to="/events">
+            <FaLongArrowAltLeft />
+            Events
+          </NavLink>
+        </div>
+        <div>
+          <h2>{name}</h2>
+          <h4>Hosted by </h4>
+        </div>
+        <div id="EventCard">
+          <div id="topSection">
+            <div id="img">
+              <img src={previewImage} />
+            </div>
+            <NavLink to={`/groups/${Group.id}`}>
+              <div id="groupCard">
+                <div id="groupImg">
+                  <img src="" alt="" />
+                </div>
+                <div id="groupInfo">
+                  {Group.name}
+                  {Group.type === true ? <h4>Private</h4> : <h4>Public</h4>}
+                </div>
+              </div>
+            </NavLink>
+
+            <div id="eventInfo">
+              <div id="time">
+                <FaRegClock />
+                <div>
+                  <h4>Start</h4>
+                  <h4>End</h4>
+                </div>
+
+                <div>
+                  <h4>{new Date(startDate).toLocaleString()}</h4>
+                  <h4>{new Date(endDate).toLocaleString()}</h4>
+                </div>
+              </div>
+              <div id="price">
+                <FaCircleDollarToSlot /> {price}
+              </div>
+              <div id="eventType">
+                <FaMapPin /> {type}
+              </div>
+            </div>
+          </div>
+          <div id="details">
+            <p>{description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EventDetailsPage;

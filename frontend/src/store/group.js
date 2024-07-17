@@ -11,6 +11,11 @@ export const getGroup = (group) => ({
   group,
 });
 
+export const createNewGroup = (group) => ({
+  type: "CREATE_GROUP",
+  group,
+});
+
 export const deleteGroup = () => ({
   type: "DELETE_GROUP",
 });
@@ -32,11 +37,23 @@ export const getGroups = () => async (dispatch) => {
 
 export const getGroupById = (groupId) => async (dispatch) => {
     const res = await csrfFetch(`/api/groups/${groupId}`);
-    console.log("RES IN THUNK", res)
+    // console.log("RES IN THUNK", res)
     if (res.ok) {
       const group = await res.json();
       dispatch(getGroup(group));
       return group;
+    }
+}
+
+export const createGroup = (group) => async (dispatch) => {
+    const res = await csrfFetch("/api/groups", {
+      method: 'POST',
+      body: JSON.stringify(group)
+    });
+    // console.log("RES IN THUNK", res)
+    if(res.ok) {
+      const newGroup = await res.json();
+      dispatch(createNewGroup(group))
     }
 }
 
@@ -54,6 +71,11 @@ const groupReducer = (state = initialState, action) => {
         groups: action.groups,
       };
     case "GET_GROUP":
+      return {
+        ...state,
+        group: action.group,
+      };
+    case "CREATE_GROUP":
       return {
         ...state,
         group: action.group,

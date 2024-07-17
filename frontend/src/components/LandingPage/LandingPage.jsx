@@ -40,7 +40,7 @@ const LandingPage = () => {
       </div>
       <div>
         <button>
-          <NavLink>Join neetUp</NavLink>
+          <NavLink to='/groups/new'>Join neetUp</NavLink>
           </button>
       </div>
     </>
