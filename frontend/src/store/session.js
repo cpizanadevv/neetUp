@@ -63,6 +63,7 @@ export const logout = () => async (dispatch) => {
   return res;
 }
 
+
 // * Reducer
 const initialState = {
   user: null,

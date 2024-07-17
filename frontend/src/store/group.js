@@ -20,7 +20,6 @@ export const deleteGroup = () => ({
 // * THUNK
 
 export const getGroups = () => async (dispatch) => {
-    // console.log("INSIDE THE THUNK")
     const res = await csrfFetch('/api/groups');
     // console.log(res)
     if (res.ok) {
@@ -33,11 +32,11 @@ export const getGroups = () => async (dispatch) => {
 
 export const getGroupById = (groupId) => async (dispatch) => {
     const res = await csrfFetch(`/api/groups/${groupId}`);
-
+    console.log("RES IN THUNK", res)
     if (res.ok) {
-        const group = await res.json();
-        dispatch(getGroup(group))
-        return group
+      const group = await res.json();
+      dispatch(getGroup(group));
+      return group;
     }
 }
 
@@ -59,10 +58,10 @@ const groupReducer = (state = initialState, action) => {
         ...state,
         group: action.group,
       };
-    case "DELETE_USER":
+    case "DELETE_GROUP":
       return {
         ...state,
-        user: null,
+        group: null,
       };
     default:
       return state;

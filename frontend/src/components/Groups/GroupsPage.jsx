@@ -6,13 +6,15 @@ import * as groupActions from "../../store/group";
 const GroupsPage = () => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.group.groups || []);
-//   console.log("THIS IS GROUP", groups);
+  //   console.log("THIS IS GROUP", groups);
   const allGroups = groups.Groups ? Object.values(groups)[0] : [];
-//   console.log("allgroups", allGroups);
+  //   console.log("allgroups", allGroups);
 
   useEffect(() => {
     dispatch(groupActions.getGroups());
   }, [dispatch]);
+
+//   !Needs NumofEvents
 
   return (
     <>
@@ -28,22 +30,25 @@ const GroupsPage = () => {
         <h4>Groups in neetUp</h4>
         <hr />
       </div>
-      <div>
+      <div id="groups">
         {groups &&
           allGroups.map(
             ({ id, name, city, state, about, previewImage, type }) => (
               <NavLink key={id} to={`/groups/${id}`}>
-                <div>
-                  <img src={previewImage} />
-                  <div>
-                    <h2>{name}</h2>
-                    <h4>
+                <div id="groupCard">
+                  <div id="groupImg">
+                    <img src={previewImage} />
+                  </div>
+                  <div id="groupInfo">
+                    <h2 id="groupName">{name}</h2>
+                    <h4 id="groupLocation">
                       {city},{state}
                     </h4>
-                    <p>{about}</p>
-                    <h4>{type}</h4>
+                    <p id="groupAbout">{about}</p>
+                    <h4 id="groupType">{type}</h4>
                   </div>
                 </div>
+                <hr />
               </NavLink>
             )
           )}
