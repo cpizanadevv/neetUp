@@ -34,13 +34,13 @@ const LandingPage = () => {
           <h4>
             {/* Link is disabled if user is 
                 not logged in */}
-            <NavLink>Start a new Group</NavLink>
+            <NavLink to='/groups/new'>Start a new Group</NavLink>
           </h4>
         </div>
       </div>
       <div>
         <button>
-          <NavLink to='/groups/new'>Join neetUp</NavLink>
+          <NavLink>Join neetUp</NavLink>
           </button>
       </div>
     </>
