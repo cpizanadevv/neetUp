@@ -18,7 +18,7 @@ const GroupDetailsPage = () => {
 
   useEffect(() => {
     dispatch(groupActions.getGroupById(groupId));
-  }, [dispatch]);
+  }, [dispatch,groupId]);
   //   !Needs Num of Events
 
   return (
