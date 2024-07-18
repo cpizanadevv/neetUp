@@ -30,8 +30,8 @@ const GroupFormPage = () => {
 
     const result = await dispatch(groupActions.createGroup(group));
 
-    if (result.errors) {
-      setErrs(result.errors);
+    if (result.errors.errors) {
+      setErrs(result.errors.errors);
     } else {
       navigate(`/groups/${result.id}`);
     }
