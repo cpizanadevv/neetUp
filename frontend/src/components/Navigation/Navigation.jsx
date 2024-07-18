@@ -4,7 +4,9 @@ import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal.jsx/SignupFormModal";
+import logo from '../../store/images/neetup-logo.png'
 import "./Navigation.css";
+
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -39,7 +41,7 @@ function Navigation({ isLoaded }) {
     <ul>
       <li id="home">
         <NavLink to="/">
-        <h2 id="logo">neetUp</h2>
+        <img src={logo} alt="neetUp logo" />
         </NavLink>
       </li>
       {isLoaded && sessionLinks}

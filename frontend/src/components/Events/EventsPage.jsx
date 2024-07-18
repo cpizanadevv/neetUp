@@ -12,7 +12,7 @@ const EventsPage = () => {
 
 
   const allEvents = events.Events ? Object.values(events)[0] : [];
-  console.log("THIS IS ALLEVENTS: ", allEvents);
+  // console.log("THIS IS ALLEVENTS: ", allEvents);
 
   useEffect(() => {
     dispatch(eventActions.getEvents());

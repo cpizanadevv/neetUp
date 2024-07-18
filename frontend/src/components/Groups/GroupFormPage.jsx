@@ -14,6 +14,7 @@ const GroupFormPage = () => {
   let [cityState, setCityState] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [img, setImg] = useState("");
 
   useEffect(() => {
     const cityStateArray = cityState.split(",").map((part) => part.trim());
@@ -23,6 +24,20 @@ const GroupFormPage = () => {
     }
   }, [cityState]);
 
+  const validImg = [".png", ".jpeg", ".jpg"];
+
+  const validateImageUrl = (url) => {
+    if (!url) {
+      setErrors("Image URL is required");
+      return false;
+    }
+    const extension = url.substring(url.lastIndexOf(".")).toLowerCase();
+    if (!validImg.includes(extension)) {
+      setErrors("Image must be a .png, .jpeg, or .jpg");
+      return false;
+    }
+    return true;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,11 +45,26 @@ const GroupFormPage = () => {
 
     const result = await dispatch(groupActions.createGroup(group));
 
+    validateImageUrl(img);
+
     if (result.errors.errors) {
       setErrs(result.errors.errors);
     } else {
       navigate(`/groups/${result.id}`);
     }
+    reset();
+  };
+
+  const reset = () => {
+    setErrs({});
+    setName("");
+    setAbout("");
+    setType("");
+    setPrivate();
+    setCityState("");
+    setCity("");
+    setState("");
+    setImg("");
   };
 
   return (
@@ -85,35 +115,38 @@ const GroupFormPage = () => {
           <li>Who should join?</li>
           <li>What will you do at your events?</li>
         </ol>
-        <input
-          type="text"
-          placeholder="Please erite at least 50 characters"
-          onChange={(e) => setAbout(e.target.value)}
-        />
+        <textarea id='textarea' placeholder="Please write at least 50 characters"
+          onChange={(e) => setAbout(e.target.value)} ></textarea>
         <div className="errors">{errs.about}</div>
       </div>
       <h3>Final steps...</h3>
       <div id="type">
         <h4>Is this an in person or online group?</h4>
-        <input
-          type="text"
-          placeholder="(select one)"
-          onChange={(e) => setType(e.target.value)}
-        />
+        <select placeholder="(select one)"
+          onChange={(e) => setType(e.target.value)}>
+            <option >(select one)</option>
+            <option value="In Person">In Person</option>
+            <option value="Online">Online</option>
+          </select>
         <div className="errors">{errs.type}</div>
       </div>
       <div id="private">
         <h4>Is this group private or public?</h4>
-        <input
-          type="text"
-          placeholder="(select one)"
-          onChange={(e) => setPrivate(e.target.value)}
-        />
+        <select placeholder="(select one)"
+          onChange={(e) => setPrivate(e.target.value)}>
+            <option >(select one)</option>
+            <option value='true' >Private</option>
+            <option value='false'>Public</option>
+          </select>
         <div className="errors">{errs.private}</div>
       </div>
       <div id="img">
         <h4>Please add an image url for your group below:</h4>
-        <input type="text" placeholder="Image Url" />
+        <input
+          type="text"
+          placeholder="Image Url"
+          onChange={(e) => setImg(e.target.value)}
+        />
         <div className="errors">{errs.img}</div>
       </div>
       <hr />

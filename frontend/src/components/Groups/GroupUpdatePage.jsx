@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
 import * as groupActions from "../../store/group";
 
 const GroupFormPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [errs, setErrs] = useState({});
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [type, setType] = useState("");
-  const [isPrivate, setPrivate] = useState();
-  let [cityState, setCityState] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [errs, setErrs] = useState({});
+    const [name, setName] = useState("");
+    const [about, setAbout] = useState("");
+    const [type, setType] = useState("");
+    const [isPrivate, setPrivate] = useState();
+    let [cityState, setCityState] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [img, setImg] = useState("");
 
   useEffect(() => {
     const cityStateArray = cityState.split(",").map((part) => part.trim());
@@ -23,20 +24,51 @@ const GroupFormPage = () => {
     }
   }, [cityState]);
 
+
+  const validImg = [".png", ".jpeg", ".jpg"];
+
+  const validateImageUrl = (url) => {
+    if (!url) {
+      setErrors("Image URL is required");
+      return false;
+    }
+    const extension = url.substring(url.lastIndexOf(".")).toLowerCase();
+    if (!validImg.includes(extension)) {
+      setErrors("Image must be a .png, .jpeg, or .jpg");
+      return false;
+    }
+    return true;
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const group = { name, about, type, private: isPrivate, city, state };
 
-    const result = await dispatch(groupActions.updateGroup(group));
 
-    if (result.errors) {
-      setErrs(result.errors);
+    const result = await dispatch(groupActions.updateGroup(group));
+    validateImageUrl(img);
+
+    if (result.errors.errors) {
+      setErrs(result.errors.errors);
     } else {
       navigate(`/groups/${result.id}`);
     }
+    reset();
   };
 
+  const reset = () => {
+    setErrs({});
+    setName("");
+    setAbout("");
+    setType("");
+    setPrivate();
+    setCityState("");
+    setCity("");
+    setState("");
+    setImg("");
+  };
   return (
     <form onSubmit={handleSubmit}>
       <h3>UPDATE YOUR GROUP&apos;S INFORMATION</h3>
@@ -96,20 +128,22 @@ const GroupFormPage = () => {
       <h3>Final steps...</h3>
       <div id="type">
         <h4>Is this an in person or online group?</h4>
-        <input
-          type="text"
-          placeholder="(select one)"
-          onChange={(e) => setType(e.target.value)}
-        />
+        <select placeholder="(select one)"
+          onChange={(e) => setType(e.target.value)}>
+            <option >(select one)</option>
+            <option value="In Person">In Person</option>
+            <option value="Online">Online</option>
+          </select>
         <div className="errors">{errs.type}</div>
       </div>
       <div id="private">
         <h4>Is this group private or public?</h4>
-        <input
-          type="text"
-          placeholder="(select one)"
-          onChange={(e) => setPrivate(e.target.value)}
-        />
+        <select placeholder="(select one)"
+          onChange={(e) => setPrivate(e.target.value)}>
+            <option >(select one)</option>
+            <option value='true' >Private</option>
+            <option value='false'>Public</option>
+          </select>
         <div className="errors">{errs.private}</div>
       </div>
       <hr />

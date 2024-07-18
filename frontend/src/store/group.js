@@ -74,6 +74,7 @@ export const createGroup = (group) => async (dispatch) => {
 }
 
 export const updateGroup = (group) => async (dispatch) => {
+  try {
     const res = await csrfFetch("/api/groups", {
       method: 'PUT',
       body: JSON.stringify(group),
@@ -84,10 +85,11 @@ export const updateGroup = (group) => async (dispatch) => {
     if(res.ok) {
       const updated = await res.json();
       dispatch(updatedGroup(updated))
-    }else{
-      const errors = await res.json()
-      return { errors }
     }
+  } catch (error) {
+    const errors = await error.json()
+    return { errors }
+  }
 }
 
 
