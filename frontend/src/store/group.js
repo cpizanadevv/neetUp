@@ -16,6 +16,11 @@ export const createNewGroup = (group) => ({
   group,
 });
 
+export const updatedGroup = (group) => ({
+  type: "UPDATE_GROUP",
+  group,
+});
+
 export const deleteGroup = () => ({
   type: "DELETE_GROUP",
 });
@@ -63,6 +68,23 @@ export const createGroup = (group) => async (dispatch) => {
     }
 }
 
+export const updateGroup = (group) => async (dispatch) => {
+    const res = await csrfFetch("/api/groups", {
+      method: 'PUT',
+      body: JSON.stringify(group),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if(res.ok) {
+      const updated = await res.json();
+      dispatch(updatedGroup(updated))
+    }else{
+      const errors = await res.json()
+      return { errors }
+    }
+}
+
 
 // * Reducer
 const initialState = {
@@ -82,6 +104,11 @@ const groupReducer = (state = initialState, action) => {
         group: action.group,
       };
     case "CREATE_GROUP":
+      return {
+        ...state,
+        group: action.group,
+      };
+    case "UPDATE_GROUP":
       return {
         ...state,
         group: action.group,

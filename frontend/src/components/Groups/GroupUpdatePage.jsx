@@ -28,7 +28,7 @@ const GroupFormPage = () => {
 
     const group = { name, about, type, private: isPrivate, city, state };
 
-    const result = await dispatch(groupActions.createGroup(group));
+    const result = await dispatch(groupActions.updateGroup(group));
 
     if (result.errors) {
       setErrs(result.errors);
@@ -39,9 +39,10 @@ const GroupFormPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Become an Organizer</h3>
+      <h3>UPDATE YOUR GROUP&apos;S INFORMATION</h3>
       <h2>
-        We&apos;ll walk you through a few steps to build your local community
+      We&apos;ll walk you through a few steps to update your group&apos;s information
+
       </h2>
       <hr />
       <div id="location">
@@ -111,13 +112,8 @@ const GroupFormPage = () => {
         />
         <div className="errors">{errs.private}</div>
       </div>
-      <div id="img">
-        <h4>Please add an image url for your group below:</h4>
-        <input type="text" placeholder="Image Url" />
-        <div className="errors">{errs.img}</div>
-      </div>
       <hr />
-      <button type="submit">Create Group</button>
+      <button type="submit">Update Group</button>
     </form>
   );
 };
