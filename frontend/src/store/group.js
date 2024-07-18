@@ -53,12 +53,12 @@ export const createGroup = (group) => async (dispatch) => {
         'Content-Type': 'application/json'
       }
     });
+    console.log("THiS RES IN THINK" , res)
     if(res.ok) {
       const newGroup = await res.json();
       dispatch(createNewGroup(newGroup))
     }else{
       const errors = await res.json()
-      console.log(errors)
       return { errors }
     }
 }
