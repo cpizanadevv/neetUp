@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as eventActions from "../../store/event";
@@ -16,8 +16,11 @@ const EventFormPage = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [img, setImg] = useState("");
-  const group = useSelector((state) => state.group.groups || []);
-  console.log(group);
+  
+
+  const group = useSelector((state) => state.group.group || {});
+  const groupId = group.id; // Get groupId from the group object
+
 
   const validImg = [".png", ".jpeg", ".jpg"];
 
@@ -62,7 +65,7 @@ const EventFormPage = () => {
         endDate: parseDateTime(endDate),
    };
 
-    const result = await dispatch(eventActions.createEvent(event));
+    const result = await dispatch(eventActions.createEvent(event,groupId));
 
     
     if(validateImageUrl(img)){
@@ -135,16 +138,19 @@ const EventFormPage = () => {
             <h4>When does your event start?</h4>
           <input type="text" placeholder="MM/DD/YYY HH/mm AM/PM"  onChange={(e) => setStartDate(e.target.value)} />
         </div>
+        <div className="errors">{errs.startDate}</div>
         <div id="endDate">
             <h4>When does your event end?</h4>
           <input type="text" placeholder="MM/DD/YYY HH/mm AM/PM" onChange={(e) => setEndDate(e.target.value)} />
         </div>
+        <div className="errors">{errs.endDate}</div>
       </div>
       <hr />
       <div id="img">
         <h4>Please add in image url for your event below</h4>
         <input type="text" placeholder="Image Url" onChange={(e) => setImg(e.target.value)} />
       </div>
+      <div className="errors">{errs.img}</div>
       <div id="about">
         <h4>Please describe your event:</h4>
         <textarea
@@ -152,7 +158,7 @@ const EventFormPage = () => {
           placeholder="Please write at least 50 characters"
           onChange={(e) => setAbout(e.target.value)}
         />
-        <div className="errors">{errs.about}</div>
+        <div className="errors">{errs.description}</div>
       </div>
       <hr />
       <button type="submit">Create Event</button>

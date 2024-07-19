@@ -35,11 +35,34 @@ export const getEvents = () => async (dispatch) => {
 
 export const getEventById = (eventId) => async (dispatch) => {
     const res = await csrfFetch(`/api/events/${eventId}`);
+    console.log("THIS IS RES IN THUNK", res.body)
     if (res.ok) {
       const event = await res.json();
-      dispatch(getEvent(event));
+      dispatch(getEvent(event.Events));
       return event
     }
+}
+
+export const createEvent = (event,groupId) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/groups/${groupId}/events`, {
+      method: 'POST',
+      body: JSON.stringify(event),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if(res.ok) {
+      const newEvent = await res.json();
+      dispatch(createNewEvent(newEvent))
+    }
+    
+  } catch (error) {
+    const errors = await error.json()
+    console.log("THIS IS ERRORS: ",errors.errors)
+      return { errors }
+  }
+    
 }
 
 
@@ -64,7 +87,17 @@ export const createImg = (img) => async (dispatch) => {
 
 // * Reducer
 const initialState = {
-  event: [],
+  events: [],
+  event: {
+      name: "",
+      description: "",
+      startDate: "",
+      endDate: "",
+      price: 0,
+      type: "",
+      Group: {},
+      previewImage: "",
+  },
 };
 
 const eventReducer = (state = initialState, action) => {

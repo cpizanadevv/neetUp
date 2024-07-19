@@ -119,6 +119,7 @@ export const createImg = (img) => async (dispatch) => {
 // * Reducer
 const initialState = {
   groups: [],
+  group: {}
 };
 
 const groupReducer = (state = initialState, action) => {

@@ -6,11 +6,23 @@ import { FaLongArrowAltLeft, FaMapPin, FaRegClock } from "react-icons/fa";
 import { FaCircleDollarToSlot } from "react-icons/fa6";
 
 const EventDetailsPage = () => {
-  const eventId = useParams();
+  const {eventId} = useParams();
   const dispatch = useDispatch();
-  const event = useSelector((state) => state.event.event || []);
+  const event = useSelector((state) => state.event.event);
 
-  // console.log(group)
+  // const currEvent = {...event.Event}
+  console.log("THIS IS EVENT ", event)
+  // console.log("THIS IS CURREVENT ", currEvent)
+
+  // console.log(currEvent)
+
+
+  // const organizer = {...Group.Organizer}
+  // const host = organizer.lastName + " , " + organizer.firstName;
+  
+  useEffect(() => {
+    dispatch(eventActions.getEventById(eventId));
+  }, [dispatch, eventId]);
 
   const {
     name,
@@ -21,15 +33,8 @@ const EventDetailsPage = () => {
     type,
     Group,
     previewImage,
-  } = event.Events;
-  console.log(event);
-
-  // const organizer = {...Group.Organizer}
-  // const host = organizer.lastName + " , " + organizer.firstName;
-  useEffect(() => {
-    dispatch(eventActions.getEventById(eventId.eventId));
-  }, [dispatch, eventId]);
-
+  } = event;
+  
   return (
     <div>
       <div>

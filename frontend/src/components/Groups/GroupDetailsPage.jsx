@@ -7,13 +7,14 @@ const GroupDetailsPage = () => {
   const { groupId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const group = useSelector((state) => state.group.group || []);
+  const group = useSelector((state) => state.group.group);
   const currUser = useSelector((state) => state.session.user);
-  console.log("THIS IS GROUP", group)
-  console.log("THIS IS currUser", currUser)
+  // console.log("THIS IS GROUP", group)
+  // console.log("THIS IS currUser", currUser)
 
 
   const { name, city, state, about, previewImage, type, Memberships = [] } = group;
+  console.log("name", name)
   
   const host = {...group.Organizer};
   const { firstName, lastName } = host;
