@@ -24,6 +24,10 @@ export const updatedGroup = (group) => ({
 export const deleteGroup = () => ({
   type: "DELETE_GROUP",
 });
+export const addGroupImg = () => ({
+  type: "ADD_IMG",
+  group
+});
 
 
 
@@ -92,6 +96,25 @@ export const updateGroup = (group) => async (dispatch) => {
   }
 }
 
+export const createImg = (img) => async (dispatch) => {
+  try {
+    const res = await csrfFetch("/api/groups/:groupId/images", {
+      method: 'POST',
+      body: JSON.stringify(img),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if(res.ok) {
+      const img = await res.json();
+      dispatch(addGroupImg(img))
+    }
+  } catch (error) {
+    const errors = await error.json()
+    return { errors }
+  }
+}
+
 
 // * Reducer
 const initialState = {
@@ -116,6 +139,11 @@ const groupReducer = (state = initialState, action) => {
         group: action.group,
       };
     case "UPDATE_GROUP":
+      return {
+        ...state,
+        group: action.group,
+      };
+    case "ADD_IMG":
       return {
         ...state,
         group: action.group,

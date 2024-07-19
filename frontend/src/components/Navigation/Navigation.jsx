@@ -4,9 +4,8 @@ import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal.jsx/SignupFormModal";
-import logo from '../../store/images/neetup-logo.png'
+import logo from "../../store/images/neetup-logo.png";
 import "./Navigation.css";
-
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -21,7 +20,7 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <ul>
-        <li>
+        <li id="login">
           <OpenModalButton
             buttonText="Log In"
             modalComponent={<LoginFormModal />}
@@ -38,14 +37,16 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul>
-      <li id="home">
-        <NavLink to="/">
-        <img src={logo} alt="neetUp logo" />
-        </NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+    <div id="nav">
+      <ul>
+        <li id="home">
+          <NavLink to="/">
+            <img src={logo} alt="neetUp logo" />
+          </NavLink>
+        </li>
+        {isLoaded && sessionLinks}
+      </ul>
+    </div>
   );
 }
 

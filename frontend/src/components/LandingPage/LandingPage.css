@@ -1,11 +1,53 @@
+#lp{
+    background: #93b4c6;
+}
+
 #pageIntro {
     display: flex;
     flex-direction: row;
+    padding: 2em 6em;
+    margin-top: 5em;
     
 }
 
 #info {
     display: flex;
     flex-direction: column;
+    padding: 0 1.75em;
+    margin-top: 2em;
+}
+
+#info h4 {
     
+    margin-top: 2em;
+}
+
+#img img{
+    height: 20em;
+    width: 25em;
+}
+
+h3 {
+    text-align: center;
+}
+
+#toDoCards {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em 15em;
+}
+
+#cards {
+    display: flex;
+    flex-direction: row;
+}
+
+#toDoCards img {
+    height: 8em;
+    width: 10em;
+
+}
+
+#links {
+    text-decoration: none;
 }

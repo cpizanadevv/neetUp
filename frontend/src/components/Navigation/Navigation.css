@@ -1,14 +1,62 @@
 
 
+#nav {
+    background: #1c3c4b;
+    padding: .5em;
+    margin: 0;
+    border-bottom: .25em solid black;
+}
 ul {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     list-style-type: none;
+    height: min-content;
+    background: #1c3c4b;
     
 }
 
+li #home{
+    left:0;
+    background: #1c3c4b;
+}
 
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1c3c4b;
+}
+
+h4 {
+    text-align: center;
+}
+
+#home img{
+    background: #1c3c4b;
+    height: 6em;
+    width: 12em;
+    margin: 0;
+    padding: 0;
+    left: 0;
+}
+
+#join {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#join button {
+    padding: .5em;
+    background: #D9736A;
+}
+button {
+    text-decoration: none;
+
+}
+
+/* 
 .profile-dropdown {
     background-color: #fff;
     list-style-type:none;
@@ -28,4 +76,4 @@ ul {
 
 .profile-dropdown li {
     margin: .25rem;
-}
+} */

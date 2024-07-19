@@ -38,14 +38,23 @@ const GroupFormPage = () => {
     }
     return true;
   };
+
+  const groupImg = { url: img, preview: true}
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const group = { name, about, type, private: isPrivate, city, state };
 
+
     const result = await dispatch(groupActions.createGroup(group));
 
-    validateImageUrl(img);
+    if(validateImageUrl(img)){
+      await dispatch(groupActions.createImg(groupImg))
+
+    }
+    
+    
 
     if (result.errors.errors) {
       setErrs(result.errors.errors);

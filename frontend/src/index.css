@@ -1,1 +1,7 @@
 /* TODO: Add sitewide styles */
+*{
+    padding: 0;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: #93b4c6;
+}

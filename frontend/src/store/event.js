@@ -38,6 +38,25 @@ export const getEventById = (eventId) => async (dispatch) => {
 }
 
 
+export const createImg = (img) => async (dispatch) => {
+  try {
+    const res = await csrfFetch("/api/events/:eventId/images", {
+      method: 'POST',
+      body: JSON.stringify(img),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if(res.ok) {
+      const img = await res.json();
+      dispatch(addGroupImg(img))
+    }
+  } catch (error) {
+    const errors = await error.json()
+    return { errors }
+  }
+}
+
 // * Reducer
 const initialState = {
   event: [],

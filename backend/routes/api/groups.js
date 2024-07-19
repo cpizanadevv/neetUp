@@ -49,12 +49,12 @@ const validateImg = [
   check("url")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Status must be either "co-host", "member",or "pending"'),
+    .withMessage("Url must be a string"),
   check("preview")
     .exists()
     .notEmpty()
     .isBoolean()
-    .withMessage('Status must be either "co-host", "member",or "pending"'),
+    .withMessage("Preview must be true or false"),
   handleValidationErrors,
 ];
 // Venue Validator

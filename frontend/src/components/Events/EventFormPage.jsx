@@ -11,13 +11,13 @@ const GroupFormPage = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
-  const [isPrivate, setPrivate] = useState();
   let [capacity, setCapacity] = useState("");
+  let [price, setPrice] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [img, setImg] = useState("");
   const group = useSelector((state) => state.group.groups);
-  console.log(group)
+  console.log(group);
 
   const validImg = [".png", ".jpeg", ".jpg"];
 
@@ -34,12 +34,44 @@ const GroupFormPage = () => {
     return true;
   };
 
+  
+  const groupImg = { url: img, preview: true}
+
+
+  const parseDateTime = (dateTimeStr) => {
+    const [datePart, timePart, modifier] = dateTimeStr.split(" ");
+    const [month, day, year] = datePart.split("/");
+    let [hours, minutes] = timePart.split(":");
+
+    if (modifier === "PM" && hours !== "12") {
+      hours = parseInt(hours, 10) + 12;
+    } else if (modifier === "AM" && hours === "12") {
+      hours = "00";
+    }
+
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")} ${hours}:${minutes}:00`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const event = { name, about, type, private: isPrivate, city, state };
+    const event = { 
+        name,
+        description,
+        type,
+        capacity,
+        price,
+        startDate: parseDateTime(startDate),
+        endDate: parseDateTime(endDate),
+   };
 
     const result = await dispatch(eventActions.createEvent(event));
+
+    
+    if(validateImageUrl(img)){
+        await dispatch(eventActions.createImg(groupImg))
+  
+      }
 
     if (result.errors.errors) {
       setErrs(result.errors.errors);
@@ -50,8 +82,7 @@ const GroupFormPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create a new Event for {group.id}
-      </h2>
+      <h2>Create a new Event for {group.id}</h2>
       <div id="name">
         <h4>What is the name of your event?</h4>
         <input
@@ -64,45 +95,43 @@ const GroupFormPage = () => {
       <hr />
       <div id="type">
         <h4>Is this an in person or online group?</h4>
-        <select placeholder="(select one)"
-          onChange={(e) => setType(e.target.value)}>
-            <option >(select one)</option>
-            <option value="In Person">In Person</option>
-            <option value="Online">Online</option>
-          </select>
+        <select
+          placeholder="(select one)"
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option>(select one)</option>
+          <option value="In Person">In Person</option>
+          <option value="Online">Online</option>
+        </select>
         <div className="errors">{errs.type}</div>
-      </div>
-      <div id="private">
-        <h4>Is this group private or public?</h4>
-        <select placeholder="(select one)"
-          onChange={(e) => setPrivate(e.target.value)}>
-            <option >(select one)</option>
-            <option value='true' >Private</option>
-            <option value='false'>Public</option>
-          </select>
-        <div className="errors">{errs.private}</div>
       </div>
       <div id="price">
         <h4>What is the price for your event?</h4>
         <div id="priceInput">
-        <FaCircleDollarToSlot /> 
-            <input type="text" />
+          <FaCircleDollarToSlot />
+          <input type="text" onChange={(e) => setPrice(e.target.value)} />
         </div>
-        
+        <div className="errors">{errs.price}</div>
       </div>
       <hr />
+      <div id="date">
+        <div id="startDate">
+            <h4>When does your event start?</h4>
+          <input type="text" placeholder="MM/DD/YYY HH/mm AM/PM"  onChange={(e) => setStartDate(e.target.value)} />
+        </div>
+        <div id="endDate">
+            <h4>When does your event end?</h4>
+          <input type="text" placeholder="MM/DD/YYY HH/mm AM/PM" onChange={(e) => setEndDate(e.target.value)} />
+        </div>
+      </div>
+      <hr />
+      <div id="img">
+        <h4>Please add in image url for your event below</h4>
+        <input type="text" placeholder="Image Url" onChange={(e) => setImg(e.target.value)} />
+      </div>
       <div id="about">
-        <h2>Now describe what your group will be about</h2>
-        <h4>
-          People will see this when we promote your group, but you&apos;ll be
-          able to add to it later, too
-        </h4>
-        <ol>
-          <li>What&apos;s the purpose of the group?</li>
-          <li>Who should join?</li>
-          <li>What will you do at your events?</li>
-        </ol>
-        <input
+        <h4>Please describe your event:</h4>
+        <textarea
           type="text"
           placeholder="Please write at least 50 characters"
           onChange={(e) => setAbout(e.target.value)}
@@ -110,7 +139,7 @@ const GroupFormPage = () => {
         <div className="errors">{errs.about}</div>
       </div>
       <hr />
-      <button type="submit">Update Group</button>
+      <button type="submit">Create Event</button>
     </form>
   );
 };
