@@ -28,12 +28,12 @@ const GroupFormPage = () => {
 
   const validateImageUrl = (url) => {
     if (!url) {
-      setErrors("Image URL is required");
+      setErrs("Image URL is required");
       return false;
     }
     const extension = url.substring(url.lastIndexOf(".")).toLowerCase();
     if (!validImg.includes(extension)) {
-      setErrors("Image must be a .png, .jpeg, or .jpg");
+      setErrs("Image must be a .png, .jpeg, or .jpg");
       return false;
     }
     return true;
