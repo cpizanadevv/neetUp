@@ -1,0 +1,25 @@
+* {
+    text-decoration: none;
+    color: #06293A;
+    font-weight: 600;
+}
+
+#headings {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    left: 0;
+}
+
+#headline {
+    text-align: start;
+}
+
+#groupList {
+    width: 40em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 3em 15em;
+}

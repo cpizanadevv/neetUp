@@ -1,0 +1,36 @@
+
+#home img{
+    background: #1c3c4b;
+    height: 6em;
+    width: 12em;
+    margin: 0;
+    padding: 0;
+    left: 0;
+}
+
+#join {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#join button {
+    padding: .5em;
+    text-decoration: none;
+    height: 4em;
+    width: 10em;
+    justify-content: center;
+}
+
+button  {
+    background: #D9A3A0;
+    text-decoration: none;
+    height: 2.5em;
+    width: 6em;
+    justify-content: center;
+}
+
+input {
+    width: 100%;
+    height: 2em;
+}

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as eventActions from "../../store/event";
 import { FaCircleDollarToSlot } from "react-icons/fa6";
 
-const GroupFormPage = () => {
+const EventFormPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errs, setErrs] = useState({});
@@ -16,26 +16,23 @@ const GroupFormPage = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [img, setImg] = useState("");
-  const group = useSelector((state) => state.group.groups);
+  const group = useSelector((state) => state.group.groups || []);
   console.log(group);
 
   const validImg = [".png", ".jpeg", ".jpg"];
 
   const validateImageUrl = (url) => {
     if (!url) {
-      setErrors("Image URL is required");
+      setErrs("Image URL is required");
       return false;
     }
     const extension = url.substring(url.lastIndexOf(".")).toLowerCase();
     if (!validImg.includes(extension)) {
-      setErrors("Image must be a .png, .jpeg, or .jpg");
+      setErrs("Image must be a .png, .jpeg, or .jpg");
       return false;
     }
     return true;
   };
-
-  
-  const groupImg = { url: img, preview: true}
 
 
   const parseDateTime = (dateTimeStr) => {
@@ -76,8 +73,27 @@ const GroupFormPage = () => {
     if (result.errors.errors) {
       setErrs(result.errors.errors);
     } else {
+      const eventId = result.id;
+
+      if (validateImageUrl(img)) {
+        const eventImg = { url: img, preview: true, eventId };
+        await dispatch(eventActions.createImg(eventImg));
+      }
       navigate(`/events/${result.id}`);
     }
+    reset();
+  };
+
+  const reset = () => {
+    setErrs({});
+    setName("");
+    setDescription("");
+    setType("");
+    setPrivate();
+    setPrice("");
+    setStartDate("");
+    setEndDate("");
+    setImg("");
   };
 
   return (
@@ -144,4 +160,4 @@ const GroupFormPage = () => {
   );
 };
 
-export default GroupFormPage;
+export default EventFormPage;

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as groupActions from "../../store/group";
+import './Groups.css'
 
 const GroupsPage = () => {
   const dispatch = useDispatch();
@@ -17,17 +18,17 @@ const GroupsPage = () => {
 //   !Needs NumofEvents
 
   return (
-    <>
+    <div id="groupList">
       <div>
         <div id="headings">
           <NavLink to="/events">
-            <h3>Events</h3>
+            <h2>Events</h2>
           </NavLink>
           <NavLink to="/groups">
-            <h3>Groups</h3>
+            <h2>Groups</h2>
           </NavLink>
         </div>
-        <h4>Groups in neetUp</h4>
+        <h4 id="headline">Groups in neetUp</h4>
         <hr />
       </div>
       <div id="groups">
@@ -53,7 +54,7 @@ const GroupsPage = () => {
             )
           )}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -4,6 +4,8 @@ import landingPageImg from "../../store/images/lp/landingPageImg.jpg";
 import groupImg from "../../store/images/lpGroupImg.png";
 import eventImg from "../../store/images/lp/lpEventImg.png";
 import createImg from "../../store/images/lp/lpCreateGroup.png";
+import SignupFormModal from "../SignupFormModal/SignupFormModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 const LandingPage = () => {
   return (
@@ -50,9 +52,10 @@ const LandingPage = () => {
         </div>
       </div>
       <div id="join">
-        <button >
-          <NavLink><h3>Join neetUp</h3></NavLink>
-        </button>
+        <OpenModalButton
+        buttonText={<NavLink><h3>Join neetUp</h3></NavLink>}
+        modalComponent={<SignupFormModal />}
+      />
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export const updatedGroup = (group) => ({
 export const deleteGroup = () => ({
   type: "DELETE_GROUP",
 });
-export const addGroupImg = () => ({
+export const addGroupImg = (img) => ({
   type: "ADD_IMG",
   group
 });

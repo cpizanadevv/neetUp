@@ -11,6 +11,11 @@ export const getEvent = (event) => ({
   event,
 });
 
+export const addEventImg = (img) => ({
+  type: "ADD_IMG",
+  event
+})
+
 export const deleteEvent = () => ({
   type: "DELETE_EVENT",
 });
@@ -40,7 +45,7 @@ export const getEventById = (eventId) => async (dispatch) => {
 
 export const createImg = (img) => async (dispatch) => {
   try {
-    const res = await csrfFetch("/api/events/:eventId/images", {
+    const res = await csrfFetch("/api/events/:${img.eventId}/images", {
       method: 'POST',
       body: JSON.stringify(img),
       headers: {
@@ -49,7 +54,7 @@ export const createImg = (img) => async (dispatch) => {
     });
     if(res.ok) {
       const img = await res.json();
-      dispatch(addGroupImg(img))
+      dispatch(addEventImg(img))
     }
   } catch (error) {
     const errors = await error.json()
@@ -74,6 +79,11 @@ const eventReducer = (state = initialState, action) => {
         ...state,
         event: action.event,
       };
+    case "ADD_IMG":
+      return {
+        ...state,
+        event: action.event
+      }
     case "DELETE_EVENT":
       return {
         ...state,

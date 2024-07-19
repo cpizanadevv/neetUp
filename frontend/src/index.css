@@ -2,6 +2,17 @@
 *{
     padding: 0;
     margin: 0;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Century 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+html {
     background: #93b4c6;
+
+}
+
+button {
+    border: .25em solid #E2786F;
+    background: #E79583;
+    color: #022131;
+    font-weight: 700;
 }
