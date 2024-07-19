@@ -28,6 +28,21 @@ li {
     background: #1c3c4b;
 }
 
+#navSideBttn {
+    display: flex;
+    justify-content: space-between;
+    height: 2em;
+    width: 6em;
+    background: #D9A3A0;
+}
+
+
+#login , #signUp{
+    height: 2em;
+    width: 6em;
+    background: #D9A3A0;
+}
+
 h4 {
     text-align: center;
 }

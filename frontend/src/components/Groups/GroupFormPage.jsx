@@ -39,27 +39,23 @@ const GroupFormPage = () => {
     return true;
   };
 
-  const groupImg = { url: img, preview: true}
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const group = { name, about, type, private: isPrivate, city, state };
 
-
     const result = await dispatch(groupActions.createGroup(group));
-
-    if(validateImageUrl(img)){
-      await dispatch(groupActions.createImg(groupImg))
-
-    }
-    
-    
 
     if (result.errors.errors) {
       setErrs(result.errors.errors);
     } else {
-      navigate(`/groups/${result.id}`);
+      const groupId = result.id;
+
+      if (validateImageUrl(img)) {
+        const groupImg = { url: img, preview: true, groupId };
+        await dispatch(groupActions.createImg(groupImg));
+      }
+      navigate(`/groups/${groupId}`);
     }
     reset();
   };
@@ -124,29 +120,36 @@ const GroupFormPage = () => {
           <li>Who should join?</li>
           <li>What will you do at your events?</li>
         </ol>
-        <textarea id='textarea' placeholder="Please write at least 50 characters"
-          onChange={(e) => setAbout(e.target.value)} ></textarea>
+        <textarea
+          id="textarea"
+          placeholder="Please write at least 50 characters"
+          onChange={(e) => setAbout(e.target.value)}
+        ></textarea>
         <div className="errors">{errs.about}</div>
       </div>
       <h3>Final steps...</h3>
       <div id="type">
         <h4>Is this an in person or online group?</h4>
-        <select placeholder="(select one)"
-          onChange={(e) => setType(e.target.value)}>
-            <option >(select one)</option>
-            <option value="In Person">In Person</option>
-            <option value="Online">Online</option>
-          </select>
+        <select
+          placeholder="(select one)"
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option>(select one)</option>
+          <option value="In Person">In Person</option>
+          <option value="Online">Online</option>
+        </select>
         <div className="errors">{errs.type}</div>
       </div>
       <div id="private">
         <h4>Is this group private or public?</h4>
-        <select placeholder="(select one)"
-          onChange={(e) => setPrivate(e.target.value)}>
-            <option >(select one)</option>
-            <option value='true' >Private</option>
-            <option value='false'>Public</option>
-          </select>
+        <select
+          placeholder="(select one)"
+          onChange={(e) => setPrivate(e.target.value)}
+        >
+          <option>(select one)</option>
+          <option value="true">Private</option>
+          <option value="false">Public</option>
+        </select>
         <div className="errors">{errs.private}</div>
       </div>
       <div id="img">

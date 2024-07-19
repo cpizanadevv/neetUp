@@ -98,7 +98,7 @@ export const updateGroup = (group) => async (dispatch) => {
 
 export const createImg = (img) => async (dispatch) => {
   try {
-    const res = await csrfFetch("/api/groups/:groupId/images", {
+    const res = await csrfFetch(`/api/groups/:${img.groupId}/images`, {
       method: 'POST',
       body: JSON.stringify(img),
       headers: {

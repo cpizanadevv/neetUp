@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 import * as groupActions from "../../store/group";
 
 const GroupFormPage = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [errs, setErrs] = useState({});
-    const [name, setName] = useState("");
-    const [about, setAbout] = useState("");
-    const [type, setType] = useState("");
-    const [isPrivate, setPrivate] = useState();
-    let [cityState, setCityState] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const [img, setImg] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errs, setErrs] = useState({});
+  const [name, setName] = useState("");
+  const [about, setAbout] = useState("");
+  const [type, setType] = useState("");
+  const [isPrivate, setPrivate] = useState();
+  let [cityState, setCityState] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [img, setImg] = useState("");
 
   useEffect(() => {
     const cityStateArray = cityState.split(",").map((part) => part.trim());
@@ -23,7 +23,6 @@ const GroupFormPage = () => {
       setState(cityStateArray[1]);
     }
   }, [cityState]);
-
 
   const validImg = [".png", ".jpeg", ".jpg"];
 
@@ -40,12 +39,10 @@ const GroupFormPage = () => {
     return true;
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const group = { name, about, type, private: isPrivate, city, state };
-
 
     const result = await dispatch(groupActions.updateGroup(group));
     validateImageUrl(img);
@@ -53,6 +50,12 @@ const GroupFormPage = () => {
     if (result.errors.errors) {
       setErrs(result.errors.errors);
     } else {
+      const groupId = result.id;
+
+      if (validateImageUrl(img)) {
+        const groupImg = { url: img, preview: true, groupId };
+        await dispatch(groupActions.createImg(groupImg));
+      }
       navigate(`/groups/${result.id}`);
     }
     reset();
@@ -73,8 +76,8 @@ const GroupFormPage = () => {
     <form onSubmit={handleSubmit}>
       <h3>UPDATE YOUR GROUP&apos;S INFORMATION</h3>
       <h2>
-      We&apos;ll walk you through a few steps to update your group&apos;s information
-
+        We&apos;ll walk you through a few steps to update your group&apos;s
+        information
       </h2>
       <hr />
       <div id="location">
@@ -128,23 +131,36 @@ const GroupFormPage = () => {
       <h3>Final steps...</h3>
       <div id="type">
         <h4>Is this an in person or online group?</h4>
-        <select placeholder="(select one)"
-          onChange={(e) => setType(e.target.value)}>
-            <option >(select one)</option>
-            <option value="In Person">In Person</option>
-            <option value="Online">Online</option>
-          </select>
+        <select
+          placeholder="(select one)"
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option>(select one)</option>
+          <option value="In Person">In Person</option>
+          <option value="Online">Online</option>
+        </select>
         <div className="errors">{errs.type}</div>
       </div>
       <div id="private">
         <h4>Is this group private or public?</h4>
-        <select placeholder="(select one)"
-          onChange={(e) => setPrivate(e.target.value)}>
-            <option >(select one)</option>
-            <option value='true' >Private</option>
-            <option value='false'>Public</option>
-          </select>
+        <select
+          placeholder="(select one)"
+          onChange={(e) => setPrivate(e.target.value)}
+        >
+          <option>(select one)</option>
+          <option value="true">Private</option>
+          <option value="false">Public</option>
+        </select>
         <div className="errors">{errs.private}</div>
+      </div>
+      <div id="img">
+        <h4>Please add an image url for your group below:</h4>
+        <input
+          type="text"
+          placeholder="Image Url"
+          onChange={(e) => setImg(e.target.value)}
+        />
+        <div className="errors">{errs.img}</div>
       </div>
       <hr />
       <button type="submit">Update Group</button>

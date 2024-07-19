@@ -262,7 +262,7 @@ group.get("/:groupId", async (req, res) => {
     include: [
       {
         model: Membership,
-        attributes: [],
+        attributes: ["id", "userId", "status"],
         where: {
           status: {
             [Op.or]: ["member", "co-host"],
