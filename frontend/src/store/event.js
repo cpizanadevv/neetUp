@@ -11,9 +11,14 @@ export const getEvent = (event) => ({
   event,
 });
 
+export const createNewEvent = (event) => ({
+  type: "CREATE_EVENT",
+  event
+})
+
 export const addEventImg = (img) => ({
   type: "ADD_IMG",
-  event
+  img
 })
 
 export const deleteEvent = () => ({
@@ -76,8 +81,8 @@ export const createImg = (img) => async (dispatch) => {
       }
     });
     if(res.ok) {
-      const img = await res.json();
-      dispatch(addEventImg(img))
+      const image = await res.json();
+      dispatch(addEventImg(image))
     }
   } catch (error) {
     const errors = await error.json()

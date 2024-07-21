@@ -63,7 +63,7 @@ export const createGroup = (group) => async (dispatch) => {
         'Content-Type': 'application/json'
       }
     });
-    console.log("THiS RES IN THINK" , res)
+    // console.log("THiS RES IN THINK" , res)
     if(res.ok) {
       const newGroup = await res.json();
       dispatch(createNewGroup(newGroup))
@@ -75,6 +75,16 @@ export const createGroup = (group) => async (dispatch) => {
       return { errors }
   }
     
+}
+
+export const deleteCurrentGroup = (group,id) => async (dispatch) => {
+  const res = await csrfFetch(`api/groups/${id}`,{
+    method: 'DELETE'
+  })
+  if(res.ok){
+    const deletedGroup = await res.json();
+    dispatch(deleteGroup(deletedGroup))
+  }
 }
 
 export const updateGroup = (group) => async (dispatch) => {

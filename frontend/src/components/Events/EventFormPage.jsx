@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as eventActions from "../../store/event";
@@ -11,7 +11,6 @@ const EventFormPage = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
-  let [capacity, setCapacity] = useState("");
   let [price, setPrice] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -19,7 +18,7 @@ const EventFormPage = () => {
   
 
   const group = useSelector((state) => state.group.group || {});
-  const groupId = group.id; // Get groupId from the group object
+  const groupId = group.id;
 
 
   const validImg = [".png", ".jpeg", ".jpg"];
@@ -59,7 +58,6 @@ const EventFormPage = () => {
         name,
         description,
         type,
-        capacity,
         price,
         startDate: parseDateTime(startDate),
         endDate: parseDateTime(endDate),
@@ -67,11 +65,6 @@ const EventFormPage = () => {
 
     const result = await dispatch(eventActions.createEvent(event,groupId));
 
-    
-    if(validateImageUrl(img)){
-        await dispatch(eventActions.createImg(groupImg))
-  
-      }
 
     if (result.errors.errors) {
       setErrs(result.errors.errors);
@@ -82,7 +75,7 @@ const EventFormPage = () => {
         const eventImg = { url: img, preview: true, eventId };
         await dispatch(eventActions.createImg(eventImg));
       }
-      navigate(`/events/${result.id}`);
+      navigate(`/events/${eventId}`);
     }
     reset();
   };
@@ -92,7 +85,6 @@ const EventFormPage = () => {
     setName("");
     setDescription("");
     setType("");
-    setPrivate();
     setPrice("");
     setStartDate("");
     setEndDate("");
@@ -101,7 +93,7 @@ const EventFormPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create a new Event for {group.id}</h2>
+      <h2>Create a new Event for {groupId}</h2>
       <div id="name">
         <h4>What is the name of your event?</h4>
         <input
@@ -128,7 +120,7 @@ const EventFormPage = () => {
         <h4>What is the price for your event?</h4>
         <div id="priceInput">
           <FaCircleDollarToSlot />
-          <input type="text" onChange={(e) => setPrice(e.target.value)} />
+          <input placeholder="0" type="text" onChange={(e) => setPrice(e.target.value)} />
         </div>
         <div className="errors">{errs.price}</div>
       </div>
@@ -156,7 +148,7 @@ const EventFormPage = () => {
         <textarea
           type="text"
           placeholder="Please write at least 50 characters"
-          onChange={(e) => setAbout(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <div className="errors">{errs.description}</div>
       </div>

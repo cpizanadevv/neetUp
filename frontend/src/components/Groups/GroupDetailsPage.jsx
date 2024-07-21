@@ -2,45 +2,50 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import * as groupActions from "../../store/group";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
+import DeleteModal from "../DeleteModal/DeleteModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+
 const GroupDetailsPage = () => {
   const { groupId } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const group = useSelector((state) => state.group.group);
   const currUser = useSelector((state) => state.session.user);
-  // console.log("THIS IS GROUP", group)
-  // console.log("THIS IS currUser", currUser)
 
+  const {
+    name,
+    city,
+    state,
+    about,
+    previewImage,
+    type,
+    Memberships = [],
+  } = group;
+  console.log("name", name);
 
-  const { name, city, state, about, previewImage, type, Memberships = [] } = group;
-  console.log("name", name)
-  
-  const host = {...group.Organizer};
-  const { firstName, lastName } = host;
+  const organizer = { ...group.Organizer };
+  const { firstName, lastName } = organizer;
 
   useEffect(() => {
     dispatch(groupActions.getGroupById(groupId));
-  }, [dispatch,groupId]);
+  }, [dispatch, groupId]);
 
-  console.log(Memberships)
+  // console.log(Memberships);
 
+  const membershipStatus = currUser
+    ? Memberships.find((member) => member.userId === currUser.id)?.status ||
+      "guest"
+    : "guest";
 
-  const currUserRole = currUser ? Memberships.find(member => member.userId === currUser.id)?.status || 'guest' : 'guest';
-  const isOrganizerOrCoHost = ['co-host'].includes(currUserRole);
-  const isMember = ['member', 'co-host'].includes(currUserRole);
+  const currUserRole =
+    currUser && group.organizerId === currUser.id ? "organizer" : "guest";
 
-  const handleDeleteGroup = async () => {
-    await dispatch(groupActions.deleteGroup(groupId));
-    navigate("/groups");
-  };
-
-
+    console.log(currUserRole)
+  const isOrganizer = currUserRole === 'organizer';
+  const isMember = ["member", "co-host"].includes(membershipStatus);
 
 
   //   !Needs Num of Events
-
-
 
   return (
     <div>
@@ -75,7 +80,7 @@ const GroupDetailsPage = () => {
               <button>Join this Group</button>
             </NavLink>
           )}
-          {isOrganizerOrCoHost && (
+          {isOrganizer && (
             <div>
               <NavLink to={`/groups/${groupId}/events/new`}>
                 <button>Create Event</button>
@@ -83,23 +88,23 @@ const GroupDetailsPage = () => {
               <NavLink to={`/groups/${groupId}/edit`}>
                 <button>Update Group</button>
               </NavLink>
-              {currUserRole === 'Organizer' && (
-                <button onClick={handleDeleteGroup}>
-                  Delete Group
-                </button>
-              )}
+              <OpenModalButton
+                buttonText="Delete Group"
+                modalComponent={<DeleteModal />}
+              />
             </div>
           )}
         </div>
       </div>
       <div id="details">
         <h2>Organizer</h2>
-        <h4>{lastName}, {firstName}</h4>
+        <h4>
+          {lastName}, {firstName}
+        </h4>
         <h3>What we&apos;re about</h3>
         <p>{about}</p>
         <h3>Upcoming events ()</h3>
-        <div id="upcomingEvent">
-        </div>
+        <div id="upcomingEvent"></div>
       </div>
     </div>
   );
