@@ -1,0 +1,42 @@
+#form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 50%;
+}
+
+#location {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#about {
+    display: flex;
+    flex-direction: column;
+
+}
+
+ol{
+    background-color: #93B4C6;
+}
+
+textarea {
+    height: 10em;
+    width: 100%;
+}
+
+#type {
+    margin: 1em 0;
+    padding: 0 0;
+}
+
+#img {
+    width: auto;
+    height: auto;
+}
+
+#submit {
+    width: auto;
+    margin: 1em;
+}

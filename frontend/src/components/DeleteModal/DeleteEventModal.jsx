@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as groupActions from "../../store/group";
+import * as eventActions from "../../store/event";
 import { useModal } from "../../context/Modal";
 
-function DeleteModal() {
+function DeleteEventModal() {
   const dispatch = useDispatch();
   const [decision, setDecision] = useState(false);
   const [errs, setErrs] = useState({});
-  const group = useSelector((state) => state.group.group);
+  const event = useSelector((state) => state.event.event);
   
   const { closeModal } = useModal();
 
@@ -15,9 +15,9 @@ function DeleteModal() {
     e.preventDefault();
     
     if (decision === true) {
-      if (group.id > -1) {
+      if (event.id > -1) {
         console.log("dispatching delete")
-        return dispatch(groupActions.deleteCurrentGroup(group.id))
+        return dispatch(eventActions.deleteCurrentEvent(event.id))
           .then(() => {
             console.log("delete fulfilled")
             closeModal();
@@ -40,7 +40,7 @@ function DeleteModal() {
       <div>
         <form onSubmit={handleSubmit}>
           {" "}
-          <h3>Are you sure you want to remove this group?</h3>
+          <h3>Are you sure you want to remove this event?</h3>
           <div>
             <button
               id="delete"
@@ -48,7 +48,7 @@ function DeleteModal() {
               value={decision}
               onClick={() => setDecision(true)}
             >
-              Yes (Delete Group)
+              Yes (Delete Event)
             </button>
             <button
               id="keep"
@@ -56,7 +56,7 @@ function DeleteModal() {
               value={decision}
               onClick={() => setDecision(false)}
             >
-              No (Keep Group)
+              No (Keep Event)
             </button>
           </div>
         </form>
@@ -65,4 +65,4 @@ function DeleteModal() {
   );
 }
 
-export default DeleteModal;
+export default DeleteEventModal;

@@ -10,7 +10,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
 }
 ul #buttons {
     display: flex;
@@ -34,6 +33,7 @@ li {
     justify-content: center;
     align-items: center;
     background: #1c3c4b;
+    color: #d9a3a0;
 }
 
 #navSideBttn {
@@ -60,6 +60,10 @@ h4 {
     width: 6em;
     justify-content: center;
 
+}
+
+.profile-dropDown {
+    color: #D9A3A0;
 }
 
 /* 

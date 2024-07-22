@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./LandingPage.css";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import landingPageImg from "../../store/images/lp/landingPageImg.jpg";
 import groupImg from "../../store/images/lpGroupImg.png";
 import eventImg from "../../store/images/lp/lpEventImg.png";
@@ -8,6 +10,15 @@ import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 const LandingPage = () => {
+  const sessionUser = useSelector((state) => state.session.user);
+  console.log("landing page sessionUser", sessionUser)
+
+  const ulClassName = "cards " + (sessionUser ? "" : " deactivated");
+
+  useEffect(() => {
+    
+  }, [sessionUser]);
+
   return (
     <div id="lp">
       <div id="pageIntro">
@@ -26,8 +37,8 @@ const LandingPage = () => {
           <img src={landingPageImg} alt="" />
         </div>
       </div>
-      <div>
-        <h3>How neetUp works</h3>
+      <div id="buttons">
+        <h3 id="works">How neetUp works</h3>
         <div id="toDoCards">
           <div className="cards">
             <NavLink style={{ textDecoration: 'none' }} to="/groups">
@@ -41,14 +52,18 @@ const LandingPage = () => {
               <h4>Find An Event</h4>
             </NavLink>
           </div>
-          <div className="cards">
-            {/* Link is disabled if user is 
-                not logged in */}
-            <NavLink style={{ textDecoration: 'none' }} to="/groups/new">
+          {sessionUser ?
+            <div className={ulClassName}>
+              <NavLink style={{ textDecoration: 'none' }} to="/groups/new">
+                <img src={createImg} />
+                <h4>Start a group</h4>
+              </NavLink>
+            </div> :
+            <div className={ulClassName}>
               <img src={createImg} />
-              <h4>Start a new Group</h4>
-            </NavLink>
-          </div>
+              <h4>Start a group</h4>
+          </div> 
+          }
         </div>
       </div>
       <div id="join">

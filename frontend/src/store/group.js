@@ -26,7 +26,7 @@ export const deleteGroup = () => ({
 });
 export const addGroupImg = (img) => ({
   type: "ADD_IMG",
-  group
+  img
 });
 
 
@@ -67,29 +67,32 @@ export const createGroup = (group) => async (dispatch) => {
     if(res.ok) {
       const newGroup = await res.json();
       dispatch(createNewGroup(newGroup))
+      return newGroup;
     }
-    
   } catch (error) {
     const errors = await error.json()
-    console.log("THIS IS ERRORS: ",errors.errors)
+    // console.log("THIS IS ERRORS: ",errors.errors)
       return { errors }
   }
     
 }
 
-export const deleteCurrentGroup = (group,id) => async (dispatch) => {
-  const res = await csrfFetch(`api/groups/${id}`,{
+export const deleteCurrentGroup = (groupId) => async (dispatch) => {
+  // console.log("delete thunk")
+  const res = await csrfFetch(`/api/groups/${groupId}`,{
     method: 'DELETE'
   })
+  // console.log("delete thunk res", res)
   if(res.ok){
-    const deletedGroup = await res.json();
-    dispatch(deleteGroup(deletedGroup))
+    dispatch(deleteGroup())
   }
 }
 
-export const updateGroup = (group) => async (dispatch) => {
+export const updateGroup = (group, groupId) => async (dispatch) => {
+  console.log("update thunk", group)
+
   try {
-    const res = await csrfFetch("/api/groups", {
+    const res = await csrfFetch(`/api/groups/${groupId}`, {
       method: 'PUT',
       body: JSON.stringify(group),
       headers: {
@@ -98,7 +101,9 @@ export const updateGroup = (group) => async (dispatch) => {
     });
     if(res.ok) {
       const updated = await res.json();
+      console.log('updated', updated)
       dispatch(updatedGroup(updated))
+      return updated;
     }
   } catch (error) {
     const errors = await error.json()
@@ -108,7 +113,7 @@ export const updateGroup = (group) => async (dispatch) => {
 
 export const createImg = (img) => async (dispatch) => {
   try {
-    const res = await csrfFetch(`/api/groups/:${img.groupId}/images`, {
+    const res = await csrfFetch(`/api/groups/${img.groupId}/images`, {
       method: 'POST',
       body: JSON.stringify(img),
       headers: {
@@ -124,7 +129,6 @@ export const createImg = (img) => async (dispatch) => {
     return { errors }
   }
 }
-
 
 // * Reducer
 const initialState = {
@@ -147,7 +151,7 @@ const groupReducer = (state = initialState, action) => {
     case "CREATE_GROUP":
       return {
         ...state,
-        group: action.group,
+        group: action.group
       };
     case "UPDATE_GROUP":
       return {
@@ -162,7 +166,7 @@ const groupReducer = (state = initialState, action) => {
     case "DELETE_GROUP":
       return {
         ...state,
-        group: null,
+        group: { delete: true },
       };
     default:
       return state;

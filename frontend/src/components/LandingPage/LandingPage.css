@@ -1,5 +1,7 @@
 #lp{
     background: #93b4c6;
+    display: flex;
+    flex-direction: column;
 }
 
 #pageIntro {
@@ -7,19 +9,27 @@
     flex-direction: row;
     padding: 2em 6em;
     margin-top: 5em;
-    
+    height: 20em;
+    /* justify-content: center; */
+    /* align-items: center; */
 }
 
 #info {
-    display: flex;
-    flex-direction: column;
-    padding: 0 1.75em;
-    margin-top: 2em;
+    margin: 0 .25em;
+    padding: 0;
+    text-align: left;
+    /* display: flex;
+    flex-direction: column; */
+    justify-content: center;
 }
 
 #info h4 {
     
     margin-top: 2em;
+}
+
+#works {
+    text-align: center;
 }
 
 #img img{
@@ -50,4 +60,8 @@ h3 {
 
 #links {
     text-decoration: none;
+}
+
+.deactivated {
+    color: gray;
 }

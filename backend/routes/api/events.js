@@ -108,7 +108,7 @@ event.get("/", async (req, res) => {
   if (size <= 0) {
     errors.size = "Size must be greater than or equal to 1";
   } else if (!size || isNaN(size)) {
-    size = 20;
+    size = 100;
   }
 
   if (name) {
@@ -219,7 +219,7 @@ event.get("/:eventId", async (req, res) => {
     attributes: {
       exclude: ["createdAt", "updatedAt"],
       include: [
-        "id",
+        "id", "description",
         [
           Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),
           "numAttending",
@@ -234,6 +234,13 @@ event.get("/:eventId", async (req, res) => {
       {
         model: Group,
         attributes: ["id", "name", "private", "city", "state"],
+        include: [
+          {
+            model: User,
+            as: "Organizer",
+            attributes: ["id", "firstName", "lastName"],
+          },
+        ],
       },
       {
         model: Venue,
@@ -244,7 +251,8 @@ event.get("/:eventId", async (req, res) => {
         attributes: ["id", "url", "preview"],
       },
     ],
-    group: ["Event.id", "Group.id", "EventImages.id", "Venue.id"],
+    group: ["Event.id", "Group.id",
+      "Group.Organizer.id",  "EventImages.id", "Venue.id"],
   });
   return res.json({ Events: eventById });
 });

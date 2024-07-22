@@ -19,7 +19,7 @@ const group = express.Router();
 //!VALIDATORS
 
 // Group Validator
-const validateGroup = [
+const validateGroup = [ 
   check("name")
     .exists({ checkFalsy: true })
     .isLength({ max: 60 })
@@ -153,8 +153,12 @@ group.get("/", async (req, res) => {
         model: GroupImage,
         attributes: [],
       },
+      {
+        model: Event,
+        attributes: ["id"], 
+      },
     ],
-    group: ["Group.id", "GroupImages.id"]
+    group: ["Group.id", "Memberships.id", "Events.id", "GroupImages.id"]
   });
   return res.json({ Groups: allGroups });
 });
@@ -365,16 +369,16 @@ group.put("/:groupId", requireAuth, validateGroup, async (req, res) => {
   const groupNameExists = await Group.findOne({
     where: { name: name },
   });
-  if (groupNameExists) {
+  if (groupNameExists && String(groupNameExists.id) !== groupId) {
     return res.json({ message: "Group name already exists." });
   }
 
-  if (!name) name = group.name;
-  if (!about) about = group.about;
-  if (!type) type = group.type;
-  if (!private) private = group.private;
-  if (!city) city = group.city;
-  if (!state) state = group.state;
+  // if (!name) name = group.name;
+  // if (!about) about = group.about;
+  // if (!type) type = group.type;
+  // if (private === undefined) private = group.private;
+  // if (!city) city = group.city;
+  // if (!state) state = group.state;
 
   const updatedGroup = await group.update({
     name,
@@ -519,9 +523,9 @@ group.get("/:groupId/events", async (req, res) => {
       },
       order:[['id','ASC']],
       attributes: {
-        exclude: ["createdAt", "updatedAt", "description", "capacity", "price"],
+        exclude: ["createdAt", "updatedAt", "capacity", "price"],
         include: [
-          "id",
+          "id", "description",
           [
             Sequelize.fn("COUNT", Sequelize.col("Attendances.id")),
             "numAttending",
@@ -545,7 +549,7 @@ group.get("/:groupId/events", async (req, res) => {
         {
           model: Venue,
           attributes: ["id", "city", "state"],
-        },
+        }, 
       ],
       group: ["Event.id", "EventImages.id", "Group.id", "Venue.id"],
     });
@@ -618,6 +622,8 @@ group.post("/:groupId/events", requireAuth, validateEvent, async (req, res) => {
 
     return res.json(newEvent);
   }
+  
+  return res.status(401).json({ message: "Unauthorized" });
 });
 
 // * Return all Members for a group by groupID

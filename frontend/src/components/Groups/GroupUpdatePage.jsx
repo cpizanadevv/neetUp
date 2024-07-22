@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import * as groupActions from "../../store/group";
 
 const GroupFormPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const group = useSelector((state) => state.group.group);
   const [errs, setErrs] = useState({});
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
@@ -15,6 +16,11 @@ const GroupFormPage = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [img, setImg] = useState("");
+  const { groupId } = useParams();
+
+  useEffect(() => {
+    dispatch(groupActions.getGroupById(groupId));
+  }, [dispatch, groupId]);
 
   useEffect(() => {
     const cityStateArray = cityState.split(",").map((part) => part.trim());
@@ -42,21 +48,27 @@ const GroupFormPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const group = { name, about, type, private: isPrivate, city, state };
+    const updateGroup = {};
 
-    const result = await dispatch(groupActions.updateGroup(group));
+    updateGroup.name = name ? name : group.name;
+    updateGroup.about = about ? about : group.about;
+    updateGroup.type = type ? type : group.type;
+    updateGroup.private = isPrivate !== undefined ? isPrivate : group.private;
+    updateGroup.city = city ? city : group.city;
+    updateGroup.state = state ? state : group.state;
+
+    const result = await dispatch(groupActions.updateGroup(updateGroup, groupId));
     validateImageUrl(img);
 
-    if (result.errors.errors) {
+    if (result.errors) {
       setErrs(result.errors.errors);
     } else {
-      const groupId = result.id;
 
       if (validateImageUrl(img)) {
         const groupImg = { url: img, preview: true, groupId };
         await dispatch(groupActions.createImg(groupImg));
       }
-      navigate(`/groups/${result.id}`);
+      navigate(`/groups/${groupId}`);
     }
     reset();
   };

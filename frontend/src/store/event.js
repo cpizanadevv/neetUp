@@ -13,95 +13,129 @@ export const getEvent = (event) => ({
 
 export const createNewEvent = (event) => ({
   type: "CREATE_EVENT",
-  event
-})
+  event,
+});
 
 export const addEventImg = (img) => ({
   type: "ADD_IMG",
-  img
-})
+  img,
+});
 
 export const deleteEvent = () => ({
   type: "DELETE_EVENT",
 });
 
-
+export const eventsOfGroup = (events) => ({
+  type: "GET_GROUP_EVENTS",
+  events,
+});
 
 // * THUNK
 
 export const getEvents = () => async (dispatch) => {
-    const res = await csrfFetch('/api/events');
-    if (res.ok) {
-      const events = await res.json();
-      // console.log(events)
-        dispatch(getAllEvents(events))
-    }
-}
+  const res = await csrfFetch("/api/events");
+  if (res.ok) {
+    const eventsObj = await res.json();
+    dispatch(getAllEvents(eventsObj.Events));
+  }
+};
 
 export const getEventById = (eventId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/events/${eventId}`);
-    console.log("THIS IS RES IN THUNK", res.body)
-    if (res.ok) {
-      const event = await res.json();
-      dispatch(getEvent(event.Events));
-      return event
-    }
-}
+  const res = await csrfFetch(`/api/events/${eventId}`);
+  console.log("THIS IS RES IN THUNK", res.body);
+  if (res.ok) {
+    const event = await res.json();
+    dispatch(getEvent(event.Events));
+    return event;
+  }
+};
 
-export const createEvent = (event,groupId) => async (dispatch) => {
+export const createEvent = (event, groupId) => async (dispatch) => {
   try {
     const res = await csrfFetch(`/api/groups/${groupId}/events`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(event),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
-    if(res.ok) {
+    if (res.ok) {
       const newEvent = await res.json();
-      dispatch(createNewEvent(newEvent))
+      if (!newEvent.Group) {
+        newEvent.Group = {
+          Organizer: {
+            firstName: "",
+            lastName: "",
+          },
+        };
+      }
+      dispatch(createNewEvent(newEvent));
+      return newEvent;
     }
-    
   } catch (error) {
-    const errors = await error.json()
-    console.log("THIS IS ERRORS: ",errors.errors)
-      return { errors }
+    const errors = await error.json();
+    // console.log("THIS IS ERRORS: ",errors.errors)
+    return { errors };
   }
-    
-}
+};
 
+export const getGroupEvents = (groupId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/groups/${groupId}/events`);
+  console.log("res", res);
+  if (res.ok) {
+    const events = await res.json();
+    console.log("thunk", events);
+    dispatch(eventsOfGroup(events));
+  }
+};
 
 export const createImg = (img) => async (dispatch) => {
   try {
-    const res = await csrfFetch("/api/events/:${img.eventId}/images", {
-      method: 'POST',
+    const res = await csrfFetch(`/api/events/:${img.eventId}/images`, {
+      method: "POST",
       body: JSON.stringify(img),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
-    if(res.ok) {
+    if (res.ok) {
       const image = await res.json();
-      dispatch(addEventImg(image))
+      dispatch(addEventImg(image));
     }
   } catch (error) {
-    const errors = await error.json()
-    return { errors }
+    const errors = await error.json();
+    return { errors };
   }
-}
+};
+
+export const deleteCurrentEvent = (eventId) => async (dispatch) => {
+  // console.log("delete thunk");
+  const res = await csrfFetch(`/api/events/${eventId}`, {
+    method: "DELETE",
+  });
+  // console.log("delete thunk res", res);
+  if (res.ok) {
+    dispatch(deleteEvent());
+  }
+};
 
 // * Reducer
 const initialState = {
   events: [],
   event: {
-      name: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      price: 0,
-      type: "",
-      Group: {},
-      previewImage: "",
+    name: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    price: 0,
+    type: "",
+    Group: {
+      Organizer: {
+        firstName: "",
+        lastName: "",
+      },
+    },
+    previewImage: "",
   },
 };
 
@@ -112,7 +146,17 @@ const eventReducer = (state = initialState, action) => {
         ...state,
         events: action.events,
       };
+    case "GET_GROUP_EVENTS":
+      return {
+        ...state,
+        events: action.events,
+      };
     case "GET_EVENT":
+      return {
+        ...state,
+        event: action.event,
+      };
+    case "CREATE_EVENT":
       return {
         ...state,
         event: action.event,
@@ -120,12 +164,12 @@ const eventReducer = (state = initialState, action) => {
     case "ADD_IMG":
       return {
         ...state,
-        event: action.event
-      }
+        event: action.event,
+      };
     case "DELETE_EVENT":
       return {
         ...state,
-        event: null,
+        event: { delete: true },
       };
     default:
       return state;

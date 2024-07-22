@@ -1,0 +1,66 @@
+*{
+    text-decoration: none;
+}
+#group {
+    width: 80%;
+    margin: auto;
+}
+
+
+#groupCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: fit-content;
+    text-align: left;
+}
+
+#img{
+    height: fit-content;
+    width: fit-content;
+
+}
+
+#img img{
+    height: 20em;
+    width: 22em;
+}
+#top {
+    display: flex;
+    flex-direction: row;
+    height: 22em;
+
+}
+
+#info {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#host {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#buttons {
+    margin-top: 2em;
+}
+
+h4 , h3 {
+    text-align: left;
+    margin: 1.5em 0;
+}
+
+#upcomingEvents,
+#pastEvents {
+    margin: 1.5em 0;
+
+}
+
+/* .eventCard {
+    background: #1C3C4B;
+    margin: 1.5em 0;
+    border-radius: 2%;
+} */

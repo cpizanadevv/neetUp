@@ -10,6 +10,7 @@ import GroupDetailsPage from "./components/Groups/GroupDetailsPage";
 import EventsPage from "./components/Events/EventsPage";
 import EventDetailsPage from "./components/Events/EventDetailsPage";
 import GroupFormPage from "./components/Groups/GroupFormPage";
+import GroupUpdatePage from "./components/Groups/GroupUpdatePage";
 import EventFormPage from "./components/Events/EventFormPage";
 
 const Layout = () => {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         element: <GroupDetailsPage />,
       },
       {
+        path: `/groups/:groupId/edit`,
+        element: <GroupUpdatePage />,
+      },
+      {
         path: `/groups/new`,
         element: <GroupFormPage />,
       },
@@ -60,7 +65,11 @@ const router = createBrowserRouter([
         element: <EventDetailsPage />,
       },
       {
-        path: `/events/new`,
+        path: `/:groupId/events/new`,
+        element: <EventFormPage />,
+      },
+      {
+        path: `/:groupId/events/new`,
         element: <EventFormPage />,
       },
     ],

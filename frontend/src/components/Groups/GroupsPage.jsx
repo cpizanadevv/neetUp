@@ -2,24 +2,23 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as groupActions from "../../store/group";
-import './Groups.css'
+// import * as eventActions from "../../store/event";
+import "./Groups.css";
 
 const GroupsPage = () => {
   const dispatch = useDispatch();
-  const groups = useSelector((state) => state.group.groups || []);
-  //   console.log("THIS IS GROUP", groups);
-  const allGroups = groups.Groups ? Object.values(groups)[0] : [];
-  //   console.log("allgroups", allGroups);
+  const groups = useSelector((state) => state.group.groups);
+  console.log("THIS IS GROUPS", groups);
+  const allGroups = groups.Groups ? groups.Groups : [];
+  console.log("allgroups", allGroups);
 
   useEffect(() => {
     dispatch(groupActions.getGroups());
   }, [dispatch]);
 
-//   !Needs NumofEvents
-
   return (
     <div id="groupList">
-      <div>
+      <div id="topLinks">
         <div id="headings">
           <NavLink to="/events">
             <h2>Events</h2>
@@ -34,19 +33,34 @@ const GroupsPage = () => {
       <div id="groups">
         {groups &&
           allGroups.map(
-            ({ id, name, city, state, about, previewImage, type }) => (
+            ({
+              id,
+              name,
+              city,
+              state,
+              about,
+              previewImage,
+              private: isPrivate,
+              Events,
+            }) => (
               <NavLink key={id} to={`/groups/${id}`}>
                 <div id="groupCard">
-                  <div id="groupImg">
+                  <div id="img">
                     <img src={previewImage} />
                   </div>
-                  <div id="groupInfo">
-                    <h2 id="groupName">{name}</h2>
-                    <h4 id="groupLocation">
-                      {city},{state}
-                    </h4>
-                    <p id="groupAbout">{about}</p>
-                    <h4 id="groupType">{type}</h4>
+                  <div id="sideInfo">
+                    <div id="info">
+                      <h2 id="name">{name}</h2>
+                      <h4 id="location">
+                        {city},{state}
+                      </h4>
+                      <p id="about">{about}</p>
+
+                      <h4>
+                        {Events.length} events ·{" "}
+                        {isPrivate ? "Private" : "Public"}
+                      </h4>
+                    </div>
                   </div>
                 </div>
                 <hr />

@@ -1,0 +1,15 @@
+.profile-dropdown {
+  position: absolute;
+  right: 1em;
+  top: 5em;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(219, 182, 182, 0.2);
+  z-index: 1;
+  color: #d9a3a0;
+}
+
+#navButtons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}

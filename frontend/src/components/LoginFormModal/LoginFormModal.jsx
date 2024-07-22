@@ -24,6 +24,22 @@ function LoginFormModal() {
       });
   };
 
+  const handleDemoSubmit = (e) => {
+    e.preventDefault();
+
+    setErrors({});
+    return dispatch(
+      sessionActions.login({ credential: "SakuraBlossom", password: "DragonBlade7" })
+    )
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+
   return (
     <>
       <h1>Log In</h1>
@@ -51,7 +67,9 @@ function LoginFormModal() {
         </div>
 
         <button type="submit">Log In</button>
+
       </form>
+      <button onClick={handleDemoSubmit}>Log in as Demo User</button>
     </>
   );
 }
