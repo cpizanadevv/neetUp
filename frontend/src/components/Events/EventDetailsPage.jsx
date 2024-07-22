@@ -54,7 +54,7 @@ const EventDetailsPage = () => {
       event.delete = false;
       navigate(`/groups/${groupId}`);
     }
-  }, [event, navigate]);
+  }, [event, navigate,groupId]);
 
   return (
     <div>

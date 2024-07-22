@@ -76,7 +76,7 @@ const GroupDetailsPage = () => {
     return startDay + " · " + startTime;
   };
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     alert("Feature coming soon!")
   }
 
@@ -143,7 +143,7 @@ const GroupDetailsPage = () => {
           <div id="upcomingEvent">
             {upcomingEvents.length > 0 ? (
               upcomingEvents.map((event) => (
-                <NavLink to={`/events/${event.id}`}>
+                <NavLink key={event.id} to={`/events/${event.id}`}>
                   <div key={event.id} className="eventCard">
                     <img src={event.previewImage} alt={event.name} />
                     <h4>{event.name}</h4>
@@ -165,7 +165,7 @@ const GroupDetailsPage = () => {
               <h3>Past Events ({pastEvents.length}) </h3>
               <div id="pastEvents">
                 {pastEvents.map((event) => (
-                  <NavLink to={`/events/${event.id}`}>
+                  <NavLink key={event.id} to={`/events/${event.id}`}>
                     <div key={event.id} className="eventCard">
                       <img src={event.previewImage} alt={event.name} />
                       <h4>{event.name}</h4>
