@@ -6,6 +6,11 @@ export const getAllEvents = (events) => ({
   events,
 });
 
+export const eventsOfGroup = (events) => ({
+  type: "GET_GROUP_EVENTS",
+  events,
+});
+
 export const getEvent = (event) => ({
   type: "GET_EVENT",
   event,
@@ -25,10 +30,6 @@ export const deleteEvent = () => ({
   type: "DELETE_EVENT",
 });
 
-export const eventsOfGroup = (events) => ({
-  type: "GET_GROUP_EVENTS",
-  events,
-});
 
 // * THUNK
 

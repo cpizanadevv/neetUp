@@ -21,7 +21,7 @@ module.exports = {
       // Otaku Haven
       {
         groupId: 1,
-        url: "https://example.com/images/otaku-haven-1.jpg",
+        url: "",
         preview: true,
       },
       {
