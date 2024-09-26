@@ -6,7 +6,6 @@ import { useModal } from "../../context/Modal";
 function DeleteModal() {
   const dispatch = useDispatch();
   const [decision, setDecision] = useState(false);
-  const [errs, setErrs] = useState({});
   const group = useSelector((state) => state.group.group);
   
   const { closeModal } = useModal();
@@ -22,12 +21,6 @@ function DeleteModal() {
             console.log("delete fulfilled")
             closeModal();
           })
-          .catch(async (res) => {
-            const data = await res.json();
-            if (data?.errors) {
-              setErrs(data.errors);
-            }
-          });
       }
     } else {
       closeModal();

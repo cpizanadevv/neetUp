@@ -35,10 +35,8 @@ export const addGroupImg = (img) => ({
 
 export const getGroups = () => async (dispatch) => {
     const res = await csrfFetch('/api/groups');
-    // console.log(res)
     if (res.ok) {
         const groups = await res.json();
-        // console.log("THIS IS GROUPS insode thunk",groups)
         dispatch(getAllGroups(groups))
         return groups
     }

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as eventActions from "../../store/event";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -12,14 +12,34 @@ const EventDetailsPage = () => {
   const { eventId } = useParams();
   const dispatch = useDispatch();
   const event = useSelector((state) => state.event.event);
-  const group = useSelector((state) => state.group.group);
   const currUser = useSelector((state) => state.session.user);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // console.log("USER", currUser)
+  const [group, setGroup] = useState(null)
+  const [organizer, setOrganizer] = useState(null)
+
+  // const groupId = group.id;
+  console.log("This is EVENT", event);
 
   useEffect(() => {
     dispatch(eventActions.getEventById(eventId));
-  }, [dispatch, eventId]);
+    // if (event && event.delete === true) {
+    //   event.delete = false;
+    //   navigate(`/groups/${groupId}`);
+    // }
+    if (event){
+      setGroup(...event.Group)
+    }
+
+    if(group) {
+      setOrganizer(...event.Group.Organizer)
+
+    }
+
+  }, [dispatch, eventId,event]);
+
+  // console.log("This is GROUp", group);
+  // console.log("This", event.Group);
 
   const {
     name,
@@ -31,30 +51,22 @@ const EventDetailsPage = () => {
     previewImage,
   } = event;
 
-  console.log("This is EVENT", event);
+  console.log("This is EVEnt ID", eventId);
   // console.log("THIS IS GROUP", group);
 
-  const { id, firstName, lastName } = group.Organizer;
+  const { id, firstName, lastName } = organizer;
 
-  const currUserRole = currUser && id === currUser.id ? "organizer" : "guest";
+  const currUserRole = currUser && organizer?.id === currUser.id ? "organizer" : "guest";
 
-  // console.log("GROUP", group)
+  console.log("GROUP", group)
 
   const isOrganizer = currUserRole === "organizer";
   // console.log("isOrganizer", isOrganizer)
 
-  const groupId = group.id;
 
   const [startDay, startTime] = new Date(startDate).toLocaleString().split(",");
 
   const [endDay, endTime] = new Date(endDate).toLocaleString().split(",");
-
-  useEffect(() => {
-    if (event && event.delete === true) {
-      event.delete = false;
-      navigate(`/groups/${groupId}`);
-    }
-  }, [event, navigate]);
 
   return (
     <div>

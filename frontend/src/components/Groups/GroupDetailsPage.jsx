@@ -29,14 +29,11 @@ const GroupDetailsPage = () => {
   } = group;
   // console.log("name", name);
 
-  const organizer = { ...group.Organizer };
+  const organizer = { ...group?.Organizer };
   const { firstName, lastName } = organizer;
 
   useEffect(() => {
     dispatch(groupActions.getGroupById(groupId));
-  }, [dispatch, groupId]);
-
-  useEffect(() => {
     dispatch(eventActions.getGroupEvents(groupId));
   }, [dispatch, groupId]);
 
