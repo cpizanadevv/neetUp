@@ -43,7 +43,7 @@ export const getEvents = () => async (dispatch) => {
 
 export const getEventById = (eventId) => async (dispatch) => {
   const res = await csrfFetch(`/api/events/${eventId}`);
-  console.log("THIS IS RES IN THUNK", res.body);
+  // console.log("THIS IS RES IN THUNK", res.body);
   if (res.ok) {
     const event = await res.json();
     dispatch(getEvent(event.Event));

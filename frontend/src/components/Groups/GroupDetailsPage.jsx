@@ -35,14 +35,12 @@ const GroupDetailsPage = () => {
   useEffect(() => {
     dispatch(groupActions.getGroupById(groupId));
     dispatch(eventActions.getGroupEvents(groupId));
-  }, [dispatch, groupId]);
-
-  useEffect(() => {
     if (group && group.delete === true) {
       group.delete = false;
       navigate("/groups");
     }
-  }, [group, navigate]);
+  }, [dispatch, groupId,group, navigate]);
+
 
   // console.log(Memberships);
 

@@ -7,28 +7,23 @@ const GroupFormPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const group = useSelector((state) => state.group.group);
+  console.log(group.private)
+
+  const priv = group.private ? 'Private' : 'Public';
   const [errs, setErrs] = useState({});
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [type, setType] = useState("");
-  const [isPrivate, setPrivate] = useState();
-  let [cityState, setCityState] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [img, setImg] = useState("");
+  const [name, setName] = useState(group.name);
+  const [about, setAbout] = useState(group.about);
+  const [type, setType] = useState(group.type);
+  const [isPrivate, setPrivate] = useState(priv);
+  let [cityState, setCityState] = useState(`${group.city}, ${group.state}`);
+  const [city, setCity] = useState();
+  const [state, setState] = useState();
+  const [img, setImg] = useState();
   const { groupId } = useParams();
 
   useEffect(() => {
     dispatch(groupActions.getGroupById(groupId));
   }, [dispatch, groupId]);
-
-  useEffect(() => {
-    const cityStateArray = cityState.split(",").map((part) => part.trim());
-    if (cityStateArray.length === 2) {
-      setCity(cityStateArray[0]);
-      setState(cityStateArray[1]);
-    }
-  }, [cityState]);
 
   const validImg = [".png", ".jpeg", ".jpg"];
 
@@ -47,7 +42,11 @@ const GroupFormPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  const cityStateArray = cityState.split(",").map((part) => part.trim());
+      if (cityStateArray.length === 2) {
+        setCity(cityStateArray[0]);
+        setState(cityStateArray[1]);
+      }
     const updateGroup = {};
 
     updateGroup.name = name ? name : group.name;
@@ -118,6 +117,7 @@ const GroupFormPage = () => {
         <input
           type="text"
           placeholder="What is your group name?"
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
@@ -135,7 +135,8 @@ const GroupFormPage = () => {
         </ol>
         <input
           type="text"
-          placeholder="Please erite at least 50 characters"
+          placeholder="Please write at least 50 characters"
+          value={about}
           onChange={(e) => setAbout(e.target.value)}
         />
         <div className="errors">{errs.about}</div>
@@ -145,6 +146,7 @@ const GroupFormPage = () => {
         <h4>Is this an in person or online group?</h4>
         <select
           placeholder="(select one)"
+          value={type}
           onChange={(e) => setType(e.target.value)}
         >
           <option>(select one)</option>
@@ -157,6 +159,7 @@ const GroupFormPage = () => {
         <h4>Is this group private or public?</h4>
         <select
           placeholder="(select one)"
+          value={isPrivate}
           onChange={(e) => setPrivate(e.target.value)}
         >
           <option>(select one)</option>
@@ -170,6 +173,7 @@ const GroupFormPage = () => {
         <input
           type="text"
           placeholder="Image Url"
+          value={img}
           onChange={(e) => setImg(e.target.value)}
         />
         <div className="errors">{errs.img}</div>

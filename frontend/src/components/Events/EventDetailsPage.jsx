@@ -15,11 +15,10 @@ const EventDetailsPage = () => {
   const currUser = useSelector((state) => state.session.user);
   // const navigate = useNavigate();
   // console.log("USER", currUser)
-  const [group, setGroup] = useState(null)
-  const [organizer, setOrganizer] = useState(null)
+  const [group, setGroup] = useState({})
+  const [organizer, setOrganizer] = useState({})
 
   // const groupId = group.id;
-  console.log("This is EVENT", event);
 
   useEffect(() => {
     dispatch(eventActions.getEventById(eventId));
@@ -28,17 +27,18 @@ const EventDetailsPage = () => {
     //   navigate(`/groups/${groupId}`);
     // }
     if (event){
-      setGroup(...event.Group)
+      setGroup({...event.Group})
     }
 
     if(group) {
-      setOrganizer(...event.Group.Organizer)
+      setOrganizer({...group.Organizer})
 
     }
 
-  }, [dispatch, eventId,event]);
+  }, [dispatch,group]);
 
-  // console.log("This is GROUp", group);
+  console.log("This is GROUp", group);
+  console.log("This is ORG", organizer);
   // console.log("This", event.Group);
 
   const {
@@ -51,14 +51,15 @@ const EventDetailsPage = () => {
     previewImage,
   } = event;
 
-  console.log("This is EVEnt ID", eventId);
+  // console.log("This is EVEnt ID", eventId);
   // console.log("THIS IS GROUP", group);
 
   const { id, firstName, lastName } = organizer;
+  // console.log()
 
-  const currUserRole = currUser && organizer?.id === currUser.id ? "organizer" : "guest";
+  const currUserRole = currUser && id === currUser.id ? "organizer" : "guest";
 
-  console.log("GROUP", group)
+  // console.log("GROUP", group)
 
   const isOrganizer = currUserRole === "organizer";
   // console.log("isOrganizer", isOrganizer)
