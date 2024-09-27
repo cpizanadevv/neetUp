@@ -11,13 +11,11 @@ import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
-  const navigate = useNavigate();
+  console.log("USER", sessionUser)
+  // const navigate = useNavigate();
 
   useEffect(() => {
-    if (!sessionUser) {
-      navigate("/");
-    }
-  }, [sessionUser, navigate]);
+  }, [sessionUser]);
 
   let sessionLinks;
   if (sessionUser) {

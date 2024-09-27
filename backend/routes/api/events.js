@@ -254,7 +254,7 @@ event.get("/:eventId", async (req, res) => {
     group: ["Event.id", "Group.id",
       "Group.Organizer.id",  "EventImages.id", "Venue.id"],
   });
-  return res.json({ Events: eventById });
+  return res.json({ Event: eventById });
 });
 
 // * Add Img to Event by ID

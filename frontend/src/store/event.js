@@ -6,6 +6,11 @@ export const getAllEvents = (events) => ({
   events,
 });
 
+export const eventsOfGroup = (events) => ({
+  type: "GET_GROUP_EVENTS",
+  events,
+});
+
 export const getEvent = (event) => ({
   type: "GET_EVENT",
   event,
@@ -25,10 +30,6 @@ export const deleteEvent = () => ({
   type: "DELETE_EVENT",
 });
 
-export const eventsOfGroup = (events) => ({
-  type: "GET_GROUP_EVENTS",
-  events,
-});
 
 // * THUNK
 
@@ -42,11 +43,10 @@ export const getEvents = () => async (dispatch) => {
 
 export const getEventById = (eventId) => async (dispatch) => {
   const res = await csrfFetch(`/api/events/${eventId}`);
-  console.log("THIS IS RES IN THUNK", res.body);
+  // console.log("THIS IS RES IN THUNK", res.body);
   if (res.ok) {
     const event = await res.json();
-    dispatch(getEvent(event.Events));
-    return event;
+    dispatch(getEvent(event.Event));
   }
 };
 
@@ -81,10 +81,8 @@ export const createEvent = (event, groupId) => async (dispatch) => {
 
 export const getGroupEvents = (groupId) => async (dispatch) => {
   const res = await csrfFetch(`/api/groups/${groupId}/events`);
-  console.log("res", res);
   if (res.ok) {
     const events = await res.json();
-    console.log("thunk", events);
     dispatch(eventsOfGroup(events));
   }
 };
@@ -113,7 +111,6 @@ export const deleteCurrentEvent = (eventId) => async (dispatch) => {
   const res = await csrfFetch(`/api/events/${eventId}`, {
     method: "DELETE",
   });
-  // console.log("delete thunk res", res);
   if (res.ok) {
     dispatch(deleteEvent());
   }
@@ -122,21 +119,7 @@ export const deleteCurrentEvent = (eventId) => async (dispatch) => {
 // * Reducer
 const initialState = {
   events: [],
-  event: {
-    name: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    price: 0,
-    type: "",
-    Group: {
-      Organizer: {
-        firstName: "",
-        lastName: "",
-      },
-    },
-    previewImage: "",
-  },
+  event: {},
 };
 
 const eventReducer = (state = initialState, action) => {

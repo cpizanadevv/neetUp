@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./SignupForm.css";
 import * as sessionActions from "../../store/session";
-// import { Navigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 
 

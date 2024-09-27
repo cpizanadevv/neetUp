@@ -35,10 +35,8 @@ export const addGroupImg = (img) => ({
 
 export const getGroups = () => async (dispatch) => {
     const res = await csrfFetch('/api/groups');
-    // console.log(res)
     if (res.ok) {
         const groups = await res.json();
-        // console.log("THIS IS GROUPS insode thunk",groups)
         dispatch(getAllGroups(groups))
         return groups
     }
@@ -89,7 +87,7 @@ export const deleteCurrentGroup = (groupId) => async (dispatch) => {
 }
 
 export const updateGroup = (group, groupId) => async (dispatch) => {
-  console.log("update thunk", group)
+  // console.log("update thunk", group)
 
   try {
     const res = await csrfFetch(`/api/groups/${groupId}`, {
@@ -101,7 +99,7 @@ export const updateGroup = (group, groupId) => async (dispatch) => {
     });
     if(res.ok) {
       const updated = await res.json();
-      console.log('updated', updated)
+      // console.log('updated', updated)
       dispatch(updatedGroup(updated))
       return updated;
     }

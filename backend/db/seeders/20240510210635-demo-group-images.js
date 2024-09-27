@@ -21,7 +21,7 @@ module.exports = {
       // Otaku Haven
       {
         groupId: 1,
-        url: "https://example.com/images/otaku-haven-1.jpg",
+        url: "",
         preview: true,
       },
       {
@@ -186,143 +186,7 @@ module.exports = {
         groupId: 10,
         url: "https://example.com/images/ghibli-fan-club-3.jpg",
         preview: false,
-      },
-
-      // Anime Fitness Squad
-      {
-        groupId: 11,
-        url: "https://example.com/images/anime-fitness-squad-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 11,
-        url: "https://example.com/images/anime-fitness-squad-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 11,
-        url: "https://example.com/images/anime-fitness-squad-3.jpg",
-        preview: false,
-      },
-
-      // Seinen Society
-      {
-        groupId: 12,
-        url: "https://example.com/images/seinen-society-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 12,
-        url: "https://example.com/images/seinen-society-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 12,
-        url: "https://example.com/images/seinen-society-3.jpg",
-        preview: false,
-      },
-
-      // Sports Anime Enthusiasts
-      {
-        groupId: 13,
-        url: "https://example.com/images/sports-anime-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 13,
-        url: "https://example.com/images/sports-anime-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 13,
-        url: "https://example.com/images/sports-anime-3.jpg",
-        preview: false,
-      },
-
-      // Historical Anime Group
-      {
-        groupId: 14,
-        url: "https://example.com/images/historical-anime-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 14,
-        url: "https://example.com/images/historical-anime-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 14,
-        url: "https://example.com/images/historical-anime-3.jpg",
-        preview: false,
-      },
-
-      // Fantasy Worlds Club
-      {
-        groupId: 15,
-        url: "https://example.com/images/fantasy-worlds-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 15,
-        url: "https://example.com/images/fantasy-worlds-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 15,
-        url: "https://example.com/images/fantasy-worlds-3.jpg",
-        preview: false,
-      },
-
-      // Anime Cooking Club
-      {
-        groupId: 16,
-        url: "https://example.com/images/anime-cooking-club-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 16,
-        url: "https://example.com/images/anime-cooking-club-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 16,
-        url: "https://example.com/images/anime-cooking-club-3.jpg",
-        preview: false,
-      },
-
-      // Anime Book Club
-      {
-        groupId: 17,
-        url: "https://example.com/images/anime-book-club-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 17,
-        url: "https://example.com/images/anime-book-club-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 17,
-        url: "https://example.com/images/anime-book-club-3.jpg",
-        preview: false,
-      },
-
-      // Miyazaki Appreciation Society
-      {
-        groupId: 18,
-        url: "https://example.com/images/miyazaki-society-1.jpg",
-        preview: true,
-      },
-      {
-        groupId: 18,
-        url: "https://example.com/images/miyazaki-society-2.jpg",
-        preview: false,
-      },
-      {
-        groupId: 18,
-        url: "https://example.com/images/miyazaki-society-3.jpg",
-        preview: false,
-      },
+      }
     ], { validate: true });
   },
 

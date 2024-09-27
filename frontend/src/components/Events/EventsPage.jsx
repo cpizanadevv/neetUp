@@ -48,7 +48,7 @@ const EventsPage = () => {
       <h3>Upcoming events ({upcomingEvents.length}) </h3>
         {upcomingEvents.length > 0 ? (
           upcomingEvents.map((event) => (
-            <NavLink key={event.id}  to={`/events/${event.id}`}>
+            <NavLink key={event.id} to={`/events/${event.id}`}>
               <div key={event.id} className="eventCard">
                 <img src={event.previewImage} alt={event.name} />
                 <h4>{event.name}</h4>

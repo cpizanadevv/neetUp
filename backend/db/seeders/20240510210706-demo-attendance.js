@@ -134,70 +134,7 @@ module.exports = {
       { eventId: 22, userId: 7, status: "attending" },
       { eventId: 22, userId: 20, status: "attending" },
       { eventId: 22, userId: 19, status: "pending" },
-      // Cosplay Photoshoot
-      { eventId: 39, userId: 7, status: "attending" },
-      { eventId: 39, userId: 20, status: "attending" },
-      { eventId: 39, userId: 19, status: "pending" },
-      // Convention Prep Session
-      { eventId: 40, userId: 7, status: "attending" },
-      { eventId: 40, userId: 20, status: "waitlist" },
-      { eventId: 40, userId: 19, status: "pending" },
-      // Shonen Anime Marathon
-      { eventId: 41, userId: 24, status: "attending" },
-      { eventId: 41, userId: 21, status: "waitlist" },
-      { eventId: 41, userId: 22, status: "pending" },
-      // Shojo Anime Marathon
-      { eventId: 42, userId: 14, status: "attending" },
-      { eventId: 42, userId: 21, status: "waitlist" },
-      { eventId: 42, userId: 22, status: "pending" },
-      // Anime OVA Marathon
-      { eventId: 43, userId: 24, status: "attending" },
-      { eventId: 43, userId: 21, status: "waitlist" },
-      { eventId: 43, userId: 22, status: "pending" },
-      // Ghibli Movie Night: Spirited Away
-      { eventId: 44, userId: 22, status: "attending" },
-      { eventId: 44, userId: 23, status: "waitlist" },
-      { eventId: 44, userId: 26, status: "pending" },
-      // Ghibli Art Workshop
-      { eventId: 45, userId: 25, status: "attending" },
-      { eventId: 45, userId: 23, status: "waitlist" },
-      { eventId: 45, userId: 26, status: "pending" },
-      // Ghibli Cosplay Contest
-      { eventId: 46, userId: 25, status: "attending" },
-      { eventId: 46, userId: 23, status: "waitlist" },
-      { eventId: 46, userId: 26, status: "pending" },
-      // Anime Workout Session
-      { eventId: 47, userId: 26, status: "attending" },
-      { eventId: 47, userId: 27, status: "waitlist" },
-      { eventId: 47, userId: 28, status: "pending" },
-      // Yoga with Anime Music
-      { eventId: 48, userId: 27, status: "attending" },
-      { eventId: 48, userId: 29, status: "waitlist" },
-      { eventId: 48, userId: 30, status: "pending" },
-      // Cosplay Run
-      { eventId: 49, userId: 28, status: "attending" },
-      { eventId: 49, userId: 31, status: "waitlist" },
-      { eventId: 49, userId: 32, status: "pending" },
-      // Seinen Anime Discussion
-      { eventId: 50, userId: 27, status: "attending" },
-      { eventId: 50, userId: 29, status: "waitlist" },
-      { eventId: 50, userId: 30, status: "pending" },
-      // Seinen Manga Reading Group
-      { eventId: 51, userId: 27, status: "attending" },
-      { eventId: 51, userId: 29, status: "waitlist" },
-      { eventId: 51, userId: 30, status: "pending" },
-      // Seinen Anime Watch Party
-      { eventId: 52, userId: 27, status: "attending" },
-      { eventId: 52, userId: 29, status: "waitlist" },
-      { eventId: 52, userId: 30, status: "pending" },
-      // Sports Anime Watch Party
-      { eventId: 53, userId: 28, status: "attending" },
-      { eventId: 53, userId: 31, status: "waitlist" },
-      { eventId: 53, userId: 32, status: "pending" },
-      // Friendly Sports Competition
-      { eventId: 54, userId: 28, status: "attending" },
-      { eventId: 54, userId: 31, status: "waitlist" },
-      { eventId: 54, userId: 32, status: "pending" },
+      
     ], { validate: true });
   },
 

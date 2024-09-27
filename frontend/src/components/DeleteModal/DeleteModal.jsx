@@ -22,12 +22,6 @@ function DeleteModal() {
             console.log("delete fulfilled")
             closeModal();
           })
-          .catch(async (res) => {
-            const data = await res.json();
-            if (data?.errors) {
-              setErrs(data.errors);
-            }
-          });
       }
     } else {
       closeModal();
