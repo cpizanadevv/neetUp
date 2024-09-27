@@ -42,6 +42,13 @@ const EventFormPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(parseDateTime(startDate))
+    if(typeof(capacity) != 'Integer'){
+      setErrs({capacity:'Capacity must be a number'})
+    }
+    if(typeof(price) != 'Float'){
+      setErrs({price:'Price must be numbers'})
+    }
+
     function getRandomInt(max) {
       return Math.floor(Math.random() * max);
     }
