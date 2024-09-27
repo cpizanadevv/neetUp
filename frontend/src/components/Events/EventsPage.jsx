@@ -7,7 +7,7 @@ import "./EventPage.css";
 const EventsPage = () => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.event.events);
-  console.log("THIS IS EVENTS", events);
+  // console.log("THIS IS EVENTS", events);
 
   useEffect(() => {
     dispatch(eventActions.getEvents());
@@ -18,7 +18,7 @@ const EventsPage = () => {
     (event) => new Date(event.startDate) > now
   );
   upcomingEvents = upcomingEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-  
+
   let pastEvents = events.filter((event) => new Date(event.startDate) <= now);
   pastEvents = pastEvents.sort((b, a) => new Date(a.startDate) - new Date(b.startDate));
 
@@ -70,7 +70,7 @@ const EventsPage = () => {
           <h3>Past Events ({pastEvents.length}) </h3>
           <div id="pastEvents">
             {pastEvents.map((event) => (
-              <NavLink key={event.id}  to={`/events/${event.id}`}>
+              <NavLink key={event.id} to={`/events/${event.id}`}>
                 <div key={event.id} className="eventCard">
                   <img src={event.previewImage} alt={event.name} />
                   <h4>{event.name}</h4>

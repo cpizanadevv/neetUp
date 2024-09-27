@@ -6,7 +6,7 @@ import { useModal } from "../../context/Modal";
 function DeleteEventModal() {
   const dispatch = useDispatch();
   const [decision, setDecision] = useState(false);
-  const [setErrs] = useState({});
+  const [ setErrs] = useState({});
   const event = useSelector((state) => state.event.event);
   
   const { closeModal } = useModal();

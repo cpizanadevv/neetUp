@@ -192,8 +192,6 @@ const GroupDetailsPage = () => {
             </div>
           </div>
         </div>
-      )}
-    </>
   );
 };
 

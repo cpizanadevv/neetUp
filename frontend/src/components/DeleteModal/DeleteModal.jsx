@@ -6,13 +6,14 @@ import { useModal } from "../../context/Modal";
 function DeleteModal() {
   const dispatch = useDispatch();
   const [decision, setDecision] = useState(false);
+  const [setErrs] = useState({});
   const group = useSelector((state) => state.group.group);
   
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (decision === true) {
       if (group.id > -1) {
         console.log("dispatching delete")

@@ -22,10 +22,10 @@ const EventDetailsPage = () => {
 
   useEffect(() => {
     dispatch(eventActions.getEventById(eventId));
-    // if (event && event.delete === true) {
-    //   event.delete = false;
-    //   navigate(`/groups/${groupId}`);
-    // }
+    if (event && event.delete === true) {
+      event.delete = false;
+      navigate(`/groups/${groupId}`);
+    }
     if (event){
       setGroup({...event.Group})
     }
@@ -35,7 +35,7 @@ const EventDetailsPage = () => {
 
     }
 
-  }, [dispatch,group]);
+  }, [dispatch,group,event, groupId]);
 
   console.log("This is GROUp", group);
   console.log("This is ORG", organizer);
