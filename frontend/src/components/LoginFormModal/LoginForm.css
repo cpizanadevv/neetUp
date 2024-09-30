@@ -22,9 +22,9 @@
     justify-content: center;
 }
 
-button  {
-    background: #D9A3A0;
+.login-buttons  {
     text-decoration: none;
+
     height: 2.5em;
     width: 6em;
     justify-content: center;
@@ -33,4 +33,20 @@ button  {
 input {
     width: 100%;
     height: 2em;
+}
+
+#modal-content {
+    background: white;
+
+}
+
+.modal {
+    height: 25em;
+    width: 25em;
+}
+
+#login-modal {
+    margin-top: 2em;
+    display: flex;
+
 }

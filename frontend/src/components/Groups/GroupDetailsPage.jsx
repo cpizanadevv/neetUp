@@ -23,10 +23,9 @@ const GroupDetailsPage = () => {
   const [isPrivate, setPrivate] = useState("");
   const [memberships, setMemberships] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
-  const [organizer, setOrganizer] = useState({})
+  const [organizer, setOrganizer] = useState({});
 
   console.log("members", memberships);
-
 
   useEffect(() => {
     dispatch(groupActions.getGroupById(groupId));
@@ -37,7 +36,7 @@ const GroupDetailsPage = () => {
     }
     if (group) {
       setIsLoading(true);
-        setMemberships(group.Memberships);
+      setMemberships(group.Memberships);
       setCity(group.city);
       setName(group.name);
       setState(group.state);
@@ -46,11 +45,11 @@ const GroupDetailsPage = () => {
       setPreviewImage(
         group?.GroupImages?.findLast((image) => image.preview === true).url
       );
-      setOrganizer({...group.Organizer})
+      setOrganizer({ ...group.Organizer });
     } else {
       setIsLoading(false);
     }
-  }, [dispatch, groupId, navigate,group]);
+  }, [dispatch, groupId, navigate, group]);
 
   // console.log(Memberships);
   const { firstName, lastName } = organizer;
@@ -192,6 +191,8 @@ const GroupDetailsPage = () => {
             </div>
           </div>
         </div>
+      )}
+    </>
   );
 };
 
