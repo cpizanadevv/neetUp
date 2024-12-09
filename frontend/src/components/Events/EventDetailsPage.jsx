@@ -35,11 +35,7 @@ const EventDetailsPage = () => {
 
     }
 
-  }, [dispatch,group,event, groupId]);
-
-  console.log("This is GROUp", group);
-  console.log("This is ORG", organizer);
-  // console.log("This", event.Group);
+  }, [dispatch]);
 
   const {
     name,

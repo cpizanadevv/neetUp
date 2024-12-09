@@ -47,8 +47,9 @@ const GroupFormPage = () => {
 
     const result = await dispatch(groupActions.createGroup(group));
 
-    if (result.errors) {
+    if (result.errors.errors) {
       setErrs(result.errors.errors);
+      return
     } else {
       const groupId = result.id;
 
@@ -58,8 +59,10 @@ const GroupFormPage = () => {
       }
       navigate(`/groups/${groupId}`);
     }
+    console.log('result', result.errors.errors)
     reset();
   };
+  console.log('errs', errs)
 
   const reset = () => {
     setErrs({});
