@@ -47,7 +47,7 @@ const GroupFormPage = () => {
 
     const result = await dispatch(groupActions.createGroup(group));
 
-    if (result.errors.errors) {
+    if (result.errors) {
       setErrs(result.errors.errors);
       return
     } else {
@@ -57,12 +57,11 @@ const GroupFormPage = () => {
         const groupImg = { url: img, preview: true, groupId };
         await dispatch(groupActions.createImg(groupImg));
       }
-      navigate(`/groups/${groupId}`);
+      console.log('groupId', groupId)
+      navigate(`/groups/details/${groupId}`);
     }
-    console.log('result', result.errors.errors)
     reset();
   };
-  console.log('errs', errs)
 
   const reset = () => {
     setErrs({});

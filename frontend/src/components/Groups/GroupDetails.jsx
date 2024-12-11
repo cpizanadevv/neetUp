@@ -28,14 +28,8 @@ const GroupDetailsPage = () => {
     }
   }, [dispatch, groupId]);
 
-  console.log("currUser", currUser);
-  console.log("group", group);
-  console.log("group", group.Memberships);
-  console.log("status", status);
-  console.log("organizer", organizer);
-
   useEffect(() => {
-    if (currUser && group.Memberships) {
+    if (currUser && group && group.Memberships) {
       const isMember = group.Memberships.find(
         (member) => member.userId == currUser.id
       );
