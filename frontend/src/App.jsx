@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation/Navigation";
 import LandingPage from "./components/LandingPage/LandingPage";
 import GroupsPage from "./components/Groups/GroupsPage";
 import GroupDetailsPage from "./components/Groups/GroupDetailsPage";
+import GroupDetails from "./components/Groups/GroupDetails";
 import EventsPage from "./components/Events/EventsPage";
 import EventDetailsPage from "./components/Events/EventDetailsPage";
 import GroupFormPage from "./components/Groups/GroupFormPage";
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: `/:groupId/events/new`,
         element: <EventFormPage />,
+      },
+      {
+        path: `/groups/details/:groupId`,
+        element: <GroupDetails />,
       },
     ],
   },

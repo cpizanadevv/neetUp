@@ -16,3 +16,7 @@ button {
     color: #022131;
     font-weight: 700;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
