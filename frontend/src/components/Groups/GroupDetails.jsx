@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import "./GroupDetails.css";
+import '../../output.css'
 
 const GroupDetailsPage = () => {
   const { groupId } = useParams();
@@ -68,34 +68,44 @@ const GroupDetailsPage = () => {
       </div>
       {group && (
         <div>
-          <div>
-            <h2>{group.name}</h2>
-            {group && group.Organizer && (
+          <div class="flex flex-row justify-center gap-5 ml-24">
+            <div class="size-fit">
+              {group.GroupImages && <img src={group.GroupImages[0]} class="h-96 w-2/5"/>}
+            </div>
+            <div>
+              <h2>{group.name}</h2>
               <h4>
-                Organized by: {group.Organizer.lastName}{" "}
-                {group.Organizer.firstName}
+                {group.city}, {group.state}
               </h4>
-            )}
+              <h4>
+                {events.length} events ·{" "}
+                {group.isPrivate ? "Private" : "Public"}
+              </h4>
+              {group && group.Organizer && (
+                <h4>
+                  Organized by: {group.Organizer.lastName}{" "}
+                  {group.Organizer.firstName}
+                </h4>
+              )}
+              {currUser && status == "guest" && (
+                <button onClick={handleClick}>Join this Group</button>
+              )}
+            </div>
           </div>
           <div>
-            {group.GroupImages && <img src={group.GroupImages[0]} alt="" />}
-          </div>
-          <div>
-            <h4>
-              {group.city}, {group.state}
-            </h4>
-            <h4>
-              {events.length} events · {group.isPrivate ? "Private" : "Public"}
-            </h4>
-          </div>
-          <div>
-            About group:
+            <div>
+              <h3>Organizer</h3>
+              {group && group.Organizer && (
+                <h4>
+                  {group.Organizer.lastName}{" "}
+                  {group.Organizer.firstName}
+                </h4>
+              )}
+            </div>
+            <h3>What we&apos;re about</h3>
             <p>{group.about}</p>
           </div>
           <div>
-            {currUser && status == "guest" && (
-              <button onClick={handleClick}>Join this Group</button>
-            )}
             {organizer && (
               <div>
                 <NavLink to={`/${groupId}/events/new`}>
@@ -134,26 +144,26 @@ const GroupDetailsPage = () => {
               )}
             </div>
             {pastEvents.length > 0 && (
-                <div>
-                  <h3>Past Events ({pastEvents.length}) </h3>
-                  <div id="pastEvents">
-                    {pastEvents.map((event) => (
-                      <NavLink to={`/events/${event.id}`}>
-                        <div key={event.id} className="eventCard">
-                          <img src={event.previewImage} alt={event.name} />
-                          <h4>{event.name}</h4>
-                          <p>{formatDate(event)}</p>
-                          <p>
-                            {event.Venue && event.Venue.city} ,{" "}
-                            {event.Venue && event.Venue.state}
-                          </p>
-                          <p>{event.description}</p>
-                        </div>
-                      </NavLink>
-                    ))}
-                  </div>
+              <div>
+                <h3>Past Events ({pastEvents.length}) </h3>
+                <div id="pastEvents">
+                  {pastEvents.map((event) => (
+                    <NavLink to={`/events/${event.id}`}>
+                      <div key={event.id} className="eventCard">
+                        <img src={event.previewImage} alt={event.name} />
+                        <h4>{event.name}</h4>
+                        <p>{formatDate(event)}</p>
+                        <p>
+                          {event.Venue && event.Venue.city} ,{" "}
+                          {event.Venue && event.Venue.state}
+                        </p>
+                        <p>{event.description}</p>
+                      </div>
+                    </NavLink>
+                  ))}
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </div>
       )}
