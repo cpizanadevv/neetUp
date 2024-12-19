@@ -76,13 +76,13 @@ const GroupFormPage = () => {
   };
 
   return (
-    <form id="form" onSubmit={handleSubmit}>
+    <form className="flex flex-column m-auto w-2/4" onSubmit={handleSubmit}>
       <h3>Start a New Group</h3>
       <h2>
         We&apos;ll walk you through a few steps to build your local community
       </h2>
       <hr />
-      <div id="location">
+      <div className="flex-column">
         <h2>First, set your group&apos;s location.</h2>
         <h4>
           neetUp groups meet locally, in person and online. We&apos;ll connect
@@ -94,12 +94,12 @@ const GroupFormPage = () => {
           value={cityState}
           onChange={(e) => setCityState(e.target.value)}
         />
-        
+
       {errs.city && <p className="err">{errs.city}</p>}
       {errs.state && <p className="err">{errs.state}</p>}
         <hr />
       </div>
-      <div id="name">
+      <div className="flex flex-column">
         <h2>What will your group&apos;s name be?</h2>
         <h4>
           Choose a name that will give people a clear idea of what the group is
@@ -114,7 +114,7 @@ const GroupFormPage = () => {
         />
       </div>
       {errs.name && <p className="err">{errs.name}</p>}
-      <div id="about">
+      <div className="flex-column">
         <h2>Now describe what your group will be about</h2>
         <h4>
           People will see this when we promote your group, but you&apos;ll be
@@ -133,7 +133,7 @@ const GroupFormPage = () => {
         ></textarea>
       {errs.about && <p className="err">{errs.about}</p>}
       </div>
-      <div id="type">
+      <div className="my-4 mx-0">
       <h3>Final steps...</h3>
         <h4>Is this an in person or online group?
         <select
@@ -160,7 +160,7 @@ const GroupFormPage = () => {
         </select></h4>
         {errs.private && <p className="err">{errs.private}</p>}
       </div>
-      <div id="img">
+      <div className="w-auto h-auto">
         <h4>Please add an image url for your group below:</h4>
         <input
           type="text"
@@ -171,7 +171,7 @@ const GroupFormPage = () => {
       {errs.img && <p className="err">{errs.img}</p>}
       </div>
       <hr />
-      <button id="submit" type="submit">Create Group</button>
+      <button className="w-auto m-4" type="submit">Create Group</button>
     </form>
   );
 };

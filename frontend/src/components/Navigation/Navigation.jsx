@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -7,7 +7,6 @@ import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 
 import logo from "../../store/images/neetup-logo.png";
-import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -26,7 +25,7 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-      <ul id="buttons">
+      <ul className="flex-row justify-between items-center list-none h-min gap-8">
         <li>
           <OpenModalButton
             buttonText="Log In"
@@ -44,8 +43,8 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul id="nav">
-      <li id="home">
+    <ul className="bg-white p-2 m-0 border-b-2 border-blue-950 border-solid flex-row justify-between items-center">
+      <li className="left-0">
         <NavLink to="/">
           <img src={logo} alt="neetUp logo" />
         </NavLink>

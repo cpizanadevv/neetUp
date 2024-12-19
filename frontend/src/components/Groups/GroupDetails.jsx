@@ -68,9 +68,9 @@ const GroupDetailsPage = () => {
       </div>
       {group && (
         <div>
-          <div class="flex flex-row justify-center gap-5 ml-24">
-            <div class="size-fit">
-              {group.GroupImages && <img src={group.GroupImages[0]} class="h-96 w-2/5"/>}
+          <div className="flex flex-row justify-center gap-5 ml-24">
+            <div className="size-fit">
+              {group.GroupImages && <img src={group.GroupImages[0]} className="h-96 w-2/5"/>}
             </div>
             <div>
               <h2>{group.name}</h2>
@@ -126,8 +126,8 @@ const GroupDetailsPage = () => {
             <div id="upcomingEvent">
               {upcomingEvents.length > 0 ? (
                 upcomingEvents.map((event) => (
-                  <NavLink to={`/events/${event.id}`}>
-                    <div key={event.id} className="eventCard">
+                  <NavLink to={`/events/${event.id}`} key={event.id}>
+                    <div className="eventCard">
                       <img src={event.previewImage} alt={event.name} />
                       <h4>{event.name}</h4>
                       <h4>{formatDate(event)}</h4>
@@ -148,8 +148,8 @@ const GroupDetailsPage = () => {
                 <h3>Past Events ({pastEvents.length}) </h3>
                 <div id="pastEvents">
                   {pastEvents.map((event) => (
-                    <NavLink to={`/events/${event.id}`}>
-                      <div key={event.id} className="eventCard">
+                    <NavLink to={`/events/${event.id}`} key={event.id} >
+                      <div className="eventCard">
                         <img src={event.previewImage} alt={event.name} />
                         <h4>{event.name}</h4>
                         <p>{formatDate(event)}</p>
