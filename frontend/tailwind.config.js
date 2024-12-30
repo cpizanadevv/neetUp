@@ -2,8 +2,11 @@
 export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        custom: ["Century 'Franklin Gothic Medium'", 'Arial Narrow', 'Arial', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
-
