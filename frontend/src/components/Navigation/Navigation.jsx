@@ -24,17 +24,16 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-      <div className="flex flex-row justify-between items-center list-none h-8 gap-8 right-0">
-        <div>
+      <div className="flex flex-row justify-between items-center list-none h-8 gap-8 right-0 border-b-2 border-blue-950">
+        <div className="border-2 border-blue-950 hover:bg-blue-950 hover:text-white">
           <OpenModalButton
-           className="border-blue-950 "
             buttonText="Log In"
             modalComponent={<LoginFormModal />}
           />
         </div>
-        <div>
+        <div className="border-2 border-blue-950 hover:bg-blue-950 hover:text-white">
           <OpenModalButton
-           className="border-blue-950 "
+
             buttonText="Sign Up"
             modalComponent={<SignupFormModal />}
           />
