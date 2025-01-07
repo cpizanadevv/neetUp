@@ -43,7 +43,7 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <div className="flex flex-row justify-between items-center h-fit w-full gap-8 bg-white p-2 m-0">
+    <div className="flex flex-row justify-between items-center h-auto w-full gap-8 bg-white p-2 m-0 fixed shadow-lg top-0">
       <div className="hover:scale-125">
         <NavLink to="/">
           <img src={logo} alt="neetUp logo" className="h-24 px-10 m-1 "/>

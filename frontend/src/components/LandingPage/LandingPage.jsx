@@ -19,7 +19,7 @@ const LandingPage = () => {
   }, [sessionUser]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-16">
       <div className="flex flex-row py-24 px-48 w-auto h-2/3 justify-center content-center gap-4">
         <div className="py-0 px-1 justify-center w-1/2 mt-24">
           <h2 className="text-2xl font-semibold">
