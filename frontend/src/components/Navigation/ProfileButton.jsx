@@ -43,8 +43,8 @@ function ProfileButton({ user }) {
 
   return (
     <div className="flex flex-row justify-between gap-4">
-      <button className="w-24 hover:bg-blue-950 hover:text-white h-12 flex justify-center items-center font-semibold">
-        <NavLink to={"/groups/new"}>Start a new Group</NavLink>
+      <button className="w-24 hover:bg-blue-950 hover:text-white h-12 flex justify-center items-center font-semibold ">
+        <NavLink to={"/groups/new"} className={'p-2'}>Create Group</NavLink>
       </button>
       <button onClick={toggleMenu}>
         <FaUserCircle className="h-12 w-8 hover:scale-150 hover:text-blue-950"/>

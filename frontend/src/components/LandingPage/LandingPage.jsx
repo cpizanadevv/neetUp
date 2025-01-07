@@ -12,7 +12,7 @@ const LandingPage = () => {
   const sessionUser = useSelector((state) => state.session.user);
   console.log("landing page sessionUser", sessionUser)
 
-  const ulClassName = "cards " + (sessionUser ? "" : " deactivated");
+  const ulClassName = "h-auto w-1/3 " + (sessionUser ? "" : "font-grey");
 
   useEffect(() => {
 
@@ -26,43 +26,43 @@ const LandingPage = () => {
             The Anime Enthusiasts&apos; Hub—Where Passion Becomes Friendship
           </h2>
           <h4 className="mt-4">
-          Whether you&apos;re into classic series, the latest releases, cosplay, or manga, you&apos;re not alone—there are thousands of anime fans ready to connect with you. Meetup is your gateway to both in-person and online anime events happening every day. Sign up today and be part of the excitement—share your passion, meet like-minded fans, and dive deeper into the anime world!
+          Whether you&apos;re into classic series, the latest releases, cosplay, or manga, you&apos;re not alone—there are thousands of anime fans ready to connect with you. neetUp is your gateway to both in-person and online anime events happening every day. Sign up today and be part of the excitement—share your passion, meet like-minded fans, and dive deeper into the anime world!
           </h4>
         </div>
-          <img src={landingPageImg} alt="" className="h-50 w-1/3" />
+          <img src={landingPageImg} alt="" className="h-auto w-1/3" />
       </div>
       <div id="buttons">
-        <h3 id="works">How neetUp works</h3>
-        <div id="toDoCards">
-          <div className="cards">
+        <h3 className="text-center">How neetUp works</h3>
+        <div className="flex justify-between py-8 px-60 gap-4">
+          <div className="flex flex-row h-auto w-1/3">
             <NavLink style={{ textDecoration: 'none' }} to="/groups">
               <img src={groupImg} />
-              <h4>See All Groups</h4>
+              <h4 className="text-center">See All Groups</h4>
             </NavLink>
           </div>
-          <div className="cards">
+          <div className=" h-auto w-1/3">
             <NavLink style={{ textDecoration: 'none' }} to="/events">
               <img src={eventImg} />
-              <h4>Find An Event</h4>
+              <h4 className="text-center">Find An Event</h4>
             </NavLink>
           </div>
           {sessionUser ?
             <div className={ulClassName}>
               <NavLink style={{ textDecoration: 'none' }} to="/groups/new">
                 <img src={createImg} />
-                <h4>Start a group</h4>
+                <h4 className="text-center">Start a group</h4>
               </NavLink>
             </div> :
             <div className={ulClassName}>
               <img src={createImg} />
-              <h4>Start a group</h4>
+              <h4 className="text-center">Create group</h4>
           </div>
           }
         </div>
       </div>
-      <div id="join">
+      <div className="m-auto my-3 h-auto">
         <OpenModalButton
-        buttonText={<NavLink><h3>Join neetUp</h3></NavLink>}
+        buttonText={<h3 className="flex justify-center items-center p-1.25 w-24 h-10 bg-blue-950 text-white  hover:bg-white hover:text-black hover:border hover:border-blue-950">Join neetUp</h3>}
         modalComponent={<SignupFormModal />}
       />
       </div>

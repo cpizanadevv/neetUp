@@ -1,4 +1,4 @@
-#lp{
+/* #lp{
     background: #93b4c6;
     display: flex;
     flex-direction: column;
@@ -10,34 +10,34 @@
     padding: 2em 6em;
     margin-top: 5em;
     height: 20em;
-    /* justify-content: center; */
-    /* align-items: center; */
-}
+    justify-content: center; 
+    align-items: center;
+} */
 
-#info {
+/* #info {
     margin: 0 .25em;
     padding: 0;
     text-align: left;
     /* display: flex;
-    flex-direction: column; */
+    flex-direction: column; 
     justify-content: center;
 }
 
 #info h4 {
     
     margin-top: 2em;
-}
+} */
 
-#works {
+/* #works {
     text-align: center;
 }
 
 #img img{
     height: 20em;
     width: 25em;
-}
+} */
 
-h3 {
+/* h3 {
     text-align: center;
 }
 
@@ -45,14 +45,14 @@ h3 {
     display: flex;
     justify-content: space-between;
     padding: 2em 15em;
-}
+} */
 
-#cards {
+/* #cards {
     display: flex;
     flex-direction: row;
-}
+} */
 
-#toDoCards img {
+/* #toDoCards img {
     height: 8em;
     width: 10em;
 
@@ -64,4 +64,4 @@ h3 {
 
 .deactivated {
     color: gray;
-}
+} */
