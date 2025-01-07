@@ -12,7 +12,7 @@ const LandingPage = () => {
   const sessionUser = useSelector((state) => state.session.user);
   console.log("landing page sessionUser", sessionUser)
 
-  const ulClassName = "h-auto w-1/5 " + (sessionUser ? "" : "font-grey");
+  const ulClassName = "h-auto w-1/5 hover:scale-125" + (sessionUser ? "" : "font-grey");
 
   useEffect(() => {
 
@@ -34,13 +34,13 @@ const LandingPage = () => {
       <div id="buttons">
         <h3 className="text-center font-bold text-lg">How neetUp works</h3>
         <div className="flex justify-evenly py-8 px-60">
-          <div className="flex flex-row h-auto w-1/5">
+          <div className="flex flex-row h-auto w-1/5  hover:scale-125">
             <NavLink style={{ textDecoration: 'none' }} to="/groups">
               <img src={groupImg} />
               <h4 className="text-center">See All Groups</h4>
             </NavLink>
           </div>
-          <div className=" h-auto w-1/5">
+          <div className=" h-auto w-1/5  hover:scale-125">
             <NavLink style={{ textDecoration: 'none' }} to="/events">
               <img src={eventImg} />
               <h4 className="text-center">Find An Event</h4>
