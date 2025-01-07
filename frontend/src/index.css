@@ -1,11 +1,11 @@
 /* TODO: Add sitewide styles */
-*{
+/* *{
     padding: 0;
     margin: 0;
     font-family: Century 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-}
+} */
 
-html {
+/* html {
     background: #93b4c6;
 
 }
@@ -15,7 +15,7 @@ button {
     background: #E79583;
     color: #022131;
     font-weight: 700;
-}
+} */
 
 @tailwind base;
 @tailwind components;
