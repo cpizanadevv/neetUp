@@ -5,7 +5,6 @@ import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
-import "./ProfileButton.css";
 import { NavLink } from "react-router-dom";
 
 function ProfileButton({ user }) {
@@ -40,35 +39,33 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "fixed right-0 top-24 min-w-40 z-40 h-full bg-white" + (showMenu ? "" : " hidden");
 
   return (
-    <div id="navButtons">
-      <button>
+    <div className="flex flex-row justify-between gap-4">
+      <button className="w-24 hover:bg-blue-950 hover:text-white h-12 flex justify-center items-center font-semibold">
         <NavLink to={"/groups/new"}>Start a new Group</NavLink>
       </button>
       <button onClick={toggleMenu}>
-        <FaUserCircle />
+        <FaUserCircle className="h-12 w-8 hover:scale-150 hover:text-blue-950"/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {showMenu && (
-          <>
-            <li>{user.username}</li>
-            <li>Hello, {user.firstName}</li>
-            <li>{user.email}</li>
+          <div className="p-4 flex flex-col gap-4 justify-center items-center">
+            <li className="font-medium text-lg w-48 h-8 flex justify-center items-center text-blue-950">Hello, {user.firstName}</li>
 
             <NavLink to={"/groups"}>
-              <li>View Groups</li>
+              <li className="hover:bg-blue-950 hover:text-white w-48 h-8 flex justify-center items-center">View Groups</li>
             </NavLink>
 
             <NavLink to={"/events"}>
-              <li>View Events</li>
+              <li className="hover:bg-blue-950 hover:text-white w-48 h-8 flex justify-center items-center">View Events</li>
             </NavLink>
 
-            <li>
+            <li className="hover:bg-blue-950 hover:text-white w-48 h-8 flex justify-center items-center">
               <button onClick={logout}>Log Out</button>
             </li>
-          </>
+          </div>
         )}
         {!user && (
           <>
