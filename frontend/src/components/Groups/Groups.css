@@ -6,21 +6,21 @@
     left: 0;
 }
 
-#headline {
+/* #headline {
     text-align: start;
     left: 0;
-}
+} */
 
-#groupCard {
+/* #groupCard {
     display: flex;
     flex-direction: row;
     width: 40em;
     margin-top: 2em;
     height: max-content;
 
-}
+} */
 
-#groupList {
+/* #groupList {
 
     text-decoration: none;
     color: #06293A;
@@ -32,12 +32,12 @@
     justify-content: center;
     align-items: center;
     margin: 3em 15em;
-}
+} */
 
-#img {
+/* #img {
     height: 15em;
     width: 25em;
-}
+} */
 
 #date{
     margin: 0;
@@ -48,15 +48,15 @@
     margin: .25em .25em;
     
 }
-
+/* 
 #location {
     margin: 0;
     padding: 0;
     display: flex;
     text-align: start;
-}
+} */
 
-#info {
+/* #info {
     margin: 0 .25em;
     padding: 0;
     display: flex;
@@ -64,10 +64,9 @@
     align-items: start;
     justify-content: start;
     text-align: left;
+} */
 
-}
-
-#sideInfo {
+/* #sideInfo {
     
     display: flex;
     flex-direction: row;
@@ -75,11 +74,11 @@
     align-items: start;
     margin-top: 1em;
     padding: 0;
-}
+} */
 
 
-#about {
+/* #about {
     margin: 0;
     padding: 0;
     text-align: left;
-}
+} */
