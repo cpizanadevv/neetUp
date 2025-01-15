@@ -94,7 +94,7 @@ const GroupDetailsPage = () => {
               </h4>
               {group && group.Organizer && (
                 <h4>
-                  Organized by: {group.Organizer.lastName}{" "}
+                  Organized by: {group.Organizer.lastName},{" "}
                   {group.Organizer.firstName}
                 </h4>
               )}
@@ -113,7 +113,7 @@ const GroupDetailsPage = () => {
               <h3 className="font-semibold text-lg">Organizer</h3>
               {group && group.Organizer && (
                 <h4>
-                  {group.Organizer.lastName} {group.Organizer.firstName}
+                  {group.Organizer.lastName}, {group.Organizer.firstName}
                 </h4>
               )}
             </div>

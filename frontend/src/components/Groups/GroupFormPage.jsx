@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as groupActions from "../../store/group";
-import './GroupForm.css'
 
 const GroupFormPage = () => {
   const dispatch = useDispatch();
@@ -76,14 +75,14 @@ const GroupFormPage = () => {
   };
 
   return (
-    <form className="flex flex-column m-auto w-2/4" onSubmit={handleSubmit}>
-      <h3>Start a New Group</h3>
+    <form className="flex flex-col m-auto w-2/4 mt-48 font-normal" onSubmit={handleSubmit}>
+      <h3 className="font-semibold">Start a New Group</h3>
       <h2>
         We&apos;ll walk you through a few steps to build your local community
       </h2>
       <hr />
-      <div className="flex-column">
-        <h2>First, set your group&apos;s location.</h2>
+      <div className="flex-column gap-2">
+        <h2 className="font-semibold">First, set your group&apos;s location.</h2>
         <h4>
           neetUp groups meet locally, in person and online. We&apos;ll connect
           you with people in your area, and more can join you online
@@ -99,8 +98,8 @@ const GroupFormPage = () => {
       {errs.state && <p className="err">{errs.state}</p>}
         <hr />
       </div>
-      <div className="flex flex-column">
-        <h2>What will your group&apos;s name be?</h2>
+      <div className="flex flex-col gap-2">
+        <h2 className="font-semibold">What will your group&apos;s name be?</h2>
         <h4>
           Choose a name that will give people a clear idea of what the group is
           about. Feel free to get creative! You can edit this later if you

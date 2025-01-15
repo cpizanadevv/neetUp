@@ -697,6 +697,14 @@ video {
   margin-top: 3rem;
 }
 
+.mt-96 {
+  margin-top: 24rem;
+}
+
+.mt-48 {
+  margin-top: 12rem;
+}
+
 .flex {
   display: flex;
 }
@@ -980,6 +988,10 @@ video {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-normal {
+  font-weight: 400;
 }
 
 .text-blue-950 {
