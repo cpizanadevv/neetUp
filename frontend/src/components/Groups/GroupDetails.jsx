@@ -77,7 +77,7 @@ const GroupDetailsPage = () => {
       </div>
       {group && (
         <div className="w-3/4 m-auto">
-          <div className="flex flex-row justify-center gap-2 ml-24">
+          <div className="flex flex-row justify-center gap-2">
             <div className="size-fit">
               {group.GroupImages && (
                 <img src={group.GroupImages[0]} className="h-80 w-80" />
@@ -108,7 +108,7 @@ const GroupDetailsPage = () => {
               )}
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-4">
             <div>
               <h3 className="font-semibold text-lg">Organizer</h3>
               {group && group.Organizer && (
@@ -143,7 +143,7 @@ const GroupDetailsPage = () => {
             )}
           </div>
           <div>
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold text-lg mt-24">
               Upcoming events ({upcomingEvents.length}){" "}
             </h3>
             <div className="flex flex-col gap-1">
@@ -169,7 +169,7 @@ const GroupDetailsPage = () => {
             </div>
             {pastEvents.length > 0 && (
               <div>
-                <h3 className="font-semibold text-lg">
+                <h3 className="font-semibold text-lg mt-12">
                   Past Events ({pastEvents.length}){" "}
                 </h3>
                 <div>
