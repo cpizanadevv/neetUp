@@ -146,8 +146,8 @@ const GroupDetailsPage = () => {
               <div id="upcomingEvent">
                 {upcomingEvents.length > 0 ? (
                   upcomingEvents.map((event) => (
-                    <NavLink to={`/events/${event.id}`}>
-                      <div key={event.id} className="eventCard">
+                    <NavLink key={event.id} to={`/events/${event.id}`}>
+                      <div className="eventCard">
                         <img src={event.previewImage} alt={event.name} />
                         <h4>{event.name}</h4>
                         <h4>{formatDate(event)}</h4>
@@ -168,14 +168,14 @@ const GroupDetailsPage = () => {
                   <h3>Past Events ({pastEvents.length}) </h3>
                   <div id="pastEvents">
                     {pastEvents.map((event) => (
-                      <NavLink to={`/events/${event.id}`}>
-                        <div key={event.id} className="eventCard">
+                      <NavLink key={event.id} to={`/events/${event.id}`}>
+                        <div className="eventCard">
                           <img src={event.previewImage} alt={event.name} />
                           <h4>{event.name}</h4>
                           <p>{formatDate(event)}</p>
                           <p>
-                            {event.Venue && event.Venue.city} ,{" "}
-                            {event.Venue && event.Venue.state}
+                            {event.Venue && (event.Venue.city)} ,{" "}
+                            {event.Venue && (event.Venue.state)}
                           </p>
                           <p>{event.description}</p>
                         </div>
