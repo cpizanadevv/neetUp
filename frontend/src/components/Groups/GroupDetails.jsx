@@ -10,8 +10,10 @@ import '../../output.css'
 
 const GroupDetailsPage = () => {
   const { groupId } = useParams();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const group = useSelector((state) => state.group.group);
   const currUser = useSelector((state) => state.session.user);
   const events = useSelector((state) => state.event.events);
@@ -29,17 +31,23 @@ const GroupDetailsPage = () => {
   }, [dispatch, groupId]);
 
   useEffect(() => {
+
     if (currUser && group && group.Memberships) {
-      const isMember = group.Memberships.find(
-        (member) => member.userId == currUser.id
-      );
-      console.log("isMember", isMember);
-      setStatus(isMember?.status || "guest");
+      const memberships = Object.keys(group.Memberships)
+      console.log('memberships', memberships)
+      const isMember = memberships.find((member) => member.id == currUser.id)
+      console.log('isMember', isMember)
+
+      if(!isMember){
+        setStatus('guest')
+      }else {
+        setStatus(isMember.status);
+      }
       if (currUser.id == group.Organizer.id) {
         setOrganizer(true);
       }
     }
-  }, [currUser, group]);
+  }, [currUser, group, group.Memberships]);
 
   const now = new Date();
   const upcomingEvents = events.filter(
@@ -60,7 +68,7 @@ const GroupDetailsPage = () => {
   };
 
   return (
-    <div>
+    <div >
       <div className="links">
         <NavLink to={"/groups"}>
           <FaLongArrowAltLeft /> Groups
@@ -72,8 +80,8 @@ const GroupDetailsPage = () => {
             <div className="size-fit">
               {group.GroupImages && <img src={group.GroupImages[0]} className="h-96 w-2/5"/>}
             </div>
-            <div>
-              <h2>{group.name}</h2>
+            <div className="">
+              <h2 className="">{group.name}</h2>
               <h4>
                 {group.city}, {group.state}
               </h4>

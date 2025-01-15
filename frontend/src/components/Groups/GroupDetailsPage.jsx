@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import "./GroupDetails.css";
 
 const GroupDetailsPage = () => {
   const { groupId } = useParams();
@@ -53,7 +52,7 @@ const GroupDetailsPage = () => {
   const { firstName, lastName } = organizer;
 
   const membershipStatus = currUser
-    ? memberships.find((member) => member.userId === currUser.id)?.status 
+    ? memberships.find((member) => member.userId === currUser.id).status 
     : "guest";
 
   const currUserRole =
@@ -85,21 +84,21 @@ const GroupDetailsPage = () => {
   return (
     <>
       {isLoading && (
-        <div id="groupPage">
-          <div id="topLinks">
-            <NavLink to="/groups">
+        <div className="mt-40">
+          <div>
+            <NavLink to="/groups" className={"flex gap-4 items-center w-min hover:font-semibold ml-4"}>
               <FaLongArrowAltLeft />
               Groups
             </NavLink>
           </div>
-          <div id="group">
-            <div id="top">
-              <div id="img">
+          <div className="w-3/4 m-auto">
+            <div className="flex h-96 gap-2">
+              <div className="h-80 w-80">
                 <img src={previewImage} alt="" />
               </div>
-              <div id="info">
-                <h2 id="groupName">{name}</h2>
-                <h4 id="groupLocation">
+              <div className="flex flex-col">
+                <h2 className="font-semibold text-lg">{name}</h2>
+                <h4>
                   {city}
                   {state}
                 </h4>
@@ -112,7 +111,7 @@ const GroupDetailsPage = () => {
                 <h4>
                   Organized by {lastName}, {firstName}
                 </h4>
-                <div id="buttons">
+                <div className="m-4">
                   {currUser && !isMember && (
                     <button onClick={handleClick}>Join this Group</button>
                   )}
@@ -133,17 +132,17 @@ const GroupDetailsPage = () => {
                 </div>
               </div>
             </div>
-            <div id="details">
-              <div id="host">
-                <h2>Organizer</h2>
+            <div >
+              <div className="flex flex-col gap-2">
+                <h2 className="font-semibold text-lg">Organizer</h2>
                 <h4>
                   {lastName}, {firstName}
                 </h4>
               </div>
 
-              <h3>What we&apos;re about</h3>
+              <h3 className="font-semibold text-lg my-4">What we&apos;re about</h3>
               <p>{about}</p>
-              <h3>Upcoming events ({upcomingEvents.length}) </h3>
+              <h3 className="font-semibold text-lg my-4">Upcoming events ({upcomingEvents.length}) </h3>
               <div id="upcomingEvent">
                 {upcomingEvents.length > 0 ? (
                   upcomingEvents.map((event) => (

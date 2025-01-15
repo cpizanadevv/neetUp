@@ -1,10 +1,8 @@
-*{
-    text-decoration: none;
-}
-#group {
+
+/* #group {
     width: 80%;
     margin: auto;
-}
+} */
 
 
 #groupCard {
@@ -14,7 +12,7 @@
     width: fit-content;
     text-align: left;
 }
-
+/* 
 #img{
     height: fit-content;
     width: fit-content;
@@ -24,34 +22,34 @@
 #img img{
     height: 20em;
     width: 22em;
-}
-#top {
+} */
+/* #top {
     display: flex;
     flex-direction: row;
     height: 22em;
 
-}
+} */
 
-#info {
+/* #info {
     display: flex;
     flex-direction: column;
 
-}
+} */
 
-#host {
+/* #host {
     display: flex;
     flex-direction: column;
     
-}
+} */
 
-#buttons {
+/* #buttons {
     margin-top: 2em;
-}
+} */
 
-h4 , h3 {
+/* h4 , h3 {
     text-align: left;
     margin: 1.5em 0;
-}
+} */
 
 #upcomingEvents,
 #pastEvents {
