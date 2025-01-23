@@ -1,16 +1,16 @@
-#eventList * {
+/* #eventList * {
     text-decoration: none;
     color: #06293A;
     font-weight: 600;
-}
+} */
 
-#topLinks{
+/* #topLinks{
     
     display: flex;
     flex-direction: column;
-}
+} */
 
-#headings {
+/* #headings {
     display: flex;
     flex-direction: row;
     gap: 3em;
@@ -18,13 +18,13 @@
     justify-content: start;
 }
 
-#headline {
+/* #headline {
     text-align: start;
     margin-top: 2em;
-}
+} */
 
-#eventList {
-    /* width: auto; */
+/* #eventList {
+    width: auto;
     text-decoration: none;
     color: #06293A;
     font-weight: 600;
@@ -48,14 +48,14 @@
     flex-direction: row;
     margin-top: 1em;
 
-}
+} */
 
-#img {
+/* #img {
     height: 15em;
     width: 25em;
-}
+} */
 
-#date{
+/* #date{
     margin: 0;
     text-align: start;
 }
@@ -82,4 +82,4 @@
     text-align: left;
     display: flex;
     flex-direction: column;
-}
+}  */
