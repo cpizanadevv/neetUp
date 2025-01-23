@@ -189,7 +189,7 @@ const GroupFormPage = () => {
       {errs.img && <p className="err">{errs.img}</p>}
       </div>
       <hr />
-      <button className="w-48 m-auto mt-4 mb-8 bg-blue-950 text-white hover:border hover:border-black hover:bg-white hover:text-black" type="submit">Create Group</button>
+      <button className="w-48 m-auto mt-4 mb-8 bg-blue-950 text-white hover:border hover:border-black hover:bg-white hover:text-black" type="submit">Update Group</button>
     </form>
   )}
     </div>
