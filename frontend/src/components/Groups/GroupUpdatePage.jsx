@@ -93,7 +93,7 @@ const GroupFormPage = () => {
     <div>
     {isLoading && (
       <form className="flex flex-col m-auto w-2/4 mt-48 font-normal gap-6" onSubmit={handleSubmit}>
-      <h3 className="font-semibold">Start a New Group</h3>
+      <h3 className="font-semibold">Update Group</h3>
       <h2>
         We&apos;ll walk you through a few steps to build your local community
       </h2>
