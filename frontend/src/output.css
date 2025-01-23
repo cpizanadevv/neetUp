@@ -821,6 +821,10 @@ video {
   width: min-content;
 }
 
+.w-60 {
+  width: 15rem;
+}
+
 .min-w-40 {
   min-width: 10rem;
 }

@@ -66,27 +66,25 @@ const EventDetailsPage = () => {
   const [endDay, endTime] = new Date(endDate).toLocaleString().split(",");
 
   return (
-    <div>
+    <div className="mt-36">
       <div>
         <div>
-          <NavLink to="/events">
+          <NavLink to="/events" className="flex gap-4 items-center hover:text-lg w-min">
             <FaLongArrowAltLeft />
             Events
           </NavLink>
         </div>
         
         <div>
-          <h2>{name}</h2>
-          <h4>
+          <h2 className="text-2xl font-semibold">{name}</h2>
+          <h4 className="text-lg font-semibold">
             Hosted by {lastName} , {firstName}
           </h4>
         </div>
-        <div id="EventCard">
-          <div id="topSection">
-            <div id="img">
-              <img src={previewImage} />
-            </div>
-            <NavLink to={`/groups/${group.id}`}>
+        <div>
+          <div className="flex flex-row gap-4">
+              <img src={previewImage} className="w-1/2 h-auto"/>
+            <NavLink to={`/groups/${group.id}`} className={"flex-flex-col"}>
               <div id="groupCard">
                 <div id="groupImg">
                   <img src="" alt="" />
@@ -129,7 +127,7 @@ const EventDetailsPage = () => {
               </div>
             </div>
           </div>
-          <div id="details">
+          <div>
             <h3>Description</h3>
             <p>{description}</p>
           </div>
