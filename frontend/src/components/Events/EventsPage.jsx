@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as eventActions from "../../store/event";
-import "./EventPage.css";
 
 const EventsPage = () => {
   const dispatch = useDispatch();
@@ -31,32 +30,41 @@ const EventsPage = () => {
   };
 
   return (
-    <div id="eventList">
-      <div id="topLinks">
-        <div id="headings">
-          <NavLink to="/events">
-            <h3>Events</h3>
+    <div className="mt-36 p-6">
+      <div className="flex flex-col gap-1 justify-start left-0">
+      <div className="flex flex-row gap-8 h-12">
+          <NavLink to="/events" className={"hover:text-lg w-8"}>
+            <h2>Events</h2>
           </NavLink>
-          <NavLink to="/groups">
-            <h3>Groups</h3>
+          <NavLink to="/groups" className={"hover:text-lg w-8"}>
+            <h2>Groups</h2>
           </NavLink>
         </div>
-        <h4 id="headline">Events in neetUp</h4>
+        <h4 className="font-semibold text-xl">Events in neetUp</h4>
         <hr />
       </div>
-      <div id="upcomingEvent">
-      <h3>Upcoming events ({upcomingEvents.length}) </h3>
+      <div>
+      <h3 className="text-lg font-semibold mt-4">Upcoming events ({upcomingEvents.length}) </h3>
         {upcomingEvents.length > 0 ? (
           upcomingEvents.map((event) => (
-            <NavLink key={event.id} to={`/events/${event.id}`}>
-              <div key={event.id} className="eventCard">
-                <img src={event.previewImage} alt={event.name} />
-                <h4>{event.name}</h4>
+            <NavLink key={event.id} to={`/events/${event.id}`} className={"mt-4"}>
+              <div key={event.id} className="flex flex-col w-96 h-auto gap-2">
+                <img src={event.previewImage} alt={event.name} className="h-24 w-48"/>
+                <h4 className="text-lg font-medium">{event.name}</h4>
                 <h4>{formatDate(event)}</h4>
-                <p>
-                  {event.Venue && event.Venue.city} ,{" "}
-                  {event.Venue && event.Venue.state}
-                </p>
+                <div>
+                  {event.Venue ? (
+                    <div>
+                      {event.Venue && event.Venue.city} ,{" "}
+                      {event.Venue && event.Venue.state}
+                    </div>
+                  ):(
+                    <div>
+                      Online
+                    </div>
+                  )}
+                  
+                </div>
                 <p>{event.description}</p>
               </div>
             </NavLink>
@@ -67,18 +75,27 @@ const EventsPage = () => {
       </div>
       {pastEvents.length > 0 && (
         <div>
-          <h3>Past Events ({pastEvents.length}) </h3>
-          <div id="pastEvents">
+          <h3 className="text-lg font-semibold mt-4">Past Events ({pastEvents.length}) </h3>
+          <div className="flex flex-col gap-6">
             {pastEvents.map((event) => (
               <NavLink key={event.id} to={`/events/${event.id}`}>
                 <div key={event.id} className="eventCard">
-                  <img src={event.previewImage} alt={event.name} />
-                  <h4>{event.name}</h4>
+                  <img src={event.previewImage} alt={event.name} className="h-24 w-48"/>
+                  <h4 className="text-lg font-medium">{event.name}</h4>
                   <p>{formatDate(event)}</p>
-                  <p>
-                    {event.Venue && event.Venue.city} ,{" "}
-                    {event.Venue && event.Venue.state}
-                  </p>
+                  <div>
+                  {event.Venue ? (
+                    <div>
+                      {event.Venue && event.Venue.city} ,{" "}
+                      {event.Venue && event.Venue.state}
+                    </div>
+                  ):(
+                    <div>
+                      Online
+                    </div>
+                  )}
+                  
+                </div>
                   <p>{event.description}</p>
                 </div>
               </NavLink>

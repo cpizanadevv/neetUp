@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as groupActions from "../../store/group";
-import './GroupForm.css'
 
 const GroupFormPage = () => {
   const dispatch = useDispatch();
@@ -76,14 +75,14 @@ const GroupFormPage = () => {
   };
 
   return (
-    <form className="flex flex-column m-auto w-2/4" onSubmit={handleSubmit}>
-      <h3>Start a New Group</h3>
+    <form className="flex flex-col m-auto w-2/4 mt-48 font-normal gap-6" onSubmit={handleSubmit}>
+      <h3 className="font-semibold">Start a New Group</h3>
       <h2>
         We&apos;ll walk you through a few steps to build your local community
       </h2>
       <hr />
-      <div className="flex-column">
-        <h2>First, set your group&apos;s location.</h2>
+      <div className="flex-column gap-2">
+        <h2 className="font-semibold">First, set your group&apos;s location.</h2>
         <h4>
           neetUp groups meet locally, in person and online. We&apos;ll connect
           you with people in your area, and more can join you online
@@ -93,14 +92,15 @@ const GroupFormPage = () => {
           placeholder="City, STATE"
           value={cityState}
           onChange={(e) => setCityState(e.target.value)}
+          className="border-b"
         />
 
       {errs.city && <p className="err">{errs.city}</p>}
       {errs.state && <p className="err">{errs.state}</p>}
         <hr />
       </div>
-      <div className="flex flex-column">
-        <h2>What will your group&apos;s name be?</h2>
+      <div className="flex flex-col gap-2">
+        <h2 className="font-semibold">What will your group&apos;s name be?</h2>
         <h4>
           Choose a name that will give people a clear idea of what the group is
           about. Feel free to get creative! You can edit this later if you
@@ -110,7 +110,7 @@ const GroupFormPage = () => {
           type="text"
           placeholder="What is your group name?"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}className="border-b"
         />
       </div>
       {errs.name && <p className="err">{errs.name}</p>}
@@ -126,7 +126,7 @@ const GroupFormPage = () => {
           <li>What will you do at your events?</li>
         </ol>
         <textarea
-          id="textarea"
+          className="h-48 w-full border"
           placeholder="Please write at least 50 characters"
           value={about}
           onChange={(e) => setAbout(e.target.value)}
@@ -139,7 +139,7 @@ const GroupFormPage = () => {
         <select
           placeholder="(select one)"
           value={type}
-          onChange={(e) => setType(e.target.value)}
+          onChange={(e) => setType(e.target.value)}className="border ml-6"
         >
           <option>(select one)</option>
           <option value="In Person">In Person</option>
@@ -147,12 +147,13 @@ const GroupFormPage = () => {
         </select></h4>
         {errs.type && <p className="err">{errs.type}</p>}
       </div>
-      <div id="private">
+      <div>
         <h4>Is this group private or public?
         <select
           placeholder="(select one)"
           value={isPrivate}
           onChange={(e) => setPrivate(e.target.value)}
+          className="border ml-6"
         >
           <option>(select one)</option>
           <option value="true">Private</option>
@@ -171,7 +172,7 @@ const GroupFormPage = () => {
       {errs.img && <p className="err">{errs.img}</p>}
       </div>
       <hr />
-      <button className="w-auto m-4" type="submit">Create Group</button>
+      <button className="w-48 m-auto mt-4 mb-8 bg-blue-950 text-white hover:border hover:border-black hover:bg-white hover:text-black" type="submit">Create Group</button>
     </form>
   );
 };

@@ -92,103 +92,105 @@ const GroupFormPage = () => {
   return (
     <div>
     {isLoading && (
-      <form onSubmit={handleSubmit}>
-        <h3>UPDATE YOUR GROUP&apos;S INFORMATION</h3>
-        <h2>
-          We&apos;ll walk you through a few steps to update your group&apos;s
-          information
-        </h2>
+      <form className="flex flex-col m-auto w-2/4 mt-48 font-normal gap-6" onSubmit={handleSubmit}>
+      <h3 className="font-semibold">Update Group</h3>
+      <h2>
+        We&apos;ll walk you through a few steps to build your local community
+      </h2>
+      <hr />
+      <div className="flex-column gap-2">
+        <h2 className="font-semibold">First, set your group&apos;s location.</h2>
+        <h4>
+          neetUp groups meet locally, in person and online. We&apos;ll connect
+          you with people in your area, and more can join you online
+        </h4>
+        <input
+          type="text"
+          placeholder="City, STATE"
+          value={cityState}
+          onChange={(e) => setCityState(e.target.value)}
+          className="border-b"
+        />
+
+      {errs.city && <p className="err">{errs.city}</p>}
+      {errs.state && <p className="err">{errs.state}</p>}
         <hr />
-        <div id="location">
-          <h2>First, set your group&apos;s location.</h2>
-          <h4>
-            Meetup groups meet locally, in person and online. We&apos;ll connect
-            you with people in your area, and more can join you online
-          </h4>
-          <input
-            type="text"
-            placeholder="City, STATE"
-            onChange={(e) => setCityState(e.target.value)}
-            value={cityState}
-          />
-          <div className="errors">{errs.city}</div>
-          <div className="errors">{errs.state}</div>
-          <hr />
-        </div>
-        <div id="name">
-          <h2>What will your group&apos;s name be?</h2>
-          <h4>
-            Choose a name that will give people a clear idea of what the group is
-            about. Feel free to get creative! You can edit this later if you
-            change your mind.
-          </h4>
-          <input
-            type="text"
-            placeholder="What is your group name?"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="errors">{errs.name}</div>
-        <div id="about">
-          <h2>Now describe what your group will be about</h2>
-          <h4>
-            People will see this when we promote your group, but you&apos;ll be
-            able to add to it later, too
-          </h4>
-          <ol>
-            <li>What&apos;s the purpose of the group?</li>
-            <li>Who should join?</li>
-            <li>What will you do at your events?</li>
-          </ol>
-          <input
-            type="text"
-            placeholder="Please write at least 50 characters"
-            value={about}
-            onChange={(e) => setAbout(e.target.value)}
-          />
-          <div className="errors">{errs.about}</div>
-        </div>
-        <h3>Final steps...</h3>
-        <div id="type">
-          <h4>Is this an in person or online group?</h4>
-          <select
-            placeholder="(select one)"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option>(select one)</option>
-            <option value="In Person">In Person</option>
-            <option value="Online">Online</option>
-          </select>
-          <div className="errors">{errs.type}</div>
-        </div>
-        <div id="private">
-          <h4>Is this group private or public?</h4>
-          <select
-            placeholder="(select one)"
-            value={isPrivate}
-            onChange={(e) => setPrivate(e.target.value)}
-          >
-            <option>(select one)</option>
-            <option value="true">Private</option>
-            <option value="false">Public</option>
-          </select>
-          <div className="errors">{errs.private}</div>
-        </div>
-        <div id="img">
-          <h4>Please add an image url for your group below:</h4>
-          <input
-            type="text"
-            placeholder="Image Url"
-            value={img}
-            onChange={(e) => setImg(e.target.value)}
-          />
-          <div className="errors">{errs.img}</div>
-        </div>
-        <hr />
-        <button type="submit">Update Group</button>
-      </form>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="font-semibold">What will your group&apos;s name be?</h2>
+        <h4>
+          Choose a name that will give people a clear idea of what the group is
+          about. Feel free to get creative! You can edit this later if you
+          change your mind.
+        </h4>
+        <input
+          type="text"
+          placeholder="What is your group name?"
+          value={name}
+          onChange={(e) => setName(e.target.value)}className="border-b"
+        />
+      </div>
+      {errs.name && <p className="err">{errs.name}</p>}
+      <div className="flex-column">
+        <h2>Now describe what your group will be about</h2>
+        <h4>
+          People will see this when we promote your group, but you&apos;ll be
+          able to add to it later, too
+        </h4>
+        <ol>
+          <li>What&apos;s the purpose of the group?</li>
+          <li>Who should join?</li>
+          <li>What will you do at your events?</li>
+        </ol>
+        <textarea
+          className="h-48 w-full border"
+          placeholder="Please write at least 50 characters"
+          value={about}
+          onChange={(e) => setAbout(e.target.value)}
+        ></textarea>
+      {errs.about && <p className="err">{errs.about}</p>}
+      </div>
+      <div className="my-4 mx-0">
+      <h3>Final steps...</h3>
+        <h4>Is this an in person or online group?
+        <select
+          placeholder="(select one)"
+          value={type}
+          onChange={(e) => setType(e.target.value)}className="border ml-6"
+        >
+          <option>(select one)</option>
+          <option value="In Person">In Person</option>
+          <option value="Online">Online</option>
+        </select></h4>
+        {errs.type && <p className="err">{errs.type}</p>}
+      </div>
+      <div>
+        <h4>Is this group private or public?
+        <select
+          placeholder="(select one)"
+          value={isPrivate}
+          onChange={(e) => setPrivate(e.target.value)}
+          className="border ml-6"
+        >
+          <option>(select one)</option>
+          <option value="true">Private</option>
+          <option value="false">Public</option>
+        </select></h4>
+        {errs.private && <p className="err">{errs.private}</p>}
+      </div>
+      <div className="w-auto h-auto">
+        <h4>Please add an image url for your group below:</h4>
+        <input
+          type="text"
+          placeholder="Image Url"
+          value={img}
+          onChange={(e) => setImg(e.target.value)}
+        />
+      {errs.img && <p className="err">{errs.img}</p>}
+      </div>
+      <hr />
+      <button className="w-48 m-auto mt-4 mb-8 bg-blue-950 text-white hover:border hover:border-black hover:bg-white hover:text-black" type="submit">Update Group</button>
+    </form>
   )}
     </div>
   )
