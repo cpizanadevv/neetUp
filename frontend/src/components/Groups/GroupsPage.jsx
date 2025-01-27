@@ -27,7 +27,7 @@ const GroupsPage = () => {
         <h4 className="left-0 font-bold text-lg">Groups in neetUp</h4>
         <hr />
       </div>
-      <div>
+      <div className="w-2/3">
         {groups &&
           allGroups.map(
             ({
